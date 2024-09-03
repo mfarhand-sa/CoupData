@@ -52,18 +52,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
     
     func sendTokenToServer(token: String) {
         let userId = UserManager.shared.myUserID // Replace with the actual user ID
-           let db = Firestore.firestore()
-           db.collection("deviceTokens").document(userId).setData([
-               "token": token,
-               "timestamp": Timestamp()
-           ]) { error in
-               if let error = error {
-                   print("Error saving token to Firestore: \(error)")
-               } else {
-                   print("FCM Token saved to Firestore: \(token)")
-               }
-           }
-       }
+        let db = Firestore.firestore()
+        
+        // Use a subcollection for tokens under each user
+        db.collection("users").document(userId).collection("deviceTokens").document(token).setData([
+            "token": token,
+            "timestamp": Timestamp()
+        ]) { error in
+            if let error = error {
+                print("Error saving token to Firestore: \(error)")
+            } else {
+                print("FCM Token saved to Firestore: \(token)")
+            }
+        }
+    }
     
     
         

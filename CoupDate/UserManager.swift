@@ -14,8 +14,8 @@ class UserManager {
     static let shared = UserManager()
     
     // Hardcoded user IDs for testing
-    let myUserID = "myUserID123"  // Replace with your actual userID // partnerUserID456
-    let partnerUserID = "partnerUserID456"  // Replace with your girlfriend's actual userID // myUserID123
+    let myUserID = "partnerUserID456"  // Replace with your actual userID // partnerUserID456
+    let partnerUserID = "myUserID123"  // Replace with your girlfriend's actual userID // myUserID123
     
     private var currentUserID: String
     

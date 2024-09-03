@@ -180,12 +180,12 @@ class PartnerActivityViewController: UIViewController {
     
     func displayPartnerData() {
         if let poopData = poopData {
-            poopStatusLabel.text = "Linda's 💩 Status Today: \(poopData["status"] as? String ?? "No 💩 Data found")"
+            poopStatusLabel.text = "Mo's 💩 Status Today: \(poopData["status"] as? String ?? "No 💩 Data found")"
            // poopDetailLabel.text = poopData["details"] as? String ?? ""
         }
         
         if let sleepData = sleepData {
-            sleepStatusLabel.text = "Linda's 😴 status: \(sleepData["status"] as? String ?? "No 😴 Data found")"
+            sleepStatusLabel.text = "Mo's 😴 status: \(sleepData["status"] as? String ?? "No 😴 Data found")"
             sleepDetailLabel.text = sleepData["details"] as? String ?? ""
         }
     }

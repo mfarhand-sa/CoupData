@@ -1,13 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23086.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23086.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LD2-9T-Xh6">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23076"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Loading View Controller-->
+        <scene sceneID="CKl-Co-uo9">
+            <objects>
+                <viewController storyboardIdentifier="CDLoadingViewController" id="LD2-9T-Xh6" customClass="CDLoadingViewController" customModule="CoupDate" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="k3K-p5-Juf">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r5B-KD-HE0" customClass="LottieAnimationView" customModule="Lottie">
+                                <rect key="frame" x="121.66666666666669" y="363.66666666666669" width="150" height="150.00000000000006"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="3vU-wK-ITn"/>
+                                    <constraint firstAttribute="height" constant="150" id="ZUE-AB-w9o"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="Loading"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright LEOIO Inc." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f4I-vS-pqs">
+                                <rect key="frame" x="130" y="801" width="133" height="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="pTH-xs-Ug5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="pTH-xs-Ug5" firstAttribute="bottom" secondItem="f4I-vS-pqs" secondAttribute="bottom" id="CH2-26-cDN"/>
+                            <constraint firstItem="r5B-KD-HE0" firstAttribute="centerX" secondItem="pTH-xs-Ug5" secondAttribute="centerX" id="E14-Rk-jLq"/>
+                            <constraint firstItem="f4I-vS-pqs" firstAttribute="centerX" secondItem="pTH-xs-Ug5" secondAttribute="centerX" id="euZ-BJ-sKO"/>
+                            <constraint firstItem="r5B-KD-HE0" firstAttribute="centerY" secondItem="pTH-xs-Ug5" secondAttribute="centerY" id="t6T-IS-seO"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="animationView" destination="r5B-KD-HE0" id="zwg-HQ-Y4i"/>
+                        <outlet property="copyrightLabel" destination="f4I-vS-pqs" id="hbv-zN-QtZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="brn-OX-BHZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-737" y="13"/>
+        </scene>
         <!--Partner Activity View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>

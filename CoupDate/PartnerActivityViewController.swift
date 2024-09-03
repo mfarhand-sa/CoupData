@@ -1,18 +1,26 @@
-import Foundation
 import UIKit
+import Lottie
 
 class PartnerActivityViewController: UIViewController {
     
     // UI Components
+    let scrollView = UIScrollView()
+    let contentView = UIView()
+    
     let poopCardView = UIView()
     let poopStatusLabel = UILabel()
-    let poopDetailLabel = UILabel()
+//    let /*poopDetailLabel*/ = UILabel()
+    let poopAnimationView = LottieAnimationView(name: "Poop") // Replace with your poop animation name
     
     let sleepCardView = UIView()
     let sleepStatusLabel = UILabel()
     let sleepDetailLabel = UILabel()
+    let sleepAnimationView = LottieAnimationView(name: "Sleeping") // Replace with your sleep animation name
     
-    let dataEntryImageView = UIImageView() // Updated from UIButton to UIImageView
+    var poopData: [String: Any]?
+    var sleepData: [String: Any]?
+    
+    let dataEntryImageView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,15 +29,32 @@ class PartnerActivityViewController: UIViewController {
         title = "💑 Coudate"
         
         setupUI()
-        loadPartnerData()
+        displayPartnerData()
     }
     
     func setupUI() {
-        // Configure Card Views
-        configureCardView(poopCardView, withLabels: [poopStatusLabel, poopDetailLabel])
-        configureCardView(sleepCardView, withLabels: [sleepStatusLabel, sleepDetailLabel])
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        configureDataEntryImageView()
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+        
+        // Configure Card Views
+        configureCardView(poopCardView, withLabels: [poopStatusLabel], animationView: poopAnimationView)
+        configureCardView(sleepCardView, withLabels: [sleepStatusLabel, sleepDetailLabel], animationView: sleepAnimationView)
         
         // Layout using UIStackView for cards
         let stackView = UIStackView(arrangedSubviews: [poopCardView, sleepCardView])
@@ -38,36 +63,43 @@ class PartnerActivityViewController: UIViewController {
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(stackView)
-        view.addSubview(dataEntryImageView) // Add dataEntryImageView to the view
+        contentView.addSubview(stackView)
         
+        // Set up stack view constraints
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            // Card size
-            poopCardView.widthAnchor.constraint(equalToConstant: 340),
-            poopCardView.heightAnchor.constraint(equalToConstant: 150),
-            sleepCardView.widthAnchor.constraint(equalToConstant: 340),
-            sleepCardView.heightAnchor.constraint(equalToConstant: 150),
-            
-            // Data Entry Image View constraints
-            dataEntryImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            dataEntryImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            dataEntryImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            dataEntryImageView.heightAnchor.constraint(equalToConstant: 100) // Adjust height as needed
-            
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -120) // Adjusted to leave space for the dataEntryImageView
         ])
         
-        view.layoutIfNeeded() // Ensure layout update
+        configureDataEntryImageView() // Ensure this is called after adding to contentView
+        
+        // Place dataEntryImageView at the bottom of the screen
+        view.addSubview(dataEntryImageView)
+        NSLayoutConstraint.activate([
+            dataEntryImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20), // Anchored to the bottom of the screen
+            dataEntryImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dataEntryImageView.widthAnchor.constraint(equalToConstant: 100),
+            dataEntryImageView.heightAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        NSLayoutConstraint.activate([
+            poopCardView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -40),
+            poopCardView.heightAnchor.constraint(equalToConstant: 180), // Adjusted height for animation and labels
+            
+            sleepCardView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -40),
+            sleepCardView.heightAnchor.constraint(equalToConstant: 180) // Adjusted height for animation and labels
+        ])
     }
+
+
     
-    func configureCardView(_ cardView: UIView, withLabels labels: [UILabel]) {
-        cardView.backgroundColor = .secondarySystemBackground // Light gray background for visibility
+    func configureCardView(_ cardView: UIView, withLabels labels: [UILabel], animationView: LottieAnimationView?) {
+        cardView.backgroundColor = .secondarySystemBackground
         cardView.layer.cornerRadius = 12
         cardView.layer.borderWidth = 1
-        cardView.layer.borderColor = UIColor.separator.cgColor // Border color for contrast
+        cardView.layer.borderColor = UIColor.separator.cgColor
         cardView.layer.shadowColor = UIColor.black.cgColor
         cardView.layer.shadowOffset = CGSize(width: 0, height: 4)
         cardView.layer.shadowOpacity = 0.2
@@ -75,6 +107,23 @@ class PartnerActivityViewController: UIViewController {
         cardView.layer.masksToBounds = false
         cardView.translatesAutoresizingMaskIntoConstraints = false
         
+        // Configure Animation View
+        if let animationView = animationView {
+            animationView.contentMode = .scaleAspectFit
+            animationView.loopMode = .loop
+            animationView.play()
+            animationView.translatesAutoresizingMaskIntoConstraints = false
+            cardView.addSubview(animationView)
+            
+            NSLayoutConstraint.activate([
+                animationView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
+                animationView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
+                animationView.topAnchor.constraint(equalTo: cardView.topAnchor),
+                animationView.heightAnchor.constraint(equalToConstant: 100) // Set height for animation to give space for labels
+            ])
+        }
+        
+        // Configure Stack View for Labels
         let cardStackView = UIStackView(arrangedSubviews: labels)
         cardStackView.axis = .vertical
         cardStackView.spacing = 8
@@ -84,29 +133,29 @@ class PartnerActivityViewController: UIViewController {
         cardView.addSubview(cardStackView)
         
         NSLayoutConstraint.activate([
-            cardStackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 16),
             cardStackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
             cardStackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+            cardStackView.topAnchor.constraint(equalTo: animationView?.bottomAnchor ?? cardView.topAnchor, constant: 8),
             cardStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -16)
         ])
         
-        // Configure labels
         for label in labels {
             label.numberOfLines = 0
             label.textAlignment = .left
             label.adjustsFontForContentSizeCategory = true
+            label.backgroundColor = .clear
         }
         
-        poopStatusLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        poopStatusLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         poopStatusLabel.textColor = .label
         
-        poopDetailLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        poopDetailLabel.textColor = .secondaryLabel
+//        poopDetailLabel.font = UIFont.systemFont(ofSize: 14, weight: .thin)
+//        poopDetailLabel.textColor = .secondaryLabel
         
-        sleepStatusLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        sleepStatusLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         sleepStatusLabel.textColor = .label
         
-        sleepDetailLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        sleepDetailLabel.font = UIFont.systemFont(ofSize: 14, weight: .thin)
         sleepDetailLabel.textColor = .secondaryLabel
     }
     
@@ -121,7 +170,7 @@ class PartnerActivityViewController: UIViewController {
         dataEntryImageView.isUserInteractionEnabled = true
         dataEntryImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openDataEntry)))
         dataEntryImageView.isHidden = false
-        dataEntryImageView.translatesAutoresizingMaskIntoConstraints = false // Ensure Auto Layout is used
+        dataEntryImageView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     @objc func openDataEntry() {
@@ -129,26 +178,15 @@ class PartnerActivityViewController: UIViewController {
         self.present(dataEntryVC, animated: true)
     }
     
-    func loadPartnerData() {
-        let partnerUserId =  UserManager.shared.partnerUserID // Replace with actual partner user ID
-        let currentDate = Date()
+    func displayPartnerData() {
+        if let poopData = poopData {
+            poopStatusLabel.text = "Your partner 💩 Status Today: \(poopData["status"] as? String ?? "N/A")"
+           // poopDetailLabel.text = poopData["details"] as? String ?? ""
+        }
         
-        FirebaseManager.shared.loadDailyRecord(for: partnerUserId, date: currentDate) { [weak self] result in
-            switch result {
-            case .success(let data):
-                if let poopData = data["poop"] as? [String: Any] {
-                    self?.poopStatusLabel.text = "Mo's 💩 Status Today: \(poopData["status"] as? String ?? "N/A")"
-                    //self?.poopDetailLabel.text = poopData["details"] as? String ?? ""
-                }
-                
-                if let sleepData = data["sleep"] as? [String: Any] {
-                    self?.sleepStatusLabel.text = "Mo's 😴: \(sleepData["status"] as? String ?? "N/A")"
-                    self?.sleepDetailLabel.text = sleepData["details"] as? String ?? ""
-                }
-                
-            case .failure(let error):
-                print("Error loading partner data: \(error)")
-            }
+        if let sleepData = sleepData {
+            sleepStatusLabel.text = "Your partner 😴: \(sleepData["status"] as? String ?? "N/A")"
+            sleepDetailLabel.text = sleepData["details"] as? String ?? ""
         }
     }
 }

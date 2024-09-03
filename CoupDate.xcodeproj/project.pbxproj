@@ -19,6 +19,11 @@
 		CD261CCB2C850CD900E4D5F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD261CCA2C850CD900E4D5F2 /* Assets.xcassets */; };
 		CD261CCE2C850CD900E4D5F2 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = CD261CCD2C850CD900E4D5F2 /* Base */; };
 		CD53300F2C85359400541112 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD53300E2C85359400541112 /* GoogleService-Info.plist */; };
+		CD6E71112C86E61B00AE02ED /* CDLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */; };
+		CD6E71132C86E6C100AE02ED /* Loading.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71122C86E6C100AE02ED /* Loading.json */; };
+		CD6E71152C86EA6100AE02ED /* PartnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */; };
+		CD6E71172C86F07000AE02ED /* Poop.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71162C86F07000AE02ED /* Poop.json */; };
+		CD6E71192C86F1DD00AE02ED /* Sleeping.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71182C86F1DD00AE02ED /* Sleeping.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +56,11 @@
 		CD261CCD2C850CD900E4D5F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD261CCF2C850CD900E4D5F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD53300E2C85359400541112 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDLoadingViewController.swift; sourceTree = SOURCE_ROOT; };
+		CD6E71122C86E6C100AE02ED /* Loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Loading.json; sourceTree = "<group>"; };
+		CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerViewModel.swift; sourceTree = "<group>"; };
+		CD6E71162C86F07000AE02ED /* Poop.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Poop.json; sourceTree = "<group>"; };
+		CD6E71182C86F1DD00AE02ED /* Sleeping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Sleeping.json; sourceTree = "<group>"; };
 		D9988D54073533D8B824BD6D /* Pods-CoupDate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDate.release.xcconfig"; path = "Target Support Files/Pods-CoupDate/Pods-CoupDate.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,7 +90,6 @@
 				736707C6E58A33D43DCA280C /* Pods-CoupDate.debug.xcconfig */,
 				D9988D54073533D8B824BD6D /* Pods-CoupDate.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -105,6 +114,7 @@
 		CD261CC02C850CD800E4D5F2 /* CoupDate */ = {
 			isa = PBXGroup;
 			children = (
+				CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */,
 				CD18B28D2C85678E00AC858B /* CoupDateDebug.entitlements */,
 				CD261CC12C850CD800E4D5F2 /* AppDelegate.swift */,
 				CD261CC32C850CD800E4D5F2 /* SceneDelegate.swift */,
@@ -117,7 +127,11 @@
 				CD261CCC2C850CD900E4D5F2 /* LaunchScreen.storyboard */,
 				CD261CCF2C850CD900E4D5F2 /* Info.plist */,
 				CD18B29F2C85A72900AC858B /* sound1.caf */,
+				CD6E71122C86E6C100AE02ED /* Loading.json */,
+				CD6E71162C86F07000AE02ED /* Poop.json */,
+				CD6E71182C86F1DD00AE02ED /* Sleeping.json */,
 				CD53300E2C85359400541112 /* GoogleService-Info.plist */,
+				CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */,
 			);
 			path = CoupDate;
 			sourceTree = "<group>";
@@ -183,9 +197,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD6E71172C86F07000AE02ED /* Poop.json in Resources */,
+				CD6E71192C86F1DD00AE02ED /* Sleeping.json in Resources */,
 				CD18B2A12C85A72900AC858B /* sound1.caf in Resources */,
 				CD261CCB2C850CD900E4D5F2 /* Assets.xcassets in Resources */,
 				CD53300F2C85359400541112 /* GoogleService-Info.plist in Resources */,
+				CD6E71132C86E6C100AE02ED /* Loading.json in Resources */,
 				CD261CCE2C850CD900E4D5F2 /* Base in Resources */,
 				CD261CC92C850CD800E4D5F2 /* Base in Resources */,
 			);
@@ -244,8 +261,10 @@
 				CD261CC22C850CD800E4D5F2 /* AppDelegate.swift in Sources */,
 				CD18B2882C853C5800AC858B /* FirebaseManager.swift in Sources */,
 				CD261CC42C850CD800E4D5F2 /* SceneDelegate.swift in Sources */,
+				CD6E71112C86E61B00AE02ED /* CDLoadingViewController.swift in Sources */,
 				CD18B28A2C853C8E00AC858B /* PartnerActivityViewController.swift in Sources */,
 				CD18B2842C853BD400AC858B /* DataEntryViewController.swift in Sources */,
+				CD6E71152C86EA6100AE02ED /* PartnerViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,7 +418,7 @@
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -408,8 +427,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -432,7 +451,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -441,8 +460,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

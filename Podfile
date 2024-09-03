@@ -10,5 +10,6 @@ target 'CoupDate' do
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
+  pod 'lottie-ios'
 
 end

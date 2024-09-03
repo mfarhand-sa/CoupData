@@ -1,11 +1,5 @@
-//
-//  FirebaseManager.swift
-//  CoupDate
-//
-//  Created by mo on 2024-09-01.
-//
-
 import UIKit
+import Lottie
 
 class DataEntryViewController: UIViewController, UITextViewDelegate {
     
@@ -13,11 +7,13 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     
-    private let poopTitleLabel = UILabel()
+    private let poopCardView = UIView()
+    private let poopAnimationView = LottieAnimationView(name: "Poop")
     private let poopYesButton = UIButton(type: .system)
     private let poopNoButton = UIButton(type: .system)
     
-    private let sleepTitleLabel = UILabel()
+    private let sleepCardView = UIView()
+    private let sleepAnimationView = LottieAnimationView(name: "Sleeping")
     private let sleepOptionAButton = UIButton(type: .system)
     private let sleepOptionBButton = UIButton(type: .system)
     private let sleepOptionCButton = UIButton(type: .system)
@@ -36,34 +32,25 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
         
         setupUI()
         
-        // Set up the tap gesture recognizer to dismiss the keyboard
+        // Tap gesture to dismiss the keyboard
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
         
-        // Set UITextView delegate to self
         detailsTextView.delegate = self
+        
+        // Add keyboard observers
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func setupUI() {
-        // Add subviews
+        // Configure scrollView and contentView
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        contentView.addSubview(poopTitleLabel)
-        contentView.addSubview(poopYesButton)
-        contentView.addSubview(poopNoButton)
-        
-        contentView.addSubview(sleepTitleLabel)
-        contentView.addSubview(sleepOptionAButton)
-        contentView.addSubview(sleepOptionBButton)
-        contentView.addSubview(sleepOptionCButton)
-        
-        contentView.addSubview(detailsTextView)
-        contentView.addSubview(saveButton)
-        
-        // Configure scrollView and contentView
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -77,135 +64,170 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
         
-        // Configure Poop section
-        poopTitleLabel.text = "Poop Update:"
-        poopTitleLabel.font = UIFont.systemFont(ofSize: 22)
-        poopTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        // Configure card views
+        configureCardView(poopCardView, animationView: poopAnimationView, buttons: [poopYesButton, poopNoButton])
+        configureCardView(sleepCardView, animationView: sleepAnimationView, buttons: [sleepOptionAButton, sleepOptionBButton, sleepOptionCButton])
+        
+        // Layout stack view
+        let stackView = UIStackView(arrangedSubviews: [poopCardView, sleepCardView, detailsTextView, saveButton])
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        stackView.alignment = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(stackView)
+        
         NSLayoutConstraint.activate([
-            poopTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            poopTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            poopTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
         
+        // Configure buttons
         configureButton(poopYesButton, title: "YES 🍑 💩", action: #selector(poopYesTapped))
         configureButton(poopNoButton, title: "NO 🍑", action: #selector(poopNoTapped))
-        
-        NSLayoutConstraint.activate([
-            poopYesButton.topAnchor.constraint(equalTo: poopTitleLabel.bottomAnchor, constant: 20),
-            poopYesButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            poopYesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
-            poopNoButton.topAnchor.constraint(equalTo: poopYesButton.bottomAnchor, constant: 10),
-            poopNoButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            poopNoButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-        ])
-        
-        // Configure Sleep section
-        sleepTitleLabel.text = "Sleep:"
-        sleepTitleLabel.font = UIFont.systemFont(ofSize: 22)
-        sleepTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            sleepTitleLabel.topAnchor.constraint(equalTo: poopNoButton.bottomAnchor, constant: 30),
-            sleepTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            sleepTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
-        ])
-        
         configureButton(sleepOptionAButton, title: "1-4 hrs 😵", action: #selector(sleepOptionATapped))
         configureButton(sleepOptionBButton, title: "6-8 hrs 🥳", action: #selector(sleepOptionBTapped))
         configureButton(sleepOptionCButton, title: "4-6 hrs 😔", action: #selector(sleepOptionCTapped))
         
-        NSLayoutConstraint.activate([
-            sleepOptionAButton.topAnchor.constraint(equalTo: sleepTitleLabel.bottomAnchor, constant: 20),
-            sleepOptionAButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            sleepOptionAButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
-            sleepOptionBButton.topAnchor.constraint(equalTo: sleepOptionAButton.bottomAnchor, constant: 10),
-            sleepOptionBButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            sleepOptionBButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
-            sleepOptionCButton.topAnchor.constraint(equalTo: sleepOptionBButton.bottomAnchor, constant: 10),
-            sleepOptionCButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            sleepOptionCButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-        ])
-        
-        // Configure details text view
-        detailsTextView.layer.cornerRadius = 8
+        // Configure text view
+        detailsTextView.layer.cornerRadius = 12
         detailsTextView.layer.borderWidth = 1
         detailsTextView.layer.borderColor = UIColor.systemGray4.cgColor
+        detailsTextView.backgroundColor = .secondarySystemBackground
         detailsTextView.textColor = .label
         detailsTextView.font = UIFont.systemFont(ofSize: 16)
         detailsTextView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            detailsTextView.topAnchor.constraint(equalTo: sleepOptionCButton.bottomAnchor, constant: 20),
-            detailsTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            detailsTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            detailsTextView.heightAnchor.constraint(equalToConstant: 150)
-        ])
+        detailsTextView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         
         // Configure save button
+        configureSaveButton()
+    }
+    
+    private func configureCardView(_ cardView: UIView, animationView: LottieAnimationView, buttons: [UIButton]) {
+        cardView.backgroundColor = .secondarySystemBackground
+        cardView.layer.cornerRadius = 12
+        cardView.layer.borderWidth = 1
+        cardView.layer.borderColor = UIColor.separator.cgColor
+        cardView.layer.shadowColor = UIColor.black.cgColor
+        cardView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        cardView.layer.shadowOpacity = 0.2
+        cardView.layer.shadowRadius = 8
+        cardView.layer.masksToBounds = false
+        cardView.translatesAutoresizingMaskIntoConstraints = false
+        
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.play()
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        
+        cardView.addSubview(animationView)
+        
+        NSLayoutConstraint.activate([
+            animationView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 10),
+            animationView.centerXAnchor.constraint(equalTo: cardView.centerXAnchor),
+            animationView.heightAnchor.constraint(equalToConstant: 120), // Increased height for more visibility
+            animationView.widthAnchor.constraint(equalTo: cardView.widthAnchor, multiplier: 0.6)
+        ])
+        
+        let buttonStackView = UIStackView(arrangedSubviews: buttons)
+        buttonStackView.axis = .horizontal
+        buttonStackView.spacing = 16 // Adjusted spacing for better aesthetics
+        buttonStackView.distribution = .fillEqually
+        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        cardView.addSubview(buttonStackView)
+        
+        NSLayoutConstraint.activate([
+            buttonStackView.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: 20),
+            buttonStackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 10),
+            buttonStackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -10),
+            buttonStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -10)
+        ])
+    }
+    
+    private func configureButton(_ button: UIButton, title: String, action: Selector) {
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        button.titleLabel?.numberOfLines = 0  // Allows multiline titles
+        button.titleLabel?.textAlignment = .center  // Centers the text
+        button.layer.cornerRadius = 15  // Larger corner radius for a rounded look
+        button.layer.borderWidth = 1.5
+        button.addTarget(self, action: action, for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)  // Increased padding for better touch area
+
+        // Set background and border color based on the current interface style
+        if traitCollection.userInterfaceStyle == .dark {
+            button.backgroundColor = UIColor.systemGray5
+            button.layer.borderColor = UIColor.white.cgColor
+            button.setTitleColor(.white, for: .normal)
+        } else {
+            button.backgroundColor = UIColor.systemGray6
+            button.layer.borderColor = UIColor.systemGray.cgColor
+            button.setTitleColor(.label, for: .normal)
+        }
+    }
+
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+
+        let keyboardHeight = keyboardFrame.height
+
+        scrollView.contentInset.bottom = keyboardHeight
+        scrollView.scrollIndicatorInsets.bottom = keyboardHeight
+        
+        // Adjust the scroll view offset to make the text view visible
+        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.height + keyboardHeight)
+        scrollView.setContentOffset(bottomOffset, animated: true)
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        scrollView.contentInset.bottom = 0
+        scrollView.scrollIndicatorInsets.bottom = 0
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            // Update all buttons appearance when interface style changes
+            [poopYesButton, poopNoButton, sleepOptionAButton, sleepOptionBButton, sleepOptionCButton, saveButton].forEach {
+                updateButtonAppearance(button: $0)
+            }
+        }
+    }
+
+    private func updateButtonAppearance(button: UIButton) {
+        if traitCollection.userInterfaceStyle == .dark {
+            button.layer.borderColor = UIColor.white.cgColor
+            button.setTitleColor(.white, for: .normal)
+        } else {
+            button.layer.borderColor = UIColor.systemGray.cgColor
+            button.setTitleColor(.label, for: .normal)
+        }
+    }
+    
+    private func configureSaveButton() {
         saveButton.setTitle("Save Data", for: .normal)
-        saveButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        saveButton.backgroundColor = .systemBlue
+        saveButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        saveButton.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0) // Purple shade suitable for both light and dark mode
         saveButton.setTitleColor(.white, for: .normal)
-        saveButton.layer.cornerRadius = 10
+        saveButton.layer.cornerRadius = 10 // Reduced corner radius for a sleeker look
         saveButton.layer.shadowColor = UIColor.black.cgColor
         saveButton.layer.shadowOffset = CGSize(width: 0, height: 2)
         saveButton.layer.shadowOpacity = 0.2
         saveButton.layer.shadowRadius = 4
         saveButton.addTarget(self, action: #selector(saveData), for: .touchUpInside)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            saveButton.topAnchor.constraint(equalTo: detailsTextView.bottomAnchor, constant: 20),
-            saveButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            saveButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-            saveButton.widthAnchor.constraint(equalToConstant: 200),
-            saveButton.heightAnchor.constraint(equalToConstant: 44)
-        ])
-        
-        // Adjust scrollView content size
-        contentView.bottomAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 20).isActive = true
+        saveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true // More prominent button height
     }
-    
-    private func configureButton(_ button: UIButton, title: String, action: Selector) {
-        button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        button.backgroundColor = .systemGray6
-        button.layer.cornerRadius = 10
-        button.addTarget(self, action: action, for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
+
     @objc private func dismissKeyboard() {
         view.endEditing(true)
-    }
-    
-    // UITextViewDelegate method to handle return key
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
-    }
-    
-    private func updatePoopSelection(for button: UIButton) {
-        [poopYesButton, poopNoButton].forEach {
-            $0.backgroundColor = .systemGray6
-            $0.setTitleColor(.label, for: .normal)
-        }
-        
-        button.backgroundColor = .systemBlue
-        button.setTitleColor(.white, for: .normal)
-    }
-    
-    private func updateSleepSelection(for button: UIButton) {
-        [sleepOptionAButton, sleepOptionBButton, sleepOptionCButton].forEach {
-            $0.backgroundColor = .systemGray6
-            $0.setTitleColor(.label, for: .normal)
-        }
-        
-        button.backgroundColor = .systemBlue
-        button.setTitleColor(.white, for: .normal)
     }
     
     @objc private func poopYesTapped() {
@@ -219,7 +241,7 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc private func sleepOptionATapped() {
-        selectedSleepOption = "A: 1-4 hrs 😵"
+        selectedSleepOption = "1-4 hrs 😵"
         updateSleepSelection(for: sleepOptionAButton)
     }
     
@@ -247,13 +269,33 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
             switch result {
             case .success():
                 print("Data saved successfully")
-                // Optionally provide user feedback or update UI here
                 self.dismiss(animated: true, completion: nil)
-                
             case .failure(let error):
                 print("Error saving data: \(error)")
-                // Optionally handle the error and provide user feedback
             }
         }
+    }
+    
+    private func updatePoopSelection(for button: UIButton) {
+        [poopYesButton, poopNoButton].forEach {
+            $0.backgroundColor = .secondarySystemBackground
+            $0.setTitleColor(.label, for: .normal)
+        }
+        button.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0) // Purple shade suitable for both light and dark mode
+        button.setTitleColor(.white, for: .normal)
+    }
+    
+    private func updateSleepSelection(for button: UIButton) {
+        [sleepOptionAButton, sleepOptionBButton, sleepOptionCButton].forEach {
+            $0.backgroundColor = .secondarySystemBackground
+            $0.setTitleColor(.label, for: .normal)
+        }
+        button.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0) // Purple shade suitable for both light and dark mode
+        button.setTitleColor(.white, for: .normal)
+    }
+    
+    deinit {
+        // Remove observers
+        NotificationCenter.default.removeObserver(self)
     }
 }

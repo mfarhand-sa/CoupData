@@ -8,50 +8,67 @@
 import UIKit
 import Firebase
 import FirebaseMessaging
+import GoogleSignIn
 
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
-
-
-
+    
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        Haptic.doSomethinStupid(status: false)
+        
+        if #available(iOS 13.0, *) {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(named: "TabbarNormal")!]
+            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(named: "TabbarSelected")!]
+            appearance.stackedLayoutAppearance.normal.iconColor =  UIColor(named: "TabbarNormal")!
+            appearance.stackedLayoutAppearance.selected.iconColor =  UIColor(named: "TabbarSelected")!
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
         
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         
         // Request notification permissions
-              UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-                  print("Permission granted: \(granted)")
-                  if let error = error {
-                      print("Error requesting permission: \(error.localizedDescription)")
-                  }
-              }
-              application.registerForRemoteNotifications()
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            print("Permission granted: \(granted)")
+            if let error = error {
+                print("Error requesting permission: \(error.localizedDescription)")
+            }
+        }
+        application.registerForRemoteNotifications()
         
         return true
     }
     
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-           let tokenString = deviceToken.map { String(format: "%02hhx", $0) }.joined()
+        let tokenString = deviceToken.map { String(format: "%02hhx", $0) }.joined()
         print(tokenString)
-            Messaging.messaging().apnsToken = deviceToken
-        }
+        Messaging.messaging().apnsToken = deviceToken
+    }
     
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("Firebase registration token: \(fcmToken ?? "No token")")
         // Send the token to your server or handle as needed
         guard let token = fcmToken else { return }
-          sendTokenToServer(token: token)
+        sendTokenToServer(token: token)
     }
     
     
     
     func sendTokenToServer(token: String) {
-        let userId = UserManager.shared.myUserID // Replace with the actual user ID
+        
+        let userId = UserManager.shared.currentUserID // Replace with the actual user ID
+        guard let userId = userId else {return}
         let db = Firestore.firestore()
         
         // Use a subcollection for tokens under each user
@@ -68,25 +85,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
     }
     
     
-        
-        func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-            print("Failed to register for remote notifications: \(error)")
-        }
-
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for remote notifications: \(error)")
+    }
+    
     // MARK: UISceneSession Lifecycle
-
+    
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
-
+    
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
+    
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        var handled: Bool
+        handled = GIDSignIn.sharedInstance.handle(url)
+        if handled {
+            return true
+        }
+        
+        // If not handled by this app, return false.
+        return false
+        
+    }
 
 }
 
@@ -100,7 +129,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         print("Received notification with userInfo: \(userInfo)")
         completionHandler()
     }
-
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
         // Handle the notification content while the app is in the foreground

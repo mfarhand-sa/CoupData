@@ -1,5 +1,7 @@
 import UIKit
 import Lottie
+import Combine
+
 
 class PartnerActivityViewController: UIViewController {
     
@@ -20,16 +22,65 @@ class PartnerActivityViewController: UIViewController {
     var poopData: [String: Any]?
     var sleepData: [String: Any]?
     
-    let dataEntryImageView = UIImageView()
+    private var viewModel = PartnerViewModel()
+    private var cancellables = Set<AnyCancellable>()
+
+
+    
+  //  let dataEntryImageView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        title = "💑 Coudate"
         
         setupUI()
         displayPartnerData()
+        
+        NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { notification in
+            print("Foreground")
+            
+            // Bind to the ViewModel's isLoading and errorMessage
+            self.viewModel.$isLoading
+                .receive(on: DispatchQueue.main)
+                .sink { isLoading in
+                    if isLoading {
+                        // Show loading indicator
+                    } else {
+                        // Hide loading indicator
+                    }
+                }
+                .store(in: &self.cancellables)
+            
+            self.viewModel.$errorMessage
+                .receive(on: DispatchQueue.main)
+                .sink { errorMessage in
+                    if let errorMessage = errorMessage {
+                        // Show error message
+                        print(errorMessage)
+                    }
+                }
+                .store(in: &self.cancellables)
+            
+            self.viewModel.$poopData
+                .combineLatest(self.viewModel.$sleepData)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] poopData, sleepData in
+                    guard let self = self else { return }
+                    
+                    // Add a delay of 3 seconds before transitioning to PartnerActivityViewController
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+
+                       
+
+                    }
+                }
+                .store(in: &self.cancellables)
+            
+            self.viewModel.loadPartnerData()
+
+            
+        }
     }
     
     func setupUI() {
@@ -73,16 +124,16 @@ class PartnerActivityViewController: UIViewController {
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -120) // Adjusted to leave space for the dataEntryImageView
         ])
         
-        configureDataEntryImageView() // Ensure this is called after adding to contentView
+        //configureDataEntryImageView() // Ensure this is called after adding to contentView
         
         // Place dataEntryImageView at the bottom of the screen
-        view.addSubview(dataEntryImageView)
-        NSLayoutConstraint.activate([
-            dataEntryImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20), // Anchored to the bottom of the screen
-            dataEntryImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dataEntryImageView.widthAnchor.constraint(equalToConstant: 100),
-            dataEntryImageView.heightAnchor.constraint(equalToConstant: 100)
-        ])
+//        view.addSubview(dataEntryImageView)
+//        NSLayoutConstraint.activate([
+//            dataEntryImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20), // Anchored to the bottom of the screen
+//            dataEntryImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            dataEntryImageView.widthAnchor.constraint(equalToConstant: 100),
+//            dataEntryImageView.heightAnchor.constraint(equalToConstant: 100)
+//        ])
         
         NSLayoutConstraint.activate([
             poopCardView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -40),
@@ -146,46 +197,47 @@ class PartnerActivityViewController: UIViewController {
             label.backgroundColor = .clear
         }
         
-        poopStatusLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        poopStatusLabel.font = UIFont(name:"Poppins-Regular", size: 18)
         poopStatusLabel.textColor = .label
         
 //        poopDetailLabel.font = UIFont.systemFont(ofSize: 14, weight: .thin)
 //        poopDetailLabel.textColor = .secondaryLabel
         
-        sleepStatusLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        sleepStatusLabel.font = UIFont(name:"Poppins-Regular", size: 18)
         sleepStatusLabel.textColor = .label
         
-        sleepDetailLabel.font = UIFont.systemFont(ofSize: 14, weight: .thin)
+        sleepDetailLabel.font = UIFont(name:"Poppins-Light", size: 15)
         sleepDetailLabel.textColor = .secondaryLabel
     }
     
-    func configureDataEntryImageView() {
-        if let image = UIImage(named: "funny_couples") {
-            dataEntryImageView.image = image
-        } else {
-            print("Image not found!")
-        }
-        
-        dataEntryImageView.contentMode = .scaleAspectFit
-        dataEntryImageView.isUserInteractionEnabled = true
-        dataEntryImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openDataEntry)))
-        dataEntryImageView.isHidden = false
-        dataEntryImageView.translatesAutoresizingMaskIntoConstraints = false
-    }
+//    func configureDataEntryImageView() {
+//        if let image = UIImage(named: "funny_couples") {
+//            dataEntryImageView.image = image
+//        } else {
+//            print("Image not found!")
+//        }
+//        
+//        dataEntryImageView.contentMode = .scaleAspectFit
+//        dataEntryImageView.isUserInteractionEnabled = true
+//        dataEntryImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openDataEntry)))
+//        dataEntryImageView.isHidden = false
+//        dataEntryImageView.translatesAutoresizingMaskIntoConstraints = false
+//    }
     
     @objc func openDataEntry() {
         let dataEntryVC = DataEntryViewController()
-        self.present(dataEntryVC, animated: true)
+        let moodSelectionViewController = MoodSelectionViewController()
+        self.present(moodSelectionViewController, animated: true)
     }
     
     func displayPartnerData() {
         if let poopData = poopData {
-            poopStatusLabel.text = "Mo's 💩 Status Today: \(poopData["status"] as? String ?? "No 💩 Data found")"
+            poopStatusLabel.text = "Your partner's 💩 Status Today: \(poopData["status"] as? String ?? "No 💩 Data found")"
            // poopDetailLabel.text = poopData["details"] as? String ?? ""
         }
         
         if let sleepData = sleepData {
-            sleepStatusLabel.text = "Mo's 😴 status: \(sleepData["status"] as? String ?? "No 😴 Data found")"
+            sleepStatusLabel.text = "Your partner's 😴 status: \(sleepData["status"] as? String ?? "No 😴 Data found")"
             sleepDetailLabel.text = sleepData["details"] as? String ?? ""
         }
     }

@@ -28,7 +28,6 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        title = "Enter Data"
         
         setupUI()
         
@@ -52,10 +51,10 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -97,14 +96,23 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
         detailsTextView.layer.borderColor = UIColor.systemGray4.cgColor
         detailsTextView.backgroundColor = .secondarySystemBackground
         detailsTextView.textColor = .label
-        detailsTextView.font = UIFont.systemFont(ofSize: 16)
+        detailsTextView.font = UIFont(name:"Poppins-Regular", size: 16)
         detailsTextView.translatesAutoresizingMaskIntoConstraints = false
         detailsTextView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         
         // Configure save button
         configureSaveButton()
+        
+        // Adjust scroll view content inset for tab bar
+        adjustScrollViewForTabBar()
     }
     
+    private func adjustScrollViewForTabBar() {
+        guard let tabBarHeight = tabBarController?.tabBar.frame.height else { return }
+        scrollView.contentInset.bottom = tabBarHeight
+        scrollView.scrollIndicatorInsets.bottom = tabBarHeight
+    }
+
     private func configureCardView(_ cardView: UIView, animationView: LottieAnimationView, buttons: [UIButton]) {
         cardView.backgroundColor = .secondarySystemBackground
         cardView.layer.cornerRadius = 12
@@ -127,13 +135,13 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
         NSLayoutConstraint.activate([
             animationView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 10),
             animationView.centerXAnchor.constraint(equalTo: cardView.centerXAnchor),
-            animationView.heightAnchor.constraint(equalToConstant: 120), // Increased height for more visibility
+            animationView.heightAnchor.constraint(equalToConstant: 120),
             animationView.widthAnchor.constraint(equalTo: cardView.widthAnchor, multiplier: 0.6)
         ])
         
         let buttonStackView = UIStackView(arrangedSubviews: buttons)
         buttonStackView.axis = .horizontal
-        buttonStackView.spacing = 16 // Adjusted spacing for better aesthetics
+        buttonStackView.spacing = 16
         buttonStackView.distribution = .fillEqually
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -149,16 +157,15 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
     
     private func configureButton(_ button: UIButton, title: String, action: Selector) {
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
-        button.titleLabel?.numberOfLines = 0  // Allows multiline titles
-        button.titleLabel?.textAlignment = .center  // Centers the text
-        button.layer.cornerRadius = 15  // Larger corner radius for a rounded look
+        button.titleLabel?.font = UIFont(name:"Poppins-Light", size: 14)
+        button.titleLabel?.numberOfLines = 0
+        button.titleLabel?.textAlignment = .center
+        button.layer.cornerRadius = 15
         button.layer.borderWidth = 1.5
         button.addTarget(self, action: action, for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)  // Increased padding for better touch area
-
-        // Set background and border color based on the current interface style
+        button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        
         if traitCollection.userInterfaceStyle == .dark {
             button.backgroundColor = UIColor.systemGray5
             button.layer.borderColor = UIColor.white.cgColor
@@ -170,7 +177,6 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-    
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
@@ -213,17 +219,17 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
     
     private func configureSaveButton() {
         saveButton.setTitle("Save Data", for: .normal)
-        saveButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        saveButton.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0) // Purple shade suitable for both light and dark mode
+        saveButton.titleLabel?.font = UIFont(name:"Poppins-Bold", size: 18)
+        saveButton.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0)
         saveButton.setTitleColor(.white, for: .normal)
-        saveButton.layer.cornerRadius = 10 // Reduced corner radius for a sleeker look
+        saveButton.layer.cornerRadius = 10
         saveButton.layer.shadowColor = UIColor.black.cgColor
         saveButton.layer.shadowOffset = CGSize(width: 0, height: 2)
         saveButton.layer.shadowOpacity = 0.2
         saveButton.layer.shadowRadius = 4
         saveButton.addTarget(self, action: #selector(saveData), for: .touchUpInside)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true // More prominent button height
+        saveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 
     @objc private func dismissKeyboard() {
@@ -256,20 +262,17 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc private func saveData() {
-        // Collect data from the UI
         let poopStatus = selectedPoopStatus ?? "No Data"
         let sleepOption = selectedSleepOption ?? "No Data"
         let details = detailsTextView.text ?? ""
         
-        // Ensure date is correctly set (using current date as an example)
         let currentDate = Date()
         
-        // Call FirebaseManager to save the data
-        FirebaseManager.shared.saveDailyRecord(for: UserManager.shared.myUserID, date: currentDate, poopStatus: poopStatus, poopDetails: details, sleepStatus: sleepOption, sleepDetails: details) { result in
+        FirebaseManager.shared.saveDailyRecord(for: UserManager.shared.userID!, date: currentDate, poopStatus: poopStatus, poopDetails: details, sleepStatus: sleepOption, sleepDetails: details) { result in
             switch result {
             case .success():
                 print("Data saved successfully")
-                self.dismiss(animated: true, completion: nil)
+                self.detailsTextView.resignFirstResponder()
             case .failure(let error):
                 print("Error saving data: \(error)")
             }
@@ -281,7 +284,7 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
             $0.backgroundColor = .secondarySystemBackground
             $0.setTitleColor(.label, for: .normal)
         }
-        button.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0) // Purple shade suitable for both light and dark mode
+        button.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0)
         button.setTitleColor(.white, for: .normal)
     }
     
@@ -290,12 +293,11 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
             $0.backgroundColor = .secondarySystemBackground
             $0.setTitleColor(.label, for: .normal)
         }
-        button.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0) // Purple shade suitable for both light and dark mode
+        button.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0)
         button.setTitleColor(.white, for: .normal)
     }
     
     deinit {
-        // Remove observers
         NotificationCenter.default.removeObserver(self)
     }
 }

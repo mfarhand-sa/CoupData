@@ -6,38 +6,58 @@
 //
 
 import Foundation
-
-
-import Foundation
+import FirebaseAuth
 
 class UserManager {
     static let shared = UserManager()
-    
-    // Hardcoded user IDs for testing
-    let myUserID = "partnerUserID456"  // Replace with your actual userID // partnerUserID456
-    let partnerUserID = "myUserID123"  // Replace with your girlfriend's actual userID // myUserID123
-    
-    private var currentUserID: String
-    
+
+    public var currentUserID: String?
+    let partnerUserID = "3hM1SCBcVaaC5jSF6hSN6W40Jtr2"  // Replace with your girlfriend's actual userID // myUserID123
+
+
     private init() {
-        // Start with your user ID by default
-        self.currentUserID = myUserID
+        // Initialize currentUserID with Firebase Auth's current user ID, if available
+        if let user = Auth.auth().currentUser {
+            self.currentUserID = user.uid
+        } else {
+            self.currentUserID = nil // User not signed in
+        }
     }
-    
+
     // Get the current user ID
-    var userID: String {
+    var userID: String? {
         return currentUserID
     }
-    
-    // Switch to your user ID
-    func switchToMyUserID() {
-        currentUserID = myUserID
-        print("Switched to My User ID: \(currentUserID)")
+
+    // Refresh the current user ID (in case of sign-in/out)
+    func refreshUserID() {
+        if let user = Auth.auth().currentUser {
+            self.currentUserID = user.uid
+            print("Current User ID refreshed: \(currentUserID ?? "nil")")
+        } else {
+            self.currentUserID = nil
+            print("User not signed in")
+        }
     }
     
-    // Switch to your girlfriend's user ID
-    func switchToGfUserID() {
-        currentUserID = partnerUserID
-        print("Switched to Partner's User ID: \(currentUserID)")
+    // Observe Authentication State Changes
+    func observeAuthState() {
+        Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+            if let user = user {
+                self?.currentUserID = user.uid
+                print("User signed in: \(user.uid)")
+            } else {
+                self?.currentUserID = nil
+                print("User signed out")
+            }
+        }
+    }
+
+    // Optional: Switch to another user's ID if needed
+    // This function is more for testing/mimicking behavior if needed.
+    func switchUserID(to newUserID: String?) {
+        self.currentUserID = newUserID
+        print("Switched to User ID: \(currentUserID ?? "nil")")
     }
 }
+

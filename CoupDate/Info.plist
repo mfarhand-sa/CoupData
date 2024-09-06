@@ -16,6 +16,16 @@
 				<string>com.googleusercontent.apps.744829401427-njnj8bt5ov82h032n9mcr2smgl5v6d2b</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLName</key>
+			<string>com.leoio.CoupDate</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>coupdate</string>
+			</array>
+		</dict>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
@@ -36,5 +46,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIUserInterfaceStyle</key>
+	<string>Dark</string>
 </dict>
 </plist>

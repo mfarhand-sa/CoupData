@@ -1413,6 +1413,7 @@ PODS:
   - SwiftMessages (10.0.0):
     - SwiftMessages/App (= 10.0.0)
   - SwiftMessages/App (10.0.0)
+  - Typist (1.4.2)
 
 DEPENDENCIES:
   - Firebase/Auth
@@ -1423,6 +1424,7 @@ DEPENDENCIES:
   - lottie-ios
   - NotificationBannerSwift
   - SwiftMessages
+  - Typist
 
 SPEC REPOS:
   trunk:
@@ -1460,6 +1462,7 @@ SPEC REPOS:
     - RecaptchaInterop
     - SnapKit
     - SwiftMessages
+    - Typist
 
 SPEC CHECKSUMS:
   abseil: d121da9ef7e2ff4cab7666e76c5a3e0915ae08c3
@@ -1496,7 +1499,8 @@ SPEC CHECKSUMS:
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftMessages: d3540f0f981dfbac25bd2ae9a662effa48f76f92
+  Typist: 06465ab9867782aa6c81e38f073dfc01dab73deb
 
-PODFILE CHECKSUM: 1c7bf649c29bcb6b3ab029c2d3f844d62a280df0
+PODFILE CHECKSUM: 15c6290eae89b24cb48ba33ef14adab760f48061
 
 COCOAPODS: 1.15.2

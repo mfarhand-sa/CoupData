@@ -49,6 +49,10 @@
 		CD6E71152C86EA6100AE02ED /* PartnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */; };
 		CD6E71172C86F07000AE02ED /* Poop.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71162C86F07000AE02ED /* Poop.json */; };
 		CD6E71192C86F1DD00AE02ED /* Sleeping.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71182C86F1DD00AE02ED /* Sleeping.json */; };
+		CD8711EA2C897DBA0090608A /* CDDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711E92C897DBA0090608A /* CDDataProvider.swift */; };
+		CD8711EE2C89A6E50090608A /* CDPairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711ED2C89A6E50090608A /* CDPairingViewController.swift */; };
+		CD8711F22C8A45CB0090608A /* CDUserRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */; };
+		CD8711F42C8A465C0090608A /* CDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711F32C8A465C0090608A /* CDButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -111,6 +115,10 @@
 		CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerViewModel.swift; sourceTree = "<group>"; };
 		CD6E71162C86F07000AE02ED /* Poop.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Poop.json; sourceTree = "<group>"; };
 		CD6E71182C86F1DD00AE02ED /* Sleeping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Sleeping.json; sourceTree = "<group>"; };
+		CD8711E92C897DBA0090608A /* CDDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDDataProvider.swift; sourceTree = "<group>"; };
+		CD8711ED2C89A6E50090608A /* CDPairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPairingViewController.swift; sourceTree = "<group>"; };
+		CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDUserRegistrationViewController.swift; sourceTree = "<group>"; };
+		CD8711F32C8A465C0090608A /* CDButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDButton.swift; sourceTree = "<group>"; };
 		D9988D54073533D8B824BD6D /* Pods-CoupDate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDate.release.xcconfig"; path = "Target Support Files/Pods-CoupDate/Pods-CoupDate.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +197,7 @@
 		CD261CC02C850CD800E4D5F2 /* CoupDate */ = {
 			isa = PBXGroup;
 			children = (
+				CD8711E92C897DBA0090608A /* CDDataProvider.swift */,
 				CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */,
 				CD240D882C8934D900DA034C /* Helper.swift */,
 				CD18B28D2C85678E00AC858B /* CoupDateDebug.entitlements */,
@@ -201,6 +210,8 @@
 				CD18B2872C853C5800AC858B /* FirebaseManager.swift */,
 				CD18B28B2C853F4B00AC858B /* UserManager.swift */,
 				CD261CC72C850CD800E4D5F2 /* Main.storyboard */,
+				CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */,
+				CD8711ED2C89A6E50090608A /* CDPairingViewController.swift */,
 				CD261CCA2C850CD900E4D5F2 /* Assets.xcassets */,
 				CD1C3E142C893F7C009B30B8 /* Colours.xcassets */,
 				CD261CCC2C850CD900E4D5F2 /* LaunchScreen.storyboard */,
@@ -214,6 +225,7 @@
 				CD240D7E2C88DDF900DA034C /* MoodSlider.swift */,
 				CD240D802C88DE2E00DA034C /* MoodSelectionViewController.swift */,
 				CD240D842C8916DE00DA034C /* LoginAnimtation.json */,
+				CD8711F32C8A465C0090608A /* CDButton.swift */,
 				CD240D9C2C89359400DA034C /* Fonts */,
 			);
 			path = CoupDate;
@@ -361,12 +373,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD18B28C2C853F4B00AC858B /* UserManager.swift in Sources */,
+				CD8711F22C8A45CB0090608A /* CDUserRegistrationViewController.swift in Sources */,
+				CD8711EA2C897DBA0090608A /* CDDataProvider.swift in Sources */,
+				CD8711EE2C89A6E50090608A /* CDPairingViewController.swift in Sources */,
 				CD261CC22C850CD800E4D5F2 /* AppDelegate.swift in Sources */,
 				CD240D812C88DE2E00DA034C /* MoodSelectionViewController.swift in Sources */,
 				CD18B2882C853C5800AC858B /* FirebaseManager.swift in Sources */,
 				CD261CC42C850CD800E4D5F2 /* SceneDelegate.swift in Sources */,
 				CD240D872C891EFE00DA034C /* GoogleSiginButton.swift in Sources */,
 				CD6E71112C86E61B00AE02ED /* CDLoadingViewController.swift in Sources */,
+				CD8711F42C8A465C0090608A /* CDButton.swift in Sources */,
 				CD240D832C89084F00DA034C /* CoupleLoginViewController.swift in Sources */,
 				CD18B28A2C853C8E00AC858B /* PartnerActivityViewController.swift in Sources */,
 				CD240D7F2C88DDF900DA034C /* MoodSlider.swift in Sources */,

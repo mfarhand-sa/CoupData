@@ -107,6 +107,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         var handled: Bool
+        
+        if url.scheme == "coupdate" {
+            
+            handleCustomURL(url)
+            return true
+        }
+        
         handled = GIDSignIn.sharedInstance.handle(url)
         if handled {
             return true
@@ -115,6 +122,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
         // If not handled by this app, return false.
         return false
         
+    }
+    
+    private func handleCustomURL(_ url: URL) {
+        // Extract any parameters from the URL if needed
+        if let partnerUserId = url.queryParameters?["partnerUserId"] {
+            print("Partner User ID: \(partnerUserId)")
+            // Implement your logic here to handle the partner pairing
+            
+            let sb = UIStoryboard(name: "Main", bundle: .main)
+            let pairingVC = sb.instantiateViewController(withIdentifier: "CDPairingViewController") as! CDPairingViewController
+            pairingVC.partnerUserId = partnerUserId
+            UIApplication.shared.keyWindow?.rootViewController?.present(pairingVC, animated: true)
+
+        }
+    }
+
+
+    func handleIncomingLink(url: URL) {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let queryItems = components.queryItems,
+              let partnerUserId = queryItems.first(where: { $0.name == "partnerUserId" })?.value else { return }
+        
+        // Call your function to save the partner userId to Firebase
+       // FirebaseManager.shared.savePartnerUserId(partnerUserId)
     }
 
 }

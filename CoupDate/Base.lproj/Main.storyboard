@@ -12,6 +12,9 @@
         <array key="Poppins-Light.ttf">
             <string>Poppins-Light</string>
         </array>
+        <array key="Poppins-Medium.ttf">
+            <string>Poppins-Medium</string>
+        </array>
         <array key="Poppins-Regular.ttf">
             <string>Poppins-Regular</string>
         </array>
@@ -122,6 +125,159 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LNs-7b-XDl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2222" y="450"/>
+        </scene>
+        <!--Pairing View Controller-->
+        <scene sceneID="HKq-mu-wel">
+            <objects>
+                <viewController storyboardIdentifier="CDPairingViewController" id="wet-D8-xk4" customClass="CDPairingViewController" customModule="CoupDate" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uP4-pe-2je">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YAd-ht-w0M" customClass="LottieAnimationView" customModule="Lottie">
+                                <rect key="frame" x="39.333333333333343" y="159" width="314.33333333333326" height="250.66666666666663"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="LoginAnimtation"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome Welcome Welcome Welcome Welcome Welcome Welcome Welcome Welcome Welcome Welcome Welcome Welcome Welcome Welcome " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nhr-Wa-zys">
+                                <rect key="frame" x="25" y="489.66666666666674" width="343" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="hSR-Px-Pog"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="LMw-Ek-hHd"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Nhr-Wa-zys" firstAttribute="centerX" secondItem="LMw-Ek-hHd" secondAttribute="centerX" id="EkI-3B-MCo"/>
+                            <constraint firstItem="YAd-ht-w0M" firstAttribute="centerX" secondItem="LMw-Ek-hHd" secondAttribute="centerX" id="FRk-Bd-rK8"/>
+                            <constraint firstItem="YAd-ht-w0M" firstAttribute="width" secondItem="uP4-pe-2je" secondAttribute="width" multiplier="0.8" id="S0w-Mv-V7y"/>
+                            <constraint firstItem="Nhr-Wa-zys" firstAttribute="top" secondItem="YAd-ht-w0M" secondAttribute="bottom" constant="80" id="fqf-yu-VEC"/>
+                            <constraint firstItem="Nhr-Wa-zys" firstAttribute="leading" secondItem="LMw-Ek-hHd" secondAttribute="leading" constant="25" id="gWk-vV-hlE"/>
+                            <constraint firstItem="LMw-Ek-hHd" firstAttribute="trailing" secondItem="Nhr-Wa-zys" secondAttribute="trailing" constant="25" id="lpq-7l-SlN"/>
+                            <constraint firstItem="YAd-ht-w0M" firstAttribute="top" secondItem="LMw-Ek-hHd" secondAttribute="top" constant="100" id="tEU-jj-dSQ"/>
+                            <constraint firstItem="YAd-ht-w0M" firstAttribute="height" secondItem="uP4-pe-2je" secondAttribute="height" multiplier="0.293427" constant="0.80000000000000004" id="wAl-ro-65w"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="animationView" destination="YAd-ht-w0M" id="1kf-5m-Zw7"/>
+                        <outlet property="label" destination="Nhr-Wa-zys" id="Xlq-7J-tb6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PRs-tb-S14" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3291" y="-265"/>
+        </scene>
+        <!--User Registration View Controller-->
+        <scene sceneID="fC7-rj-4HO">
+            <objects>
+                <viewController storyboardIdentifier="CDUserRegistrationViewController" id="yzA-Ea-lmP" customClass="CDUserRegistrationViewController" customModule="CoupDate" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ibh-75-0tk">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9iz-oU-dg6">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="85.333333333333329"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="One more step" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="es8-Zk-mRO">
+                                <rect key="frame" x="92.333333333333329" y="105.33333333333333" width="208.66666666666669" height="39.333333333333329"/>
+                                <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="28"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kB6-QW-qlf">
+                                <rect key="frame" x="32" y="197.66666666666666" width="329" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="vqC-vS-pMA"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="21"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" textContentType="name"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What should we call you?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nK3-v6-j0b">
+                                <rect key="frame" x="32" y="145.66666666666666" width="329" height="28"/>
+                                <fontDescription key="fontDescription" name="Poppins-Light" family="Poppins" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFw-YC-wPg" customClass="CDButton" customModule="CoupDate" customModuleProvider="target">
+                                <rect key="frame" x="32" y="277.66666666666669" width="329" height="64"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="VFv-cQ-eG0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Next">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="nextAction:" destination="yzA-Ea-lmP" eventType="touchUpInside" id="rhh-Gq-tvx"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FGk-Xn-rWH" userLabel="AnimationView" customClass="LottieAnimationView" customModule="Lottie">
+                                <rect key="frame" x="76.666666666666686" y="521.33333333333337" width="240" height="250.66666666666663"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="LoginAnimtation"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="NfF-Rg-WR6"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="nK3-v6-j0b" firstAttribute="top" secondItem="es8-Zk-mRO" secondAttribute="bottom" constant="1" id="0kr-6f-Uhb"/>
+                            <constraint firstItem="NfF-Rg-WR6" firstAttribute="bottom" secondItem="FGk-Xn-rWH" secondAttribute="bottom" constant="46" id="4ZY-rE-qgu"/>
+                            <constraint firstItem="FGk-Xn-rWH" firstAttribute="height" secondItem="Ibh-75-0tk" secondAttribute="height" multiplier="0.293427" constant="0.80000000000000004" id="5eA-F7-yLd"/>
+                            <constraint firstItem="NfF-Rg-WR6" firstAttribute="trailing" secondItem="aFw-YC-wPg" secondAttribute="trailing" constant="32" id="9jj-Wi-6pf"/>
+                            <constraint firstItem="nK3-v6-j0b" firstAttribute="leading" secondItem="NfF-Rg-WR6" secondAttribute="leading" constant="32" id="AcS-Dr-AX8"/>
+                            <constraint firstItem="kB6-QW-qlf" firstAttribute="leading" secondItem="NfF-Rg-WR6" secondAttribute="leading" constant="32" id="CSz-t1-QJF"/>
+                            <constraint firstItem="9iz-oU-dg6" firstAttribute="leading" secondItem="NfF-Rg-WR6" secondAttribute="leading" id="E6k-vr-gW6"/>
+                            <constraint firstItem="FGk-Xn-rWH" firstAttribute="centerX" secondItem="NfF-Rg-WR6" secondAttribute="centerX" id="Re7-84-hQ9"/>
+                            <constraint firstItem="9iz-oU-dg6" firstAttribute="height" secondItem="Ibh-75-0tk" secondAttribute="height" multiplier="1:10" id="S0e-b8-d7a"/>
+                            <constraint firstItem="NfF-Rg-WR6" firstAttribute="trailing" secondItem="kB6-QW-qlf" secondAttribute="trailing" constant="32" id="T4c-Db-FL8"/>
+                            <constraint firstItem="es8-Zk-mRO" firstAttribute="top" secondItem="9iz-oU-dg6" secondAttribute="bottom" constant="20" id="X6N-ww-aXh"/>
+                            <constraint firstItem="aFw-YC-wPg" firstAttribute="leading" secondItem="NfF-Rg-WR6" secondAttribute="leading" constant="32" id="bq1-Qo-7iH"/>
+                            <constraint firstItem="NfF-Rg-WR6" firstAttribute="trailing" secondItem="nK3-v6-j0b" secondAttribute="trailing" constant="32" id="hAt-Zb-Gvt"/>
+                            <constraint firstItem="aFw-YC-wPg" firstAttribute="top" secondItem="kB6-QW-qlf" secondAttribute="bottom" constant="24" id="hRp-Sl-MtW"/>
+                            <constraint firstItem="nK3-v6-j0b" firstAttribute="centerX" secondItem="NfF-Rg-WR6" secondAttribute="centerX" id="lLU-at-txc"/>
+                            <constraint firstItem="kB6-QW-qlf" firstAttribute="top" secondItem="nK3-v6-j0b" secondAttribute="bottom" constant="24" id="pVT-Np-eFF"/>
+                            <constraint firstItem="es8-Zk-mRO" firstAttribute="centerX" secondItem="NfF-Rg-WR6" secondAttribute="centerX" id="r8T-IM-bbG"/>
+                            <constraint firstAttribute="trailing" secondItem="9iz-oU-dg6" secondAttribute="trailing" id="tRA-jF-DuL"/>
+                            <constraint firstItem="FGk-Xn-rWH" firstAttribute="width" secondItem="Ibh-75-0tk" secondAttribute="width" multiplier="0.610687" id="xqv-1o-clx"/>
+                            <constraint firstItem="9iz-oU-dg6" firstAttribute="top" secondItem="Ibh-75-0tk" secondAttribute="top" id="zNn-M6-rZJ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="DjZ-N8-qrT"/>
+                    <connections>
+                        <outlet property="animationView" destination="FGk-Xn-rWH" id="RWS-HR-vlN"/>
+                        <outlet property="greetingLabel" destination="nK3-v6-j0b" id="p3j-N7-WOV"/>
+                        <outlet property="inputTextField" destination="kB6-QW-qlf" id="orL-JT-l33"/>
+                        <outlet property="nextButton" destination="aFw-YC-wPg" id="NxU-P7-6xB"/>
+                        <outlet property="statusLabel" destination="es8-Zk-mRO" id="R10-2g-lXP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IoP-1b-J5G" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="871" y="465"/>
         </scene>
     </scenes>
     <resources>

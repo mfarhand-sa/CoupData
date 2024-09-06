@@ -1,7 +1,7 @@
 import UIKit
 import Lottie
 import Combine
-
+import Firebase
 
 class PartnerActivityViewController: UIViewController {
     
@@ -29,8 +29,57 @@ class PartnerActivityViewController: UIViewController {
     
   //  let dataEntryImageView = UIImageView()
     
+    // Detect shake gesture
+       override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+           if motion == .motionShake {
+               generateAndShareInvitationURL()
+           }
+       }
+    
+    
+    
+    func generateInvitationLink(partnerUserId: String) -> URL? {
+        // Define the base URL using your custom URL scheme
+        let baseURL = "coupdate://pair"
+        
+        // Create the URL components
+        var components = URLComponents(string: baseURL)
+        
+        // Add query parameters
+        components?.queryItems = [
+            URLQueryItem(name: "partnerUserId", value: partnerUserId)
+        ]
+        
+        // Return the complete URL
+        return components?.url
+    }
+    
+    
+    func generateInvitationURL() -> URL? {
+         // Replace this with your logic to generate the user's unique invitation URL
+         guard let userId = Auth.auth().currentUser?.uid else {
+             print("User is not logged in.")
+             return nil
+         }
+         
+         // Example URL creation (use your domain and path)
+         let invitationLink = "https://mytripper.app/pair?partnerUserId=\(userId)"
+         return URL(string: invitationLink)
+     }
+     
+     func generateAndShareInvitationURL() {
+         
+         guard let invitationURL = generateInvitationLink(partnerUserId: UserManager.shared.currentUserID ?? "") else { return }
+
+         // Present the activity controller
+         let activityVC = UIActivityViewController(activityItems: [invitationURL], applicationActivities: nil)
+         present(activityVC, animated: true)
+     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         view.backgroundColor = .systemBackground
         
@@ -40,47 +89,61 @@ class PartnerActivityViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { notification in
             print("Foreground")
             
-            // Bind to the ViewModel's isLoading and errorMessage
-            self.viewModel.$isLoading
-                .receive(on: DispatchQueue.main)
-                .sink { isLoading in
-                    if isLoading {
-                        // Show loading indicator
-                    } else {
-                        // Hide loading indicator
-                    }
-                }
-                .store(in: &self.cancellables)
-            
-            self.viewModel.$errorMessage
-                .receive(on: DispatchQueue.main)
-                .sink { errorMessage in
-                    if let errorMessage = errorMessage {
-                        // Show error message
-                        print(errorMessage)
-                    }
-                }
-                .store(in: &self.cancellables)
-            
-            self.viewModel.$poopData
-                .combineLatest(self.viewModel.$sleepData)
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] poopData, sleepData in
-                    guard let self = self else { return }
-                    
-                    // Add a delay of 3 seconds before transitioning to PartnerActivityViewController
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-
-                       
-
-                    }
-                }
-                .store(in: &self.cancellables)
-            
-            self.viewModel.loadPartnerData()
-
-            
+            self.fetchPartnerData()
         }
+        
+        if self.poopData == nil || self.sleepData == nil {
+            fetchPartnerData()
+        }
+        
+
+    }
+    
+    func fetchPartnerData() {
+        
+        // Bind to the ViewModel's isLoading and errorMessage
+        self.viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { isLoading in
+                if isLoading {
+                    // Show loading indicator
+                } else {
+                    // Hide loading indicator
+                }
+            }
+            .store(in: &self.cancellables)
+        
+        self.viewModel.$errorMessage
+            .receive(on: DispatchQueue.main)
+            .sink { errorMessage in
+                if let errorMessage = errorMessage {
+                    // Show error message
+                    print(errorMessage)
+                }
+            }
+            .store(in: &self.cancellables)
+        
+        self.viewModel.$poopData
+            .combineLatest(self.viewModel.$sleepData)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] poopData, sleepData in
+                guard let self = self else { return }
+                
+                // Add a delay of 3 seconds before transitioning to PartnerActivityViewController
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+
+
+                    self.poopData = poopData
+                    self.sleepData = sleepData
+                    self.displayPartnerData()
+
+                }
+            }
+            .store(in: &self.cancellables)
+        if let partnerID = CDDataProvider.shared.partnerID {
+            self.viewModel.loadPartnerData(partnerID: partnerID)
+        }
+        
     }
     
     func setupUI() {
@@ -123,17 +186,6 @@ class PartnerActivityViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -120) // Adjusted to leave space for the dataEntryImageView
         ])
-        
-        //configureDataEntryImageView() // Ensure this is called after adding to contentView
-        
-        // Place dataEntryImageView at the bottom of the screen
-//        view.addSubview(dataEntryImageView)
-//        NSLayoutConstraint.activate([
-//            dataEntryImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20), // Anchored to the bottom of the screen
-//            dataEntryImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            dataEntryImageView.widthAnchor.constraint(equalToConstant: 100),
-//            dataEntryImageView.heightAnchor.constraint(equalToConstant: 100)
-//        ])
         
         NSLayoutConstraint.activate([
             poopCardView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -40),
@@ -209,20 +261,7 @@ class PartnerActivityViewController: UIViewController {
         sleepDetailLabel.font = UIFont(name:"Poppins-Light", size: 15)
         sleepDetailLabel.textColor = .secondaryLabel
     }
-    
-//    func configureDataEntryImageView() {
-//        if let image = UIImage(named: "funny_couples") {
-//            dataEntryImageView.image = image
-//        } else {
-//            print("Image not found!")
-//        }
-//        
-//        dataEntryImageView.contentMode = .scaleAspectFit
-//        dataEntryImageView.isUserInteractionEnabled = true
-//        dataEntryImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openDataEntry)))
-//        dataEntryImageView.isHidden = false
-//        dataEntryImageView.translatesAutoresizingMaskIntoConstraints = false
-//    }
+
     
     @objc func openDataEntry() {
         let dataEntryVC = DataEntryViewController()

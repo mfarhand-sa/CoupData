@@ -14,6 +14,7 @@ target 'CoupDate' do
   pod 'GoogleSignIn'
   pod 'SwiftMessages'
   pod 'NotificationBannerSwift'
+  pod 'Typist'
 
 end
 

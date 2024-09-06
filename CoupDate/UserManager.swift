@@ -12,7 +12,7 @@ class UserManager {
     static let shared = UserManager()
 
     public var currentUserID: String?
-    let partnerUserID = "3hM1SCBcVaaC5jSF6hSN6W40Jtr2"  // Replace with your girlfriend's actual userID // myUserID123
+    public var partnerUserID: String?  // Replace with your girlfriend's actual userID // myUserID123
 
 
     private init() {

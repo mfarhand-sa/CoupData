@@ -273,6 +273,10 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
             case .success():
                 print("Data saved successfully")
                 self.detailsTextView.resignFirstResponder()
+                
+                CustomAlerts.displayNotification(title: "", message: "saved successfully", view: self.view, fromBottom: false)
+
+                
             case .failure(let error):
                 print("Error saving data: \(error)")
             }

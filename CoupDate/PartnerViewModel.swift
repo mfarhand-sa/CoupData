@@ -22,13 +22,20 @@ class PartnerViewModel: ObservableObject {
             case .success(let data):
                 print("User data: \(data)")
                 
+                
+                if let partnerID = data["partnerUserId"] as? String {
+                    CDDataProvider.shared.partnerID = partnerID
+                    UserManager.shared.partnerUserID = partnerID
+                }
                 // Check if user profile is incomplete
-                if data["firstNameeee"] == nil {
+                if data["firstName"] == nil {
                     self.userInfoRequired = true
                     self.isLoading = false
                     return
                 } else {
                     self.userInfoRequired = false
+                    // Save firstName in CDDataProvider
+                    CDDataProvider.shared.name = data["firstName"] as? String
                 }
 
                 // Extract partner ID

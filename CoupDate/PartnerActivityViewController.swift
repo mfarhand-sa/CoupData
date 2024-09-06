@@ -17,6 +17,7 @@ class PartnerActivityViewController: UIViewController {
     let sleepCardView = UIView()
     let sleepStatusLabel = UILabel()
     let sleepDetailLabel = UILabel()
+    let greetingLabel = UILabel()
     let sleepAnimationView = LottieAnimationView(name: "Sleeping") // Replace with your sleep animation name
     
     var poopData: [String: Any]?
@@ -25,6 +26,7 @@ class PartnerActivityViewController: UIViewController {
     private var viewModel = PartnerViewModel()
     private var cancellables = Set<AnyCancellable>()
 
+    
 
     
   //  let dataEntryImageView = UIImageView()
@@ -147,18 +149,53 @@ class PartnerActivityViewController: UIViewController {
     }
     
     func setupUI() {
+        // Configure the greetingLabel
+        greetingLabel.translatesAutoresizingMaskIntoConstraints = false
+        greetingLabel.adjustsFontForContentSizeCategory = false
+        greetingLabel.lineBreakMode = .byClipping // or .byTruncatingTail
+        greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
+        greetingLabel.textColor = .white
+
+        // Set greeting based on time of day
+        let currentHour = Calendar.current.component(.hour, from: Date())
+        var greetingText = "Hello"
+        if let userName = CDDataProvider.shared.name {
+            if currentHour < 12 {
+                greetingText = "Good Morning, \(userName)"
+            } else if currentHour < 18 {
+                greetingText = "Good Afternoon, \(userName)"
+            } else {
+                greetingText = "Good Evening, \(userName)"
+            }
+        } else {
+            greetingText = "Hello!"
+        }
+        greetingLabel.text = greetingText
+
+        // Add greetingLabel to the main view (outside the scrollView)
+        view.addSubview(greetingLabel)
+
+        // Configure scrollView and contentView
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        
+
+        // Set constraints for greetingLabel (outside the scroll view)
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            greetingLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            greetingLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            greetingLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+
+        // Set up constraints for scrollView (below the greetingLabel)
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 16),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
+
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
@@ -176,25 +213,26 @@ class PartnerActivityViewController: UIViewController {
         stackView.spacing = 16
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(stackView)
-        
+
         // Set up stack view constraints
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -120) // Adjusted to leave space for the dataEntryImageView
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -120)
         ])
-        
+
         NSLayoutConstraint.activate([
             poopCardView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -40),
-            poopCardView.heightAnchor.constraint(equalToConstant: 180), // Adjusted height for animation and labels
+            poopCardView.heightAnchor.constraint(equalToConstant: 180),
             
             sleepCardView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -40),
-            sleepCardView.heightAnchor.constraint(equalToConstant: 180) // Adjusted height for animation and labels
+            sleepCardView.heightAnchor.constraint(equalToConstant: 180)
         ])
     }
+
+
 
 
     
@@ -271,13 +309,19 @@ class PartnerActivityViewController: UIViewController {
     
     func displayPartnerData() {
         if let poopData = poopData {
-            poopStatusLabel.text = "Your partner's 💩 Status Today: \(poopData["status"] as? String ?? "No 💩 Data found")"
+            poopStatusLabel.text = "Digestive check-in: \(poopData["status"] as? String ?? "No news today!")"
            // poopDetailLabel.text = poopData["details"] as? String ?? ""
+        } else {
+            poopStatusLabel.text = "Digestive check-in: No news today!"
+
         }
         
         if let sleepData = sleepData {
-            sleepStatusLabel.text = "Your partner's 😴 status: \(sleepData["status"] as? String ?? "No 😴 Data found")"
+            sleepStatusLabel.text = "Sleep vibes: \(sleepData["status"] as? String ?? "No sleep data yet")"
             sleepDetailLabel.text = sleepData["details"] as? String ?? ""
+        } else {
+            poopStatusLabel.text = "No sleep data yet"
+
         }
     }
 }

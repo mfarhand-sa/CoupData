@@ -407,3 +407,86 @@ public class RoundedImageView: UIImageView {
         maskLayer?.path = path.cgPath
     }
 }
+
+
+
+//    func updateRootViewController(to viewController: UIViewController) {
+//        // Ensure we are running on the main thread
+//        guard Thread.isMainThread else {
+//            DispatchQueue.main.async {
+//                self.updateRootViewController(to: viewController)
+//            }
+//            return
+//        }
+//
+//        if let windowScene = UIApplication.shared.connectedScenes
+//            .filter({ $0.activationState == .foregroundActive })
+//            .compactMap({ $0 as? UIWindowScene })
+//            .first,
+//           let window = windowScene.windows.first {
+//            window.rootViewController = viewController
+//            window.makeKeyAndVisible()
+//        } else {
+//            print("No active window scene found.")
+//        }
+//    }
+
+
+
+extension UIViewController {
+    func updateRootViewController(to viewController: UIViewController) {
+        // Ensure we are running on the main thread
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async {
+                self.updateRootViewController(to: viewController)
+            }
+            return
+        }
+
+        // Get the active window scene
+        if let windowScene = UIApplication.shared.connectedScenes
+            .filter({ $0.activationState == .foregroundActive })
+            .compactMap({ $0 as? UIWindowScene })
+            .first,
+           let window = windowScene.windows.first {
+
+            guard let currentVC = window.rootViewController else {
+                window.rootViewController = viewController
+                window.makeKeyAndVisible()
+                return
+            }
+
+            // Set up the blur effect view
+            let blurEffect = UIBlurEffect(style: .light)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            blurEffectView.frame = currentVC.view.bounds
+            blurEffectView.alpha = 0 // Start transparent
+
+            viewController.view.frame = currentVC.view.frame
+            viewController.view.alpha = 0 // Start fully transparent
+
+            window.addSubview(blurEffectView) // Add the blur effect on top of the current view
+            window.addSubview(viewController.view) // Add the new view controller's view to the window
+
+            // Animate the blur and fade effect
+            UIView.animate(withDuration: 0.6, delay: 0, options: [.curveEaseInOut], animations: {
+                blurEffectView.alpha = 1 // Apply the blur effect gradually
+                currentVC.view.alpha = 0 // Fade out the old view
+                viewController.view.alpha = 1 // Fade in the new view
+            }, completion: { _ in
+                // Clean up and set the new root view controller
+                window.rootViewController = viewController
+                window.makeKeyAndVisible()
+                currentVC.view.removeFromSuperview()
+                blurEffectView.removeFromSuperview() // Remove the blur effect after the transition
+            })
+        } else {
+            print("No active window scene found. Retrying in 0.5 seconds.")
+            // Retry after a small delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.updateRootViewController(to: viewController)
+            }
+        }
+    }
+}
+

@@ -9,6 +9,7 @@ target 'CoupDate' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
+  pod 'Firebase/Functions'
   pod 'Firebase/Messaging'
   pod 'lottie-ios'
   pod 'GoogleSignIn'

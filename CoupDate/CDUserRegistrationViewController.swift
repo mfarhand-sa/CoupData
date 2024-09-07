@@ -380,29 +380,6 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         updateRootViewController(to: tabBarVC)
     }
     
-    
-    func updateRootViewController(to viewController: UIViewController) {
-        // Ensure we are running on the main thread
-        guard Thread.isMainThread else {
-            DispatchQueue.main.async {
-                self.updateRootViewController(to: viewController)
-            }
-            return
-        }
-        
-        if let windowScene = UIApplication.shared.connectedScenes
-            .filter({ $0.activationState == .foregroundActive })
-            .compactMap({ $0 as? UIWindowScene })
-            .first,
-           let window = windowScene.windows.first {
-            window.rootViewController = viewController
-            window.makeKeyAndVisible()
-        } else {
-            print("No active window scene found.")
-        }
-    }
-    
-    
     func convertBirthdayStringToDate(_ birthdayString: String) -> Date? {
         // Create a DateFormatter
         let dateFormatter = DateFormatter()

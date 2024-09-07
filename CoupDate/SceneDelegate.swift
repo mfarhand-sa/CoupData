@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
@@ -57,7 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
               let queryItems = components.queryItems,
               let partnerUserId = queryItems.first(where: { $0.name == "partnerUserId" })?.value else { return }
-
+        
         let sb = UIStoryboard(name: "Main", bundle: .main)
         let pairingVC = sb.instantiateViewController(withIdentifier: "CDPairingViewController") as! CDPairingViewController
         pairingVC.partnerUserId = partnerUserId
@@ -68,8 +69,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let url = URLContexts.first?.url else { return }
         
         // Check if the URL scheme matches your custom scheme
-        if url.scheme == "coupdate" {
-            handleCustomURL(url)
+        if url.scheme?.lowercased() == "coupdate" {
+            //handleCustomURL(url)
+            handleInvitationLink(url)
         }
     }
     
@@ -85,10 +87,43 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             pairingVC.partnerUserId = partnerUserId
             UIApplication.shared.keyWindow?.rootViewController?.present(pairingVC, animated: true)
             
+            
+        }
+    }
+    
+    
+    func handleInvitationLink(_ url: URL) {
+        // Extract the token from the URL
+        let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let token = urlComponents?.queryItems?.first(where: { $0.name == "token" })?.value
+        
+        // Call Firebase Function to validate the token and pair users
+        if let token = token {
+            // Call the method on the instance
+            
+            print("Partner User ID: \(token)")
+            
+            // Implement your logic here to handle the partner pairing
+            
+            let sb = UIStoryboard(name: "Main", bundle: .main)
+            let pairingVC = sb.instantiateViewController(withIdentifier: "CDPairingViewController") as! CDPairingViewController
+            pairingVC.partnerUserId = token
+            UIApplication.shared.keyWindow?.rootViewController?.present(pairingVC, animated: true)
+            
+            
+        }
         
     }
-}
+    
+    // Function to convert base64 string to UIImage
+    func convertBase64ToImage(base64String: String) -> UIImage? {
+        if let imageData = Data(base64Encoded: base64String, options: .ignoreUnknownCharacters) {
+            return UIImage(data: imageData)
+        }
+        return nil
+    }
 
 
+    
 }
 

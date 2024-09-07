@@ -79,98 +79,38 @@ class CDLoadingViewController : UIViewController {
         let year = Calendar.current.component(.year, from: Date())
         self.copyrightLabel.text = "\(year) © LEOIO Inc."
         
-
         
-        // This will first check if user info is required, and if not, proceed to check authentication and load partner data
-        // This will first check if user info is required, and if not, proceed to check authentication and load partner data
-           viewModel.$userInfoRequired
-               .combineLatest(viewModel.$isLoading)
-               .filter { !$1 } // Only proceed when not loading
-               .flatMap { (userInfoRequired, _) -> AnyPublisher<Bool, Never> in
-                   if userInfoRequired {
-                       self.showRegistrationScreen()
-                       return Just(false).eraseToAnyPublisher() // Prevent further navigation
-                   } else {
-                       return Just(true).eraseToAnyPublisher() // Continue to authentication and partner data loading
-                   }
-               }
-               .receive(on: DispatchQueue.main)
-               .sink { [weak self] shouldNavigate in
-                   guard let self = self, shouldNavigate else { return }
-                   self.checkAuthenticationAndLoadPartnerData()
-               }
-               .store(in: &cancellables)
-
-           viewModel.loadMyDataAndThenPartnerData()
-        
-        
-        
-        
-//        // Bind to the ViewModel's isLoading and errorMessage
-//        
-//        viewModel.$userInfoRequired
-//            .receive(on: DispatchQueue.main)
-//            .sink { userInfoRequired in
-//                if userInfoRequired {
-//                    
-//                    let storyboard = UIStoryboard(name: "Main", bundle: .main)
-//                    
-//                    // Instantiate the UITabBarController from the storyboard
-//                     let registrationVC = storyboard.instantiateViewController(withIdentifier: "CDUserRegistrationViewController") as! CDUserRegistrationViewController
-//                    registrationVC.status = .fullName
-//                    
-//                    self.updateRootViewController(to: registrationVC)
-//                    
-//                }
-//                else {
-//                    
-//                }
-//            } .store(in: &cancellables)
-//        
-//        viewModel.$isLoading
-//            .receive(on: DispatchQueue.main)
-//            .sink { isLoading in
-//                if isLoading {
-//                    // Show loading indicator
-//                } else {
-//                    // Hide loading indicator
-//                }
-//            }
-//            .store(in: &cancellables)
-//        
-//        viewModel.$errorMessage
-//            .receive(on: DispatchQueue.main)
-//            .sink { errorMessage in
-//                if let errorMessage = errorMessage {
-//                    // Show error message
-//                    print(errorMessage)
-//                }
-//            }
-//            .store(in: &cancellables)
-//        
-//        viewModel.$poopData
-//            .combineLatest(viewModel.$sleepData)
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] poopData, sleepData in
-//                guard let self = self else { return }
-//                
-//                // Add a delay of 3 seconds before transitioning to PartnerActivityViewController
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-//
-//                    if let user = Auth.auth().currentUser, let _ = UserDefaults.standard.string(forKey: "loggedIn") {
-//                        print("User is already signed in: \(user.uid)")
-//                        self.navigateToMainScreen()
-//                        
-//                    } else {
-//                        print("No user is signed in.")
-//                        self.navigateToLoginScreen()
-//                    }
-//
-//                }
-//            }
-//            .store(in: &cancellables)
-//        
-//        viewModel.loadMyDataAndThenPartnerData()
+        if  (Auth.auth().currentUser == nil || (UserDefaults.standard.string(forKey: "loggedIn") == nil)) {
+       
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                self.navigateToLoginScreen()
+            }
+       
+            
+        } else {
+            
+            // This will first check if user info is required, and if not, proceed to check authentication and load partner data
+            viewModel.$userInfoRequired
+                .combineLatest(viewModel.$isLoading)
+                .filter { !$1 } // Only proceed when not loading
+                .flatMap { (userInfoRequired, _) -> AnyPublisher<Bool, Never> in
+                    if userInfoRequired {
+                        self.showRegistrationScreen()
+                        return Just(false).eraseToAnyPublisher() // Prevent further navigation
+                    } else {
+                        return Just(true).eraseToAnyPublisher() // Continue to authentication and partner data loading
+                    }
+                }
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] shouldNavigate in
+                    guard let self = self, shouldNavigate else { return }
+                    self.checkAuthenticationAndLoadPartnerData()
+                }
+                .store(in: &cancellables)
+            
+            viewModel.loadMyDataAndThenPartnerData()
+            
+        }
     }
     
     
@@ -274,30 +214,6 @@ class CDLoadingViewController : UIViewController {
           let loginVC = CoupleLoginViewController()
           updateRootViewController(to: loginVC)
       }
-    
-    
-    func updateRootViewController(to viewController: UIViewController) {
-        // Ensure we are running on the main thread
-        guard Thread.isMainThread else {
-            DispatchQueue.main.async {
-                self.updateRootViewController(to: viewController)
-            }
-            return
-        }
-
-        if let windowScene = UIApplication.shared.connectedScenes
-            .filter({ $0.activationState == .foregroundActive })
-            .compactMap({ $0 as? UIWindowScene })
-            .first,
-           let window = windowScene.windows.first {
-            window.rootViewController = viewController
-            window.makeKeyAndVisible()
-        } else {
-            print("No active window scene found.")
-        }
-    }
-    
-    
 }
 
 

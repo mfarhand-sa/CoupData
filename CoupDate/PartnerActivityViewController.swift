@@ -11,7 +11,7 @@ class PartnerActivityViewController: UIViewController {
     
     let poopCardView = UIView()
     let poopStatusLabel = UILabel()
-//    let /*poopDetailLabel*/ = UILabel()
+    //    let /*poopDetailLabel*/ = UILabel()
     let poopAnimationView = LottieAnimationView(name: "Poop") // Replace with your poop animation name
     
     let sleepCardView = UIView()
@@ -25,63 +25,10 @@ class PartnerActivityViewController: UIViewController {
     
     private var viewModel = PartnerViewModel()
     private var cancellables = Set<AnyCancellable>()
-
     
-
-    
-  //  let dataEntryImageView = UIImageView()
-    
-    // Detect shake gesture
-       override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-           if motion == .motionShake {
-               generateAndShareInvitationURL()
-           }
-       }
-    
-    
-    
-    func generateInvitationLink(partnerUserId: String) -> URL? {
-        // Define the base URL using your custom URL scheme
-        let baseURL = "coupdate://pair"
-        
-        // Create the URL components
-        var components = URLComponents(string: baseURL)
-        
-        // Add query parameters
-        components?.queryItems = [
-            URLQueryItem(name: "partnerUserId", value: partnerUserId)
-        ]
-        
-        // Return the complete URL
-        return components?.url
-    }
-    
-    
-    func generateInvitationURL() -> URL? {
-         // Replace this with your logic to generate the user's unique invitation URL
-         guard let userId = Auth.auth().currentUser?.uid else {
-             print("User is not logged in.")
-             return nil
-         }
-         
-         // Example URL creation (use your domain and path)
-         let invitationLink = "https://mytripper.app/pair?partnerUserId=\(userId)"
-         return URL(string: invitationLink)
-     }
-     
-     func generateAndShareInvitationURL() {
-         
-         guard let invitationURL = generateInvitationLink(partnerUserId: UserManager.shared.currentUserID ?? "") else { return }
-
-         // Present the activity controller
-         let activityVC = UIActivityViewController(activityItems: [invitationURL], applicationActivities: nil)
-         present(activityVC, animated: true)
-     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         view.backgroundColor = .systemBackground
         
@@ -94,12 +41,43 @@ class PartnerActivityViewController: UIViewController {
             self.fetchPartnerData()
         }
         
-        if self.poopData == nil || self.sleepData == nil {
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePairingDismissed), name: NSNotification.Name("CDPairingDismissed"), object: nil)
+        
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        
+        // Customize the gesture (optional)
+        longPressGesture.minimumPressDuration = 3.0 // Time in seconds for long press
+        
+        
+        self.view.addGestureRecognizer(longPressGesture)
+        
+    }
+    
+    @objc func handlePairingDismissed() {
+        print("Pairing View Controller was dismissed")
+        fetchPartnerData() // Call the method to update data or perform actions
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("CDPairingDismissed"), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+        if ((self.poopData == nil || self.sleepData == nil) && CDDataProvider.shared.partnerID != nil) {
             fetchPartnerData()
         }
         
-
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.becomeFirstResponder()
+    }
+    
     
     func fetchPartnerData() {
         
@@ -133,12 +111,12 @@ class PartnerActivityViewController: UIViewController {
                 
                 // Add a delay of 3 seconds before transitioning to PartnerActivityViewController
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-
-
+                    
+                    
                     self.poopData = poopData
                     self.sleepData = sleepData
                     self.displayPartnerData()
-
+                    
                 }
             }
             .store(in: &self.cancellables)
@@ -155,7 +133,7 @@ class PartnerActivityViewController: UIViewController {
         greetingLabel.lineBreakMode = .byClipping // or .byTruncatingTail
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
         greetingLabel.textColor = .white
-
+        
         // Set greeting based on time of day
         let currentHour = Calendar.current.component(.hour, from: Date())
         var greetingText = "Hello"
@@ -171,31 +149,31 @@ class PartnerActivityViewController: UIViewController {
             greetingText = "Hello!"
         }
         greetingLabel.text = greetingText
-
+        
         // Add greetingLabel to the main view (outside the scrollView)
         view.addSubview(greetingLabel)
-
+        
         // Configure scrollView and contentView
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-
+        
         // Set constraints for greetingLabel (outside the scroll view)
         NSLayoutConstraint.activate([
             greetingLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             greetingLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             greetingLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
-
+        
         // Set up constraints for scrollView (below the greetingLabel)
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 16),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
+            
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
@@ -214,7 +192,7 @@ class PartnerActivityViewController: UIViewController {
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)
-
+        
         // Set up stack view constraints
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
@@ -222,7 +200,7 @@ class PartnerActivityViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -120)
         ])
-
+        
         NSLayoutConstraint.activate([
             poopCardView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -40),
             poopCardView.heightAnchor.constraint(equalToConstant: 180),
@@ -231,10 +209,10 @@ class PartnerActivityViewController: UIViewController {
             sleepCardView.heightAnchor.constraint(equalToConstant: 180)
         ])
     }
-
-
-
-
+    
+    
+    
+    
     
     func configureCardView(_ cardView: UIView, withLabels labels: [UILabel], animationView: LottieAnimationView?) {
         cardView.backgroundColor = .secondarySystemBackground
@@ -289,17 +267,13 @@ class PartnerActivityViewController: UIViewController {
         
         poopStatusLabel.font = UIFont(name:"Poppins-Regular", size: 18)
         poopStatusLabel.textColor = .label
-        
-//        poopDetailLabel.font = UIFont.systemFont(ofSize: 14, weight: .thin)
-//        poopDetailLabel.textColor = .secondaryLabel
-        
         sleepStatusLabel.font = UIFont(name:"Poppins-Regular", size: 18)
         sleepStatusLabel.textColor = .label
         
         sleepDetailLabel.font = UIFont(name:"Poppins-Light", size: 15)
         sleepDetailLabel.textColor = .secondaryLabel
     }
-
+    
     
     @objc func openDataEntry() {
         let dataEntryVC = DataEntryViewController()
@@ -310,18 +284,64 @@ class PartnerActivityViewController: UIViewController {
     func displayPartnerData() {
         if let poopData = poopData {
             poopStatusLabel.text = "Digestive check-in: \(poopData["status"] as? String ?? "No news today!")"
-           // poopDetailLabel.text = poopData["details"] as? String ?? ""
+            // poopDetailLabel.text = poopData["details"] as? String ?? ""
         } else {
             poopStatusLabel.text = "Digestive check-in: No news today!"
-
         }
         
         if let sleepData = sleepData {
             sleepStatusLabel.text = "Sleep vibes: \(sleepData["status"] as? String ?? "No sleep data yet")"
             sleepDetailLabel.text = sleepData["details"] as? String ?? ""
         } else {
-            poopStatusLabel.text = "No sleep data yet"
-
+            sleepStatusLabel.text = "No sleep data yet"
+            
         }
+    }
+    
+    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            // Code to execute when long press starts
+            print("Long press began")
+            
+            if let view = gesture.view {
+                
+                let sb = UIStoryboard(name: "Main", bundle: .main)
+                let pairingVC = sb.instantiateViewController(withIdentifier: "CDPairingViewController") as! CDPairingViewController
+                pairingVC.mode = .invitation
+                UIApplication.shared.keyWindow?.rootViewController?.present(pairingVC, animated: true)
+            }
+        } else if gesture.state == .ended {
+            // Code to execute when long press ends
+            print("Long press ended")
+        }
+    }
+    
+    
+    func generateInvitationLink(partnerUserId: String) -> URL? {
+        // Define the base URL using your custom URL scheme
+        let baseURL = "coupdate://pair"
+        
+        // Create the URL components
+        var components = URLComponents(string: baseURL)
+        
+        // Add query parameters
+        components?.queryItems = [
+            URLQueryItem(name: "partnerUserId", value: partnerUserId)
+        ]
+        
+        // Return the complete URL
+        return components?.url
+    }
+    
+    
+    func generateInvitationURL() -> URL? {
+        // Replace this with your logic to generate the user's unique invitation URL
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("User is not logged in.")
+            return nil
+        }
+        // Example URL creation (use your domain and path)
+        let invitationLink = "https://mytripper.app/pair?partnerUserId=\(userId)"
+        return URL(string: invitationLink)
     }
 }

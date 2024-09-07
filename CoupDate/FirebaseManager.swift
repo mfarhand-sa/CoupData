@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFunctions
 
 
 
@@ -54,7 +55,7 @@ class FirebaseManager {
                 } else if let error = error {
                     completion(.failure(error))
                 } else {
-                    completion(.success([:]))
+                    completion(.success([:])) //TODO: Double check if we don't have to call the  completion(.success([:])) and we should call completion(.failure(error))
                 }
             }
     }
@@ -113,7 +114,9 @@ class FirebaseManager {
             } else if let error = error {
                 completion(.failure(error))
             } else {
-                completion(.failure(NSError(domain: "Firestore", code: -1, userInfo: [NSLocalizedDescriptionKey: "Document does not exist"])))
+                completion(.success(["" : ""]))
+
+//                completion(.failure(NSError(domain: "Firestore", code: -1, userInfo: [NSLocalizedDescriptionKey: "Document does not exist"])))
             }
         }
     }
@@ -156,6 +159,33 @@ class FirebaseManager {
 
         }
     }
+    
+    
+    func pairUsersWithToken(token: String,completion: @escaping (Result<Bool, Error>) -> Void) {
+        let functions = Functions.functions()
+        
+        functions.httpsCallable("validateInvitationAndPairUsers").call(["token": token]) { result, error in
+            if let error = error {
+                print("Error during pairing: \(error.localizedDescription)")
+                // Handle error (e.g., show alert to user)
+                completion(.failure(error))
+            } else if let data = result?.data as? [String: Any], let success = data["success"] as? Bool, success {
+                print("Users have been successfully paired")
+                // Handle success (e.g., update UI or navigate to main screen)
+                
+                if let receiverTmpPartnerId = data["receiverTmpPartnerId"] as? String {
+                    
+                    UserManager.shared.partnerUserID = receiverTmpPartnerId
+                    CDDataProvider.shared.partnerID = receiverTmpPartnerId
+                }
+                
+                
+                completion(.success(true))
+
+            }
+        }
+    }
+
     
     
     

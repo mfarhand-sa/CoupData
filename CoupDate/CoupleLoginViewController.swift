@@ -3,6 +3,7 @@ import Firebase
 import GoogleSignIn
 import AuthenticationServices
 import Lottie
+import Combine
 
 class CoupleLoginViewController: UIViewController {
     
@@ -13,6 +14,7 @@ class CoupleLoginViewController: UIViewController {
     
     // Partner View Model
     private var partnerViewModel = PartnerViewModel()
+    private var cancellables = Set<AnyCancellable>()
 
     
     override func viewDidLoad() {
@@ -107,17 +109,49 @@ class CoupleLoginViewController: UIViewController {
                 if let error = error {
                     print("Firebase sign in with Google error: \(error.localizedDescription)")
                     CustomAlerts.displayNotification(title: "", message: "Firebase sign in with Google error: \(error.localizedDescription)", view: self.view)
-
                 } else {
                     print("User signed in with Google successfully")
-                    // Handle successful sign-in here
-                    UserDefaults.standard.setValue("YES", forKey: "loggedIn")
-                    self.navigateToMainScreen() // Navigate after successful sign-in
+                    
+                    // Handle successful sign-in
+                    if let user = authResult?.user {
+                        let userRef = Firestore.firestore().collection("users").document(user.uid)
+                        
+                        userRef.getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                // User document already exists
+                                print("User document already exists.")
+                            } else {
+                                // Create new user document in Firestore
+                                let userData: [String: Any] = [
+                                    "email": user.email ?? "",
+                                    "createdAt": FieldValue.serverTimestamp()
+                                ]
+                                userRef.setData(userData) { error in
+                                    if let error = error {
+                                        print("Error creating user document: \(error.localizedDescription)")
+                                        DispatchQueue.main.async {
+                                            CustomAlerts.displayNotification(title: "", message: "Error creating user document: \(error.localizedDescription)", view: self.view)
+                                        }
+                                        
+                                    } else {
+                                        print("User document created successfully!")
+                                        // Handle successful sign-in here
+                                        DispatchQueue.main.async {
+                                            UserDefaults.standard.setValue("YES", forKey: "loggedIn")
+                                            self.navigateToMainScreen() // Navigate after successful sign-in
+                                        }
+
+                                    }
+                                }
+                            }
+                            
+
+                        }
+                    }
                 }
             }
         }
     }
-    
     // MARK: - Apple Sign-In
     
     @objc private func appleSignInTapped() {
@@ -132,50 +166,81 @@ class CoupleLoginViewController: UIViewController {
     }
     
     
+    
+    private func showRegistrationScreen() {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        let registrationVC = storyboard.instantiateViewController(withIdentifier: "CDUserRegistrationViewController") as! CDUserRegistrationViewController
+        registrationVC.status = .fullName
+        self.updateRootViewController(to: registrationVC)
+    }
+    
+    
+    private func checkAuthenticationAndLoadPartnerData() {
+        // Wait for partner data to be loaded before navigating to the main screen
+        partnerViewModel.$poopData
+            .combineLatest(partnerViewModel.$sleepData)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] poopData, sleepData in
+                guard let self = self else { return }
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                    if let user = Auth.auth().currentUser, let _ = UserDefaults.standard.string(forKey: "loggedIn") {
+                        print("User is already signed in: \(user.uid)")
+                        self.navigateToMainScreen()
+                    } else {
+                        print("No user is signed in.")
+                    }
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
 
     func navigateToMainScreen() {
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+
         
-        // Instantiate the UITabBarController from the storyboard
-        guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabbar") as? UITabBarController else {
-            print("Could not find UITabBarController with identifier 'MainTabbar'")
-            return
-        }
-        
-        // Find the PartnerActivityViewController in the tab bar's view controllers
-        if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
-            // Assign the data to PartnerActivityViewController
-            partnerActivityVC.poopData = partnerViewModel.poopData
-            partnerActivityVC.sleepData = partnerViewModel.sleepData
-        }
-        
-        // Set the UITabBarController as the root view controller
-        updateRootViewController(to: tabBarVC)
-    }
-    
-    
-    func updateRootViewController(to viewController: UIViewController) {
-        // Ensure we are running on the main thread
-        guard Thread.isMainThread else {
-            DispatchQueue.main.async {
-                self.updateRootViewController(to: viewController)
+        // This will first check if user info is required, and if not, proceed to check authentication and load partner data
+        partnerViewModel.$userInfoRequired
+            .combineLatest(partnerViewModel.$isLoading)
+            .filter { !$1 } // Only proceed when not loading
+            .flatMap { (userInfoRequired, _) -> AnyPublisher<Bool, Never> in
+                if userInfoRequired {
+                    self.showRegistrationScreen()
+                    return Just(false).eraseToAnyPublisher() // Prevent further navigation
+                } else {
+                    return Just(true).eraseToAnyPublisher() // Continue to authentication and partner data loading
+                }
             }
-            return
-        }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] shouldNavigate in
+                guard let self = self, shouldNavigate else { return }
+//                self.checkAuthenticationAndLoadPartnerData()
+                
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: .main)
+                
+                // Instantiate the UITabBarController from the storyboard
+                guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabbar") as? UITabBarController else {
+                    print("Could not find UITabBarController with identifier 'MainTabbar'")
+                    return
+                }
+                
+                // Find the PartnerActivityViewController in the tab bar's view controllers
+                if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
+                    // Assign the data to PartnerActivityViewController
+                    partnerActivityVC.poopData = partnerViewModel.poopData
+                    partnerActivityVC.sleepData = partnerViewModel.sleepData
+                }
+                
+                // Set the UITabBarController as the root view controller
+                updateRootViewController(to: tabBarVC)
+                
+            }
+            .store(in: &cancellables)
+        
+        partnerViewModel.loadMyDataAndThenPartnerData()
 
-        if let windowScene = UIApplication.shared.connectedScenes
-            .filter({ $0.activationState == .foregroundActive })
-            .compactMap({ $0 as? UIWindowScene })
-            .first,
-           let window = windowScene.windows.first {
-            window.rootViewController = viewController
-            window.makeKeyAndVisible()
-        } else {
-            print("No active window scene found.")
-        }
-    }
-
-    
+    }    
 }
 
 // MARK: - ASAuthorizationControllerDelegate

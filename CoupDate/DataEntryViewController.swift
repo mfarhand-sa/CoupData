@@ -20,7 +20,7 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor(named: "CDBackground")
         
         setupUI()
         setupCollectionView()
@@ -32,7 +32,7 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         greetingLabel.adjustsFontForContentSizeCategory = false
         greetingLabel.lineBreakMode = .byClipping
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
-        greetingLabel.textColor = .white
+        greetingLabel.textColor = UIColor(named: "CDAccent")
         
         
         let currentHour = Calendar.current.component(.hour, from: Date())
@@ -181,7 +181,7 @@ class DataEntryCardCell: UICollectionViewCell {
         contentView.addSubview(animationView)
         
         titleLabel.font = UIFont(name: "Poppins-Regular", size: 18)
-        titleLabel.textColor = .label
+        titleLabel.textColor = UIColor(named: "CDText")
         titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)

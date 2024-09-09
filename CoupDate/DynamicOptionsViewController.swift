@@ -29,11 +29,11 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        collectionView.backgroundColor = .black
+        collectionView.backgroundColor = UIColor(named: "CDBackground")
         collectionView.register(OptionCell.self, forCellWithReuseIdentifier: "OptionCell")
         collectionView.allowsMultipleSelection = true // Enable multi-selection
         // Ensure the view has a black background
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor(named: "CDBackground")
         
         // Ensure the collection view also has a black background
     }
@@ -41,8 +41,8 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
     private func setupUI() {
         // Title label
         titleLabel.text = categoryTitle
-        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        titleLabel.textColor = .white
+        titleLabel.font = UIFont(name: "Poppins-Bold", size: 24)
+        titleLabel.textColor = UIColor(named: "CDText")
         titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(titleLabel)
@@ -52,7 +52,7 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         closeButton.setImage(UIImage(named: "close")?.withRenderingMode(.alwaysTemplate), for: .normal) // Ensure the image respects the tint
         closeButton.addTarget(self, action: #selector(closeView), for: .touchUpInside)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.tintColor = .white // Set the button tint color to white
+        closeButton.tintColor = UIColor(named: "CDText") // Set the button tint color to white
         view.addSubview(closeButton)
 
         // Layout constraints for close button (besides the greeting label)
@@ -65,8 +65,8 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
 
         // Description label
         descriptionLabel.text = descriptionText
-        descriptionLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        descriptionLabel.textColor = .white
+        descriptionLabel.font = UIFont(name: "Poppins-Regular", size: 16)
+        descriptionLabel.textColor = UIColor(named: "CDText")
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 0
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +75,7 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         // Save button
         saveButton.setTitle("Save", for: .normal)
         saveButton.setTitleColor(.white, for: .normal)
-        saveButton.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0) // Purple shade
+        saveButton.backgroundColor = UIColor(named: "CDAccent")
         saveButton.layer.cornerRadius = 10
         saveButton.addTarget(self, action: #selector(saveSelectedOptions), for: .touchUpInside)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
@@ -133,8 +133,14 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         let totalPadding = padding * (itemsPerRow + 1)
         let availableWidth = collectionView.frame.width - totalPadding
         let widthPerItem = availableWidth / itemsPerRow
-        
-        return CGSize(width: widthPerItem, height: widthPerItem) // Square cells
+
+        // Check if there is a Lottie animation for the current item
+        let lottieName = lottieAnimations[indexPath.row]
+
+        // If no animation, reduce the height of the cell
+        let heightPerItem = lottieName == nil ? widthPerItem * 0.6 : widthPerItem // Adjust the height accordingly
+
+        return CGSize(width: widthPerItem, height: heightPerItem)
     }
     
     
@@ -178,6 +184,7 @@ class OptionCell: UICollectionViewCell {
     
     private let label = UILabel()
     private var lottieView: LottieAnimationView?
+    private let stackView = UIStackView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -188,62 +195,66 @@ class OptionCell: UICollectionViewCell {
         super.init(coder: coder)
         setupUI()
     }
-    
-    private func setupUI() {
-        // Background color for the cell
-        backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
-        layer.cornerRadius = 10
-        
-        // Label for the option text
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
 
-        // Constraints for the label
+    private func setupUI() {
+        // Set up the border for the cell
+        layer.borderWidth = 0.6
+        layer.cornerRadius = 10
+        layer.borderColor = UIColor(named: "CDText")?.cgColor // Default border color
+        
+        // Configure the stack view for vertical alignment of Lottie and label
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stackView)
+
+        // Add Lottie animation view and label to the stack view
+        label.textAlignment = .center
+        stackView.addArrangedSubview(lottieView ?? UIView()) // Add a placeholder if Lottie view is nil
+        stackView.addArrangedSubview(label)
+
+        // Set constraints for the stack view to center it vertically and horizontally
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: centerXAnchor),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
+            stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
         ])
     }
-    
+
     func configure(with text: String, lottieAnimation: String?) {
-        // Set the text for the option
         label.text = text
-        
+
+        // Remove previous Lottie view if it exists
+        if let lottieView = lottieView {
+            stackView.removeArrangedSubview(lottieView)
+            lottieView.removeFromSuperview()
+        }
+
         // If a Lottie animation is provided, configure the animation view
         if let animationName = lottieAnimation {
-            if lottieView == nil {
-                lottieView = LottieAnimationView(name: animationName)
-                lottieView?.loopMode = .loop
-                lottieView?.contentMode = .scaleAspectFit
-                lottieView?.translatesAutoresizingMaskIntoConstraints = false
-                addSubview(lottieView!)
-                
-                // Constraints for the Lottie animation
-                NSLayoutConstraint.activate([
-                    lottieView!.centerXAnchor.constraint(equalTo: centerXAnchor),
-                    lottieView!.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-                    lottieView!.widthAnchor.constraint(equalToConstant: 80),
-                    lottieView!.heightAnchor.constraint(equalToConstant: 80)
-                ])
-            }
+            lottieView = LottieAnimationView(name: animationName)
+            lottieView?.loopMode = .loop
+            lottieView?.contentMode = .scaleAspectFit
+            lottieView?.translatesAutoresizingMaskIntoConstraints = false
+
+            // Add the Lottie view to the stack view
+            stackView.insertArrangedSubview(lottieView!, at: 0)
+
+            // Set size for Lottie animation
+            NSLayoutConstraint.activate([
+                lottieView!.widthAnchor.constraint(equalToConstant: 50),
+                lottieView!.heightAnchor.constraint(equalToConstant: 50)
+            ])
             lottieView?.play()
-        } else {
-            // If no animation, remove the lottie view if present
-            lottieView?.removeFromSuperview()
-            lottieView = nil
         }
     }
-    
+
     // Highlight the cell when selected
     override var isSelected: Bool {
         didSet {
-            backgroundColor = isSelected ? UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0) : UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
+            self.layer.borderColor = isSelected ? UIColor(named: "CDAccent")?.cgColor : UIColor(named: "CDText")?.cgColor
         }
     }
 }

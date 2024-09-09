@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23086.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LD2-9T-Xh6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LD2-9T-Xh6">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23076"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -186,13 +186,13 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="One more step" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="es8-Zk-mRO">
-                                <rect key="frame" x="92.333333333333329" y="105.33333333333333" width="208.66666666666669" height="39.333333333333329"/>
+                                <rect key="frame" x="103.66666666666669" y="105.33333333333333" width="186" height="32.666666666666671"/>
                                 <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="28"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kB6-QW-qlf">
-                                <rect key="frame" x="32" y="197.66666666666666" width="329" height="56"/>
+                                <rect key="frame" x="32" y="186.33333333333334" width="329" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="vqC-vS-pMA"/>
                                 </constraints>
@@ -201,13 +201,13 @@
                                 <textInputTraits key="textInputTraits" returnKeyType="done" textContentType="name"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What should we call you?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nK3-v6-j0b">
-                                <rect key="frame" x="32" y="145.66666666666666" width="329" height="28"/>
+                                <rect key="frame" x="32" y="139" width="329" height="23.333333333333343"/>
                                 <fontDescription key="fontDescription" name="Poppins-Light" family="Poppins" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFw-YC-wPg" customClass="CDButton" customModule="CoupDate" customModuleProvider="target">
-                                <rect key="frame" x="32" y="277.66666666666669" width="329" height="64"/>
+                                <rect key="frame" x="32" y="266.33333333333331" width="329" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="VFv-cQ-eG0"/>
@@ -280,6 +280,11 @@
             <point key="canvasLocation" x="871" y="465"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="aFw-YC-wPg">
+            <size key="intrinsicContentSize" width="42" height="36"/>
+        </designable>
+    </designables>
     <resources>
         <image name="kiss" width="24" height="24"/>
         <image name="posture" width="24" height="24"/>

@@ -61,6 +61,10 @@ class CDLoadingViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        self.view.backgroundColor = UIColor(named: "CDBackground")
+        self.copyrightLabel.textColor = UIColor(named: "CDText")
+        self.floatingLabel.textColor = UIColor(named: "CDText")
         animationView!.contentMode = .scaleAspectFit
         
         // 4. Set animation loop mode
@@ -69,6 +73,7 @@ class CDLoadingViewController : UIViewController {
         
         // 5. Adjust animation speed
         animationView!.animationSpeed = 1.0
+        animationView.backgroundColor = UIColor(named: "CDBackground")
         
         // 6. Play animation
         

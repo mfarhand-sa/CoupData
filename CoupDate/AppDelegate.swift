@@ -26,9 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(named: "TabbarNormal")!]
-            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(named: "TabbarSelected")!]
+            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(named: "CDAccent")!]
             appearance.stackedLayoutAppearance.normal.iconColor =  UIColor(named: "TabbarNormal")!
-            appearance.stackedLayoutAppearance.selected.iconColor =  UIColor(named: "TabbarSelected")!
+            appearance.stackedLayoutAppearance.selected.iconColor =  UIColor(named: "CDAccent")!
             UITabBar.appearance().standardAppearance = appearance
             UITabBar.appearance().scrollEdgeAppearance = appearance
         }

@@ -50,7 +50,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         
         
         
-        self.nextButton.setBackgroundColor(UIColor.white, for: .normal)
+        self.nextButton.setBackgroundColor(UIColor(named: "CDAccent"), for: .normal)
         self.nextButton.setBackgroundColor(UIColor.lightGray, for: .disabled)
         
         
@@ -108,8 +108,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
     
     func applyUI() {
         
-        self.nextButton.setBackgroundColor(.lightGray, for: .disabled)
-        self.nextButton.setBackgroundColor(.white, for: .normal)
+        self.nextButton.setBackgroundColor(UIColor(named: "CDAccent"), for: .normal)
         self.nextButton.setBackgroundColor(.lightGray, for: .disabled)
         switch status {
             

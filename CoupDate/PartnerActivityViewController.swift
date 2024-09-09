@@ -229,7 +229,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         greetingLabel.adjustsFontForContentSizeCategory = false
         greetingLabel.lineBreakMode = .byClipping
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
-        greetingLabel.textColor = .white
+        greetingLabel.textColor = UIColor(named: "CDAccent")
         
         let currentHour = Calendar.current.component(.hour, from: Date())
         var greetingText = "Hello"
@@ -365,7 +365,7 @@ class PartnerActivityCardCell: UICollectionViewCell {
                     let statusItemLabel = UILabel()
                     statusItemLabel.text = status
                     statusItemLabel.font = UIFont(name: "Poppins-Light", size: 16)
-                    statusItemLabel.textColor = .white
+                    statusItemLabel.textColor = UIColor(named: "CDText")
                     statusItemLabel.numberOfLines = 1
                     statusItemLabel.lineBreakMode = .byTruncatingTail
                     statusItemLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -431,7 +431,7 @@ class PartnerActivityCardCell: UICollectionViewCell {
 
         // Setup status label and stack view
         statusLabel.font = UIFont(name: "Poppins-Light", size: 16)
-        statusLabel.textColor = .white
+        statusLabel.textColor = UIColor(named: "CDText")
         statusLabel.numberOfLines = 0 // Allow label to wrap
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(statusLabel)

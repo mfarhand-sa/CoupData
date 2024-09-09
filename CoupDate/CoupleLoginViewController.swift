@@ -20,7 +20,7 @@ class CoupleLoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor(named: "CDBackground")
         
         setupLottieAnimation()
         setupSignInButtons()

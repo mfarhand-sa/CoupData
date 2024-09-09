@@ -53,6 +53,7 @@ class CDPairingViewController: UIViewController {
         
         // 5. Adjust animation speed
         animationView!.animationSpeed = 1.0
+        animationView!.backgroundColor = UIColor(named: "CDBackground")
         
         // 6. Play animation
         
@@ -360,7 +361,7 @@ class CDPairingViewController: UIViewController {
         UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
         
         // Draw background
-        let backgroundColor = UIColor.systemPink
+        let backgroundColor = UIColor(named:"CDAccent")!
         backgroundColor.setFill()
         UIRectFill(CGRect(origin: .zero, size: imageSize))
         

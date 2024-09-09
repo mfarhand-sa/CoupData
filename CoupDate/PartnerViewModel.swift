@@ -5,6 +5,7 @@ import UIKit
 class PartnerViewModel: ObservableObject {
     @Published var poopData: [String: Any]?
     @Published var sleepData: [String: Any]?
+    @Published var moodData: [String: Any]?
     @Published var isLoading: Bool = true
     @Published var userInfoRequired: Bool = false
     @Published var errorMessage: String?
@@ -61,7 +62,6 @@ class PartnerViewModel: ObservableObject {
     // Method to load partner data using partner ID
     func loadPartnerData(partnerID: String) {
         self.isLoading = true
-        
         FirebaseManager.shared.loadDailyRecord(for: partnerID, date: Date()) { [weak self] result in
             guard let self = self else { return }
             self.isLoading = false
@@ -81,6 +81,11 @@ class PartnerViewModel: ObservableObject {
                     self.sleepData = [:] // Set an empty value to trigger Combine
                 }
                 
+                if let moodData = data["mood"] as? [String: Any] {
+                    self.moodData = moodData
+                } else {
+                    self.moodData = [:] // Set an empty value to trigger Combine
+                }
             case .failure(let error):
                 self.errorMessage = "Error loading partner data: \(error.localizedDescription)"
                 print("Error loading partner data: \(error)")

@@ -10,5 +10,21 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "PartnerActivityViewController.collectionView(_:cellForItemAt:):PartnerActivityViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cardData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PartnerActivityViewController.collectionView(_:numberOfItemsInSection:):PartnerActivityViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cardData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

@@ -40,9 +40,9 @@ class CDLoadingViewController : UIViewController {
     private func checkAuthenticationAndLoadPartnerData() {
         // Wait for partner data to be loaded before navigating to the main screen
         viewModel.$poopData
-            .combineLatest(viewModel.$sleepData)
+            .combineLatest(viewModel.$sleepData,viewModel.$moodData)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] poopData, sleepData in
+            .sink { [weak self] poopData, sleepData, moodData in
                 guard let self = self else { return }
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
@@ -201,8 +201,10 @@ class CDLoadingViewController : UIViewController {
         // Find the PartnerActivityViewController in the tab bar's view controllers
         if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
             // Assign the data to PartnerActivityViewController
+            partnerActivityVC.viewModel = self.viewModel
             partnerActivityVC.poopData = viewModel.poopData
             partnerActivityVC.sleepData = viewModel.sleepData
+            partnerActivityVC.moodData = viewModel.moodData
         }
         
         // Set the UITabBarController as the root view controller

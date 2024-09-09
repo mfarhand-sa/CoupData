@@ -19,23 +19,26 @@ class FirebaseManager {
     private init() {}
     
     // Save a daily record
-    func saveDailyRecord(for userId: String, date: Date, poopStatus: String, poopDetails: String, sleepStatus: String, sleepDetails: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func saveDailyRecord(for userId: String, date: Date, category: String, statuses: [String], details: String, completion: @escaping (Result<Void, Error>) -> Void) {
         let dateString = dateFormatter.string(from: date)
         
+        if statuses.count == 1 {
+            let firstOption = statuses.first
+            print("The first (and only) option is: \(firstOption ?? "None")")
+        }
+        
+        // Prepare the data structure for the specific category with multiple statuses
         let data: [String: Any] = [
-            "poop": [
-                "status": poopStatus,
-                "details": poopDetails
-            ],
-            "sleep": [
-                "status": sleepStatus,
-                "details": sleepDetails
+            category: [
+                "status": statuses,  // An array of statuses
+                "details": details
             ],
             "date": Timestamp(date: date)
         ]
         
+        // Update the specific category in Firestore using merge: true to prevent overwriting other fields
         db.collection("users").document(userId).collection("dailyRecords").document(dateString)
-            .setData(data) { error in
+            .setData(data, merge: true) { error in
                 if let error = error {
                     completion(.failure(error))
                 } else {

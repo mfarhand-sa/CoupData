@@ -1,28 +1,21 @@
 import UIKit
 import Lottie
 
-class DataEntryViewController: UIViewController, UITextViewDelegate {
+class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // UI Components
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
+    let scrollView = UIScrollView()
+    let contentView = UIView()
+    let greetingLabel = UILabel()
     
-    private let poopCardView = UIView()
-    private let poopAnimationView = LottieAnimationView(name: "Poop")
-    private let poopYesButton = UIButton(type: .system)
-    private let poopNoButton = UIButton(type: .system)
+    var collectionView: UICollectionView!
     
-    private let sleepCardView = UIView()
-    private let sleepAnimationView = LottieAnimationView(name: "Sleeping")
-    private let sleepOptionAButton = UIButton(type: .system)
-    private let sleepOptionBButton = UIButton(type: .system)
-    private let sleepOptionCButton = UIButton(type: .system)
-    
-    private let detailsTextView = UITextView()
-    private let saveButton = UIButton(type: .system)
-    
-    private var selectedPoopStatus: String?
-    private var selectedSleepOption: String?
+    // Example Data for Cards (This can be dynamic)
+    let cardData: [(title: String, animationName: String)] = [
+        ("Poop Status", "Poop"),
+        ("Sleep Status", "Sleeping"),
+        ("Mood Check", "Mood")
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,278 +23,185 @@ class DataEntryViewController: UIViewController, UITextViewDelegate {
         view.backgroundColor = .systemBackground
         
         setupUI()
-        
-        // Tap gesture to dismiss the keyboard
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
-        
-        detailsTextView.delegate = self
-        
-        // Add keyboard observers
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        setupCollectionView()
     }
     
     private func setupUI() {
-        // Configure scrollView and contentView
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
+        // Configure the greetingLabel (same as in PartnerActivityViewController)
+        greetingLabel.translatesAutoresizingMaskIntoConstraints = false
+        greetingLabel.adjustsFontForContentSizeCategory = false
+        greetingLabel.lineBreakMode = .byClipping
+        greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
+        greetingLabel.textColor = .white
         
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-        ])
+        let currentHour = Calendar.current.component(.hour, from: Date())
+        var greetingText = "Hello"
+        if let userName = CDDataProvider.shared.name {
+            if currentHour < 12 {
+                greetingText = "\(userName), time for a quick update!"
+            } else if currentHour < 18 {
+                greetingText = "\(userName), time for a quick update!"
+            } else {
+                greetingText = "\(userName), time for a quick update!"
+            }
+        } else {
+            greetingText = "Hello!"
+        }
+        greetingLabel.text = greetingText
         
-        // Configure card views
-        configureCardView(poopCardView, animationView: poopAnimationView, buttons: [poopYesButton, poopNoButton])
-        configureCardView(sleepCardView, animationView: sleepAnimationView, buttons: [sleepOptionAButton, sleepOptionBButton, sleepOptionCButton])
-        
-        // Layout stack view
-        let stackView = UIStackView(arrangedSubviews: [poopCardView, sleepCardView, detailsTextView, saveButton])
-        stackView.axis = .vertical
-        stackView.spacing = 20
-        stackView.alignment = .fill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(stackView)
+        // Add greetingLabel to the main view
+        view.addSubview(greetingLabel)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            greetingLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            greetingLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            greetingLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
-        
-        // Configure buttons
-        configureButton(poopYesButton, title: "YES 🍑 💩", action: #selector(poopYesTapped))
-        configureButton(poopNoButton, title: "NO 🍑", action: #selector(poopNoTapped))
-        configureButton(sleepOptionAButton, title: "1-4 hrs 😵", action: #selector(sleepOptionATapped))
-        configureButton(sleepOptionBButton, title: "6-8 hrs 🥳", action: #selector(sleepOptionBTapped))
-        configureButton(sleepOptionCButton, title: "4-6 hrs 😔", action: #selector(sleepOptionCTapped))
-        
-        // Configure text view
-        detailsTextView.layer.cornerRadius = 12
-        detailsTextView.layer.borderWidth = 1
-        detailsTextView.layer.borderColor = UIColor.systemGray4.cgColor
-        detailsTextView.backgroundColor = .secondarySystemBackground
-        detailsTextView.textColor = .label
-        detailsTextView.font = UIFont(name:"Poppins-Regular", size: 16)
-        detailsTextView.translatesAutoresizingMaskIntoConstraints = false
-        detailsTextView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        
-        // Configure save button
-        configureSaveButton()
-        
-        // Adjust scroll view content inset for tab bar
-        adjustScrollViewForTabBar()
     }
     
-    private func adjustScrollViewForTabBar() {
-        guard let tabBarHeight = tabBarController?.tabBar.frame.height else { return }
-        scrollView.contentInset.bottom = tabBarHeight
-        scrollView.scrollIndicatorInsets.bottom = tabBarHeight
+    private func setupCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: view.frame.width - 40, height: 180) // Same size as PartnerActivityViewController cards
+        layout.minimumLineSpacing = 16
+
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(DataEntryCardCell.self, forCellWithReuseIdentifier: "DataEntryCardCell")
+
+        view.addSubview(collectionView)
+
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 16),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),  // Add padding
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),  // Add padding
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
-    private func configureCardView(_ cardView: UIView, animationView: LottieAnimationView, buttons: [UIButton]) {
-        cardView.backgroundColor = .secondarySystemBackground
-        cardView.layer.cornerRadius = 12
-        cardView.layer.borderWidth = 1
-        cardView.layer.borderColor = UIColor.separator.cgColor
-        cardView.layer.shadowColor = UIColor.black.cgColor
-        cardView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        cardView.layer.shadowOpacity = 0.2
-        cardView.layer.shadowRadius = 8
-        cardView.layer.masksToBounds = false
-        cardView.translatesAutoresizingMaskIntoConstraints = false
+    
+    // MARK: - UICollectionViewDataSource
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return cardData.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DataEntryCardCell", for: indexPath) as! DataEntryCardCell
+        let data = cardData[indexPath.item]
+        cell.configure(withTitle: data.title, animationName: data.animationName)
+        return cell
+    }
+    
+    // MARK: - UICollectionViewDelegate
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Present a new view controller based on the card tapped
+//        let selectedCard = cardData[indexPath.item]
+        print(indexPath.row)
+        let layout = UICollectionViewFlowLayout()
+        let vibeCheckVC = DynamicOptionsCollectionViewController(collectionViewLayout: layout)
+        
+        
+        switch indexPath.row {
+        case 0:
+            print("Poop")
+            
+            vibeCheckVC.categoryTitle = "Poop Check"
+            vibeCheckVC.descriptionText = "Did you poop today?"
+            vibeCheckVC.options = ["Yes 😁", "No, I couldn't 😫", "Almost"]
+            vibeCheckVC.lottieAnimations = [nil, nil, nil] // No animations
+            vibeCheckVC.category = "poop"
+        case 1:
+            
+            vibeCheckVC.categoryTitle = "Sleep Check"
+            vibeCheckVC.descriptionText = "How was your sleep last night?"
+            vibeCheckVC.options = ["Rested", "Tired", "Woke Up Often", "Deep Sleep", "Insomnia", "Overslept"]
+            vibeCheckVC.lottieAnimations = [nil, nil, nil, nil, nil, nil] // No animations
+            vibeCheckVC.category = "sleep"
+
+            break
+            
+        case 2:
+            
+            vibeCheckVC.categoryTitle = "Vibe Check"
+            vibeCheckVC.descriptionText = "How are you feeling today?"
+            vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious"]
+            vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious"] // Matching the options count
+            vibeCheckVC.category = "mood"
+
+            
+            break
+            
+            
+        default:
+            return
+        }
+
+        vibeCheckVC.modalPresentationStyle = .fullScreen
+        
+        self.present(vibeCheckVC, animated: true, completion: nil)
+
+    }
+}
+
+// MARK: - Custom UICollectionViewCell for Cards
+
+class DataEntryCardCell: UICollectionViewCell {
+    
+    let animationView = LottieAnimationView()
+    let titleLabel = UILabel()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupCardUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupCardUI() {
+        contentView.backgroundColor = .secondarySystemBackground
+        contentView.layer.cornerRadius = 12
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.separator.cgColor
+        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        contentView.layer.shadowOpacity = 0.2
+        contentView.layer.shadowRadius = 8
+        contentView.layer.masksToBounds = false
         
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .loop
-        animationView.play()
         animationView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(animationView)
         
-        cardView.addSubview(animationView)
-        
-        NSLayoutConstraint.activate([
-            animationView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 10),
-            animationView.centerXAnchor.constraint(equalTo: cardView.centerXAnchor),
-            animationView.heightAnchor.constraint(equalToConstant: 120),
-            animationView.widthAnchor.constraint(equalTo: cardView.widthAnchor, multiplier: 0.6)
-        ])
-        
-        let buttonStackView = UIStackView(arrangedSubviews: buttons)
-        buttonStackView.axis = .horizontal
-        buttonStackView.spacing = 16
-        buttonStackView.distribution = .fillEqually
-        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        cardView.addSubview(buttonStackView)
+        titleLabel.font = UIFont(name: "Poppins-Regular", size: 18)
+        titleLabel.textColor = .label
+        titleLabel.textAlignment = .center
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            buttonStackView.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: 20),
-            buttonStackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 10),
-            buttonStackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -10),
-            buttonStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -10)
+            animationView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            animationView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            animationView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            animationView.heightAnchor.constraint(equalToConstant: 100),
+            
+            titleLabel.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
-    private func configureButton(_ button: UIButton, title: String, action: Selector) {
-        button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont(name:"Poppins-Light", size: 14)
-        button.titleLabel?.numberOfLines = 0
-        button.titleLabel?.textAlignment = .center
-        button.layer.cornerRadius = 15
-        button.layer.borderWidth = 1.5
-        button.addTarget(self, action: action, for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-        
-        if traitCollection.userInterfaceStyle == .dark {
-            button.backgroundColor = UIColor.systemGray5
-            button.layer.borderColor = UIColor.white.cgColor
-            button.setTitleColor(.white, for: .normal)
-        } else {
-            button.backgroundColor = UIColor.systemGray6
-            button.layer.borderColor = UIColor.systemGray.cgColor
-            button.setTitleColor(.label, for: .normal)
-        }
-    }
-
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-
-        let keyboardHeight = keyboardFrame.height
-
-        scrollView.contentInset.bottom = keyboardHeight
-        scrollView.scrollIndicatorInsets.bottom = keyboardHeight
-        
-        // Adjust the scroll view offset to make the text view visible
-        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.height + keyboardHeight)
-        scrollView.setContentOffset(bottomOffset, animated: true)
-    }
-
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        scrollView.contentInset.bottom = 0
-        scrollView.scrollIndicatorInsets.bottom = 0
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            // Update all buttons appearance when interface style changes
-            [poopYesButton, poopNoButton, sleepOptionAButton, sleepOptionBButton, sleepOptionCButton, saveButton].forEach {
-                updateButtonAppearance(button: $0)
-            }
-        }
-    }
-
-    private func updateButtonAppearance(button: UIButton) {
-        if traitCollection.userInterfaceStyle == .dark {
-            button.layer.borderColor = UIColor.white.cgColor
-            button.setTitleColor(.white, for: .normal)
-        } else {
-            button.layer.borderColor = UIColor.systemGray.cgColor
-            button.setTitleColor(.label, for: .normal)
-        }
-    }
-    
-    private func configureSaveButton() {
-        saveButton.setTitle("Save Data", for: .normal)
-        saveButton.titleLabel?.font = UIFont(name:"Poppins-Bold", size: 18)
-        saveButton.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0)
-        saveButton.setTitleColor(.white, for: .normal)
-        saveButton.layer.cornerRadius = 10
-        saveButton.layer.shadowColor = UIColor.black.cgColor
-        saveButton.layer.shadowOffset = CGSize(width: 0, height: 2)
-        saveButton.layer.shadowOpacity = 0.2
-        saveButton.layer.shadowRadius = 4
-        saveButton.addTarget(self, action: #selector(saveData), for: .touchUpInside)
-        saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-    }
-
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    @objc private func poopYesTapped() {
-        selectedPoopStatus = "YES 🍑 💩"
-        updatePoopSelection(for: poopYesButton)
-    }
-    
-    @objc private func poopNoTapped() {
-        selectedPoopStatus = "NO 🍑"
-        updatePoopSelection(for: poopNoButton)
-    }
-    
-    @objc private func sleepOptionATapped() {
-        selectedSleepOption = "1-4 hrs 😵"
-        updateSleepSelection(for: sleepOptionAButton)
-    }
-    
-    @objc private func sleepOptionBTapped() {
-        selectedSleepOption = "6-8 hrs 🥳"
-        updateSleepSelection(for: sleepOptionBButton)
-    }
-    
-    @objc private func sleepOptionCTapped() {
-        selectedSleepOption = "4-6 hrs 😔"
-        updateSleepSelection(for: sleepOptionCButton)
-    }
-    
-    @objc private func saveData() {
-        let poopStatus = selectedPoopStatus ?? "No Data"
-        let sleepOption = selectedSleepOption ?? "No Data"
-        let details = detailsTextView.text ?? ""
-        
-        let currentDate = Date()
-        
-        FirebaseManager.shared.saveDailyRecord(for: UserManager.shared.userID!, date: currentDate, poopStatus: poopStatus, poopDetails: details, sleepStatus: sleepOption, sleepDetails: details) { result in
-            switch result {
-            case .success():
-                print("Data saved successfully")
-                self.detailsTextView.resignFirstResponder()
-                
-                CustomAlerts.displayNotification(title: "", message: "saved successfully", view: self.view, fromBottom: false)
-
-                
-            case .failure(let error):
-                print("Error saving data: \(error)")
-            }
-        }
-    }
-    
-    private func updatePoopSelection(for button: UIButton) {
-        [poopYesButton, poopNoButton].forEach {
-            $0.backgroundColor = .secondarySystemBackground
-            $0.setTitleColor(.label, for: .normal)
-        }
-        button.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0)
-        button.setTitleColor(.white, for: .normal)
-    }
-    
-    private func updateSleepSelection(for button: UIButton) {
-        [sleepOptionAButton, sleepOptionBButton, sleepOptionCButton].forEach {
-            $0.backgroundColor = .secondarySystemBackground
-            $0.setTitleColor(.label, for: .normal)
-        }
-        button.backgroundColor = UIColor(red: 0.6, green: 0.3, blue: 0.7, alpha: 1.0)
-        button.setTitleColor(.white, for: .normal)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    func configure(withTitle title: String, animationName: String) {
+        titleLabel.text = title
+        animationView.animation = LottieAnimation.named(animationName)
+        animationView.play()
     }
 }

@@ -49,6 +49,14 @@
 		CD6E71152C86EA6100AE02ED /* PartnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */; };
 		CD6E71172C86F07000AE02ED /* Poop.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71162C86F07000AE02ED /* Poop.json */; };
 		CD6E71192C86F1DD00AE02ED /* Sleeping.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71182C86F1DD00AE02ED /* Sleeping.json */; };
+		CD787D6C2C8D241F00B419D1 /* DynamicOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD787D6B2C8D241F00B419D1 /* DynamicOptionsViewController.swift */; };
+		CD787D722C8D2A9000B419D1 /* Loved.json in Resources */ = {isa = PBXBuildFile; fileRef = CD787D6E2C8D2A9000B419D1 /* Loved.json */; };
+		CD787D732C8D2A9000B419D1 /* Stressed.json in Resources */ = {isa = PBXBuildFile; fileRef = CD787D702C8D2A9000B419D1 /* Stressed.json */; };
+		CD787D752C8D2A9000B419D1 /* Calm.json in Resources */ = {isa = PBXBuildFile; fileRef = CD787D6D2C8D2A9000B419D1 /* Calm.json */; };
+		CD787D772C8D30E200B419D1 /* Happy.json in Resources */ = {isa = PBXBuildFile; fileRef = CD787D762C8D30E200B419D1 /* Happy.json */; };
+		CD787D792C8D312600B419D1 /* Excited.json in Resources */ = {isa = PBXBuildFile; fileRef = CD787D782C8D312600B419D1 /* Excited.json */; };
+		CD787D7B2C8D315200B419D1 /* Anxious.json in Resources */ = {isa = PBXBuildFile; fileRef = CD787D7A2C8D315200B419D1 /* Anxious.json */; };
+		CD787D7F2C8D3E7500B419D1 /* Mood.json in Resources */ = {isa = PBXBuildFile; fileRef = CD787D7E2C8D3E7500B419D1 /* Mood.json */; };
 		CD8711EA2C897DBA0090608A /* CDDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711E92C897DBA0090608A /* CDDataProvider.swift */; };
 		CD8711EE2C89A6E50090608A /* CDPairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711ED2C89A6E50090608A /* CDPairingViewController.swift */; };
 		CD8711F22C8A45CB0090608A /* CDUserRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */; };
@@ -115,6 +123,14 @@
 		CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerViewModel.swift; sourceTree = "<group>"; };
 		CD6E71162C86F07000AE02ED /* Poop.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Poop.json; sourceTree = "<group>"; };
 		CD6E71182C86F1DD00AE02ED /* Sleeping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Sleeping.json; sourceTree = "<group>"; };
+		CD787D6B2C8D241F00B419D1 /* DynamicOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicOptionsViewController.swift; sourceTree = "<group>"; };
+		CD787D6D2C8D2A9000B419D1 /* Calm.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Calm.json; sourceTree = "<group>"; };
+		CD787D6E2C8D2A9000B419D1 /* Loved.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Loved.json; sourceTree = "<group>"; };
+		CD787D702C8D2A9000B419D1 /* Stressed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Stressed.json; sourceTree = "<group>"; };
+		CD787D762C8D30E200B419D1 /* Happy.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Happy.json; sourceTree = "<group>"; };
+		CD787D782C8D312600B419D1 /* Excited.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Excited.json; sourceTree = "<group>"; };
+		CD787D7A2C8D315200B419D1 /* Anxious.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Anxious.json; sourceTree = "<group>"; };
+		CD787D7E2C8D3E7500B419D1 /* Mood.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Mood.json; sourceTree = "<group>"; };
 		CD8711E92C897DBA0090608A /* CDDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDDataProvider.swift; sourceTree = "<group>"; };
 		CD8711ED2C89A6E50090608A /* CDPairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPairingViewController.swift; sourceTree = "<group>"; };
 		CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDUserRegistrationViewController.swift; sourceTree = "<group>"; };
@@ -207,6 +223,7 @@
 				CD261CC32C850CD800E4D5F2 /* SceneDelegate.swift */,
 				CD18B2892C853C8E00AC858B /* PartnerActivityViewController.swift */,
 				CD18B2832C853BD400AC858B /* DataEntryViewController.swift */,
+				CD787D6B2C8D241F00B419D1 /* DynamicOptionsViewController.swift */,
 				CD18B2872C853C5800AC858B /* FirebaseManager.swift */,
 				CD18B28B2C853F4B00AC858B /* UserManager.swift */,
 				CD261CC72C850CD800E4D5F2 /* Main.storyboard */,
@@ -226,9 +243,24 @@
 				CD240D802C88DE2E00DA034C /* MoodSelectionViewController.swift */,
 				CD240D842C8916DE00DA034C /* LoginAnimtation.json */,
 				CD8711F32C8A465C0090608A /* CDButton.swift */,
+				CD787D712C8D2A9000B419D1 /* MoodAnimation */,
 				CD240D9C2C89359400DA034C /* Fonts */,
 			);
 			path = CoupDate;
+			sourceTree = "<group>";
+		};
+		CD787D712C8D2A9000B419D1 /* MoodAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				CD787D6D2C8D2A9000B419D1 /* Calm.json */,
+				CD787D6E2C8D2A9000B419D1 /* Loved.json */,
+				CD787D702C8D2A9000B419D1 /* Stressed.json */,
+				CD787D762C8D30E200B419D1 /* Happy.json */,
+				CD787D782C8D312600B419D1 /* Excited.json */,
+				CD787D7A2C8D315200B419D1 /* Anxious.json */,
+				CD787D7E2C8D3E7500B419D1 /* Mood.json */,
+			);
+			path = MoodAnimation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -292,11 +324,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD787D792C8D312600B419D1 /* Excited.json in Resources */,
 				CD6E71172C86F07000AE02ED /* Poop.json in Resources */,
 				CD6E71192C86F1DD00AE02ED /* Sleeping.json in Resources */,
 				CD18B2A12C85A72900AC858B /* sound1.caf in Resources */,
+				CD787D7F2C8D3E7500B419D1 /* Mood.json in Resources */,
 				CD261CCB2C850CD900E4D5F2 /* Assets.xcassets in Resources */,
 				CD240D852C8916DE00DA034C /* LoginAnimtation.json in Resources */,
+				CD787D7B2C8D315200B419D1 /* Anxious.json in Resources */,
 				CD53300F2C85359400541112 /* GoogleService-Info.plist in Resources */,
 				CD6E71132C86E6C100AE02ED /* Loading.json in Resources */,
 				CD240D9D2C89359400DA034C /* Poppins-ExtraBoldItalic.ttf in Resources */,
@@ -308,7 +343,11 @@
 				CD240DA22C89359400DA034C /* Poppins-ExtraLightItalic.ttf in Resources */,
 				CD240DA32C89359400DA034C /* Poppins-BoldItalic.ttf in Resources */,
 				CD240DA42C89359400DA034C /* Poppins-Regular.ttf in Resources */,
+				CD787D722C8D2A9000B419D1 /* Loved.json in Resources */,
+				CD787D732C8D2A9000B419D1 /* Stressed.json in Resources */,
+				CD787D752C8D2A9000B419D1 /* Calm.json in Resources */,
 				CD240DA52C89359400DA034C /* Poppins-Italic.ttf in Resources */,
+				CD787D772C8D30E200B419D1 /* Happy.json in Resources */,
 				CD240DA62C89359400DA034C /* Poppins-Bold.ttf in Resources */,
 				CD240DA72C89359400DA034C /* Poppins-SemiBoldItalic.ttf in Resources */,
 				CD240DA82C89359400DA034C /* Poppins-SemiBold.ttf in Resources */,
@@ -379,6 +418,7 @@
 				CD261CC22C850CD800E4D5F2 /* AppDelegate.swift in Sources */,
 				CD240D812C88DE2E00DA034C /* MoodSelectionViewController.swift in Sources */,
 				CD18B2882C853C5800AC858B /* FirebaseManager.swift in Sources */,
+				CD787D6C2C8D241F00B419D1 /* DynamicOptionsViewController.swift in Sources */,
 				CD261CC42C850CD800E4D5F2 /* SceneDelegate.swift in Sources */,
 				CD240D872C891EFE00DA034C /* GoogleSiginButton.swift in Sources */,
 				CD6E71112C86E61B00AE02ED /* CDLoadingViewController.swift in Sources */,
@@ -542,7 +582,7 @@
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -576,7 +616,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;

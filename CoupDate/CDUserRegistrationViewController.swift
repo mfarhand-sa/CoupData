@@ -15,6 +15,9 @@ enum registrainMode {
     case verifyPhoneNumber
     case emailAddress
     case birthday
+    case gender
+
+    
 }
 
 
@@ -22,14 +25,21 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var greetingLabel: UILabel!
-    @IBOutlet weak var inputTextField: UITextField!
+    @IBOutlet weak var inputTextField: UITextField?
     @IBOutlet weak var nextButtonConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var womanView: LottieAnimationView?
+    @IBOutlet weak var manView: LottieAnimationView?
     @IBOutlet weak var nextButton: CDButton!
     
     public var status : registrainMode = .fullName
     
-    @IBOutlet weak var animationView: LottieAnimationView!
+    public var gender : String?
+
+    
+    @IBOutlet weak var animationView: LottieAnimationView?
+    public var viewModel : PartnerViewModel!
+    
     
     
     required init?(coder: NSCoder) {
@@ -71,19 +81,42 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         applyUI()
         setupAnimation()
         
-
+        
         
     }
     
     func setupAnimation() {
-        animationView!.contentMode = .scaleAspectFit
-        animationView!.loopMode = .loop
-        animationView!.animationSpeed = 1.0
-        animationView!.play()
+        
+        if self.status != .gender {
+            animationView!.contentMode = .scaleAspectFit
+            animationView!.loopMode = .loop
+            animationView!.animationSpeed = 1.0
+            animationView!.play()
+        } else {
+            
+            manView?.contentMode = .scaleAspectFit
+            manView?.loopMode = .loop
+            manView?.animationSpeed = 1.0
+            manView?.play()
+            
+            womanView?.contentMode = .scaleAspectFit
+            womanView?.loopMode = .loop
+            womanView?.animationSpeed = 1.0
+            womanView?.play()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // Log window hierarchy to ensure view controller is in the right window
+        if let window = self.view.window {
+            print("Window found: \(window)")
+        } else {
+            print("No window found.")
+        }
+        // Force showing the keyboard
+        self.inputTextField?.becomeFirstResponder() // Assuming there’s a text field to show the keyboard
     }
     
     func configureKeyboard() {
@@ -110,29 +143,46 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         
         self.nextButton.setBackgroundColor(UIColor(named: "CDAccent"), for: .normal)
         self.nextButton.setBackgroundColor(.lightGray, for: .disabled)
+        self.nextButton.setTitleColor(UIColor.white, for: .normal)
+        self.statusLabel.textColor = UIColor(named: "CDText")
+        self.greetingLabel.textColor = UIColor(named: "CDText")
+        self.inputTextField?.textColor = UIColor(named: "CDText")
+        self.nextButton.isEnabled = (CDDataProvider.shared.name?.isEmpty == false)
+        
+        
         switch status {
             
         case .emailAddress:
             greetingLabel.text = "Your email address"
-            inputTextField.placeholder = "e.g. hello@leoio.com"
-            inputTextField.textContentType = .emailAddress
+            inputTextField?.placeholder = "e.g. hello@leoio.com"
+            inputTextField?.textContentType = .emailAddress
             self.statusLabel.text = "Done"
+            
             break
             
         case .fullName:
             greetingLabel.text = "What should we call you?"
-            inputTextField.placeholder = "E.g. Sophia"
+            inputTextField?.placeholder = "E.g. Sophia"
             self.statusLabel.text = "One more step"
-            inputTextField.textContentType = .name
+            inputTextField?.textContentType = .name
+            if let name = CDDataProvider.shared.name {
+                inputTextField?.text = name
+            }
             break
             
         case .birthday:
             
             // Set delegate for birthdayTextField
-            inputTextField.delegate = self
-            inputTextField.keyboardType = .numberPad
             if #available(iOS 17.0, *) {
-                inputTextField.textContentType = .birthdate
+                inputTextField?.textContentType = .birthdateDay
+            } else {
+                // Fallback on earlier versions
+                inputTextField?.textContentType = nil
+            }
+            inputTextField?.delegate = self
+            inputTextField?.keyboardType = .numberPad
+            if #available(iOS 17.0, *) {
+                inputTextField?.textContentType = .birthdate
             } else {
                 // Fallback on earlier versions
             }
@@ -142,32 +192,55 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
             let fullText = "When's your birthday \(name)? 🎂"
             // Create an NSMutableAttributedString
             let attributedString = NSMutableAttributedString(string: fullText)
-
+            
             // Define the range of the name
             let nameRange = (fullText as NSString).range(of: name)
-
+            
             // Apply bold font to the name
             attributedString.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: greetingLabel.font.pointSize), range: nameRange)
-
+            
             // Assign the attributed text to the label
             greetingLabel.attributedText = attributedString
             
-            inputTextField.placeholder = "YYYYMMDD"
+            inputTextField?.placeholder = "YYYYMMDD"
             self.statusLabel.text = "Almost done!"
-            inputTextField.textContentType = .name
-            inputTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+            inputTextField?.textContentType = .name
+            inputTextField?.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+            self.nextButton.isEnabled = false
+            
+//            if let name = CDDataProvider.shared.birthday {
+//                inputTextField.text = name
+//            }
+            
+            break
+            
+        case .gender:
+            greetingLabel.text = "What's your gender?"
+            // Add tap gesture to lottieView1
+            let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(handleTapOnManView))
+            self.manView?.addGestureRecognizer(tapGesture1)
+            self.manView?.isUserInteractionEnabled = true
+            
+            // Add tap gesture to lottieView2
+            let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(handleTapOnWomanView))
+            self.womanView?.addGestureRecognizer(tapGesture2)
+            self.womanView?.isUserInteractionEnabled = true
+            self.manView?.layer.borderWidth = 0.5
+            self.womanView?.layer.borderWidth = 0.5
+            self.nextButton.isEnabled = false
+
             break
             
         default : break
             
         }
-        inputTextField.borderStyle = UITextField.BorderStyle.none
-        inputTextField.layer.borderWidth = 1
-        inputTextField.layer.borderColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1).cgColor
-        inputTextField.layer.cornerRadius = 8.0
-        inputTextField.delegate = self
-        inputTextField.becomeFirstResponder()
-        inputTextField.returnKeyType = .continue
+        
+        inputTextField?.borderStyle = UITextField.BorderStyle.none
+        inputTextField?.layer.borderWidth = 1
+        inputTextField?.layer.borderColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1).cgColor
+        inputTextField?.layer.cornerRadius = 8.0
+        inputTextField?.delegate = self
+        inputTextField?.returnKeyType = .continue
     }
     
     
@@ -176,9 +249,9 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         switch status {
         case .fullName:
             // 1 phone validation
-            print("The Fullname is : \(String(describing: self.inputTextField.text))")
-            print("FirstName :\(self.inputTextField.text?.getTheFirstWord() ?? "")   LastName: \(self.inputTextField.text?.getTheSecondWord() ?? "")")
-            guard let name = self.inputTextField.text else {
+            print("The Fullname is : \(String(describing: self.inputTextField?.text))")
+            print("FirstName :\(self.inputTextField?.text?.getTheFirstWord() ?? "")   LastName: \(self.inputTextField?.text?.getTheSecondWord() ?? "")")
+            guard let name = self.inputTextField?.text else {
                 CustomAlerts.displayNotification(title: "", message: "Please enter your name", view: self.view,fromBottom: false)
                 return
             }
@@ -188,7 +261,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
                 return
             }
             Haptic.play()
-
+            
             
             // 2 send the Full Name to the server
             sender.isEnabled = false
@@ -203,7 +276,6 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
                         CDDataProvider.shared.name = name
                         DispatchQueue.main.asyncAfter(deadline: .now()) {
                             sender.isEnabled = true
-                            CustomAlerts.displayNotification(title: "", message: "", view: self.view,fromBottom: false)
                             self.showRegistrationScreen(mode: .birthday)
                             
                         }
@@ -221,19 +293,9 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
             }
             
             
-        case .emailAddress:
-            print("The Email Address is : \(String(describing: self.inputTextField.text))")
-            
-            
-            if(self.inputTextField.text?.isValidEmail()) == false {
-                CustomAlerts.displayNotification(title: "", message: "The entered email is not valid. Please check it and try again!", view: self.view,fromBottom: false)
-                return
-            }
-            
-            
         case .birthday:
             
-            let bday = convertBirthdayStringToDate(self.inputTextField.text!)
+            let bday = convertBirthdayStringToDate(self.inputTextField!.text!)
             FirebaseManager.shared.updateUserProfile(userID: UserManager.shared.currentUserID!, firstName: CDDataProvider.shared.name!, birthday: bday, partnerUserID: CDDataProvider.shared.partnerID) { result in
                 
                 switch result {
@@ -241,10 +303,11 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
                     if isSaved {
                         print("Partner user ID saved successfully.")
                         
+                        CDDataProvider.shared.birthday = bday!
                         DispatchQueue.main.asyncAfter(deadline: .now()) {
                             sender.isEnabled = true
                             CustomAlerts.displayNotification(title: "", message: "Porfile has been updated", view: self.view,fromBottom: false)
-                            self.navigateToMainScreen()
+                            self.showRegistrationScreen(mode: .gender)
                         }
                         
                     } else {
@@ -260,6 +323,38 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
             }
             
             break
+            
+            
+        case .gender:
+            
+            FirebaseManager.shared.updateUserProfile(userID: UserManager.shared.currentUserID!, firstName: CDDataProvider.shared.name!, birthday: CDDataProvider.shared.birthday, partnerUserID: CDDataProvider.shared.partnerID,gender: self.gender) { result in
+                
+                switch result {
+                case .success(let isSaved):
+                    if isSaved {
+                        print("Partner user ID saved successfully.")
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                            sender.isEnabled = true
+                            CustomAlerts.displayNotification(title: "", message: "Porfile has been updated", view: self.view,fromBottom: false)
+                            self.navigateToInvitePartner()
+                        }
+                        
+                    } else {
+                        sender.isEnabled = true
+                        CustomAlerts.displayNotification(title: "", message: "Porfile hasn not been updated", view: self.view,fromBottom: false)
+                    }
+                case .failure(let error):
+                    print("Failed to save partner user ID with error: \(error.localizedDescription)")
+                    CustomAlerts.displayNotification(title: "", message: "Error in updating Porfile \(error)", view: self.view,fromBottom: false)
+                    sender.isEnabled = true
+                    
+                }
+            }
+            
+            break
+            
+            
         default : break
         }
         
@@ -303,10 +398,18 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
     
     // Handle deleting slashes as well
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let currentText = textField.text as NSString?,status == .birthday else { return true }
         
+        
+        guard let currentText = textField.text as NSString? else {return true}
         // Build the new text
         let newText = currentText.replacingCharacters(in: range, with: string)
+        
+        if status == .fullName {
+            
+            self.nextButton.isEnabled = newText.count >= 2
+            return true
+        }
+        
         
         // Automatically insert "/" at the correct positions
         if string != "" { // Only do this when user is typing (not deleting)
@@ -347,7 +450,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
     //validate name logic
     func isValid(name: String) -> Bool {
         
-        guard name.count > 2, name.count < 20 else { return false }
+        guard name.count >= 2, name.count < 20 else { return false }
         let predicateTest = NSPredicate(format: "SELF MATCHES %@", "^(([^ ]?)(^[a-zA-Z].*[a-zA-Z]$)([^ ]?))$")
         return predicateTest.evaluate(with: name)
     }
@@ -356,9 +459,37 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
     
     private func showRegistrationScreen(mode: registrainMode) {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        let registrationVC = storyboard.instantiateViewController(withIdentifier: "CDUserRegistrationViewController") as! CDUserRegistrationViewController
+        var identifier = "CDUserRegistrationViewController"
+        switch mode {
+        case .gender:
+            identifier = "CDUserGenederSelectionViewController"
+            break
+        default:
+            break
+        }
+        
+        let registrationVC = storyboard.instantiateViewController(withIdentifier: identifier) as! CDUserRegistrationViewController
         registrationVC.status = mode
+        registrationVC.viewModel = self.viewModel
         self.updateRootViewController(to: registrationVC)
+    }
+    
+    
+    
+    
+    func navigateToInvitePartner() {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        
+        // Find the PartnerActivityViewController in the tab bar's view controllers
+        //        let pairingVC = storyboard.instantiateViewController(withIdentifier: "CDPairingViewController") as! CDPairingViewController
+        //        pairingVC.mode = .invitation
+        
+        
+        let pairingVC = storyboard.instantiateViewController(withIdentifier: "PartnerCodeViewController") as! PartnerCodeViewController
+        pairingVC.viewModel = self.viewModel
+        
+        // Set the UITabBarController as the root view controller
+        updateRootViewController(to: pairingVC)
     }
     
     
@@ -373,7 +504,9 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         
         // Find the PartnerActivityViewController in the tab bar's view controllers
         if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
+            partnerActivityVC.viewModel = self.viewModel
         }
+        
         
         // Set the UITabBarController as the root view controller
         updateRootViewController(to: tabBarVC)
@@ -390,6 +523,26 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         let date = dateFormatter.date(from: birthdayString)
         
         return date
+    }
+    
+    
+    @objc func handleTapOnManView() {
+        print("Lottie View 1 tapped")
+        // Handle Lottie View 1 tap action
+        self.gender = "man"
+        self.manView?.layer.borderColor = UIColor(named: "CDAccent")?.cgColor
+        self.womanView?.layer.borderColor = UIColor.lightGray.cgColor
+        self.nextButton.isEnabled = true
+
+    }
+
+    @objc func handleTapOnWomanView() {
+        print("Lottie View 2 tapped")
+        self.gender = "woman"
+        self.womanView?.layer.borderColor = UIColor(named: "CDAccent")?.cgColor
+        self.manView?.layer.borderColor = UIColor.lightGray.cgColor
+        self.nextButton.isEnabled = true
+
     }
     
 }

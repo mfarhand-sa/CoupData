@@ -162,7 +162,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         // Handle error messages
         self.viewModel.$errorMessage
             .receive(on: DispatchQueue.main)
-            .sink { errorMessage in
+            .sink { [weak self] errorMessage in
                 if let errorMessage = errorMessage {
                     print("Error loading data: \(errorMessage)")
                 }

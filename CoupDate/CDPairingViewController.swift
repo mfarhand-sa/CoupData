@@ -23,15 +23,16 @@ class CDPairingViewController: UIViewController {
     lazy var functions = Functions.functions()
     public var mode : pairingMode = .pair
     public var partnerUserId: String!
+    public var viewModel: PartnerViewModel?
     
     
-    let messages = [
+    var messages = [
         "We are adding your partner to you account",
         "We are adding your partner to you account",
         "We are adding your partner to you account"
     ]
     
-    let messagesInvitation = [
+    var messagesInvitation = [
         "We are generating the invitation for your partner",
         "We are generating the invitation for your partner",
         "We are generating the invitation for your partner"
@@ -44,26 +45,15 @@ class CDPairingViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         
-        
-        animationView!.contentMode = .scaleAspectFit
-        
-        // 4. Set animation loop mode
-        
-        animationView!.loopMode = .loop
-        
-        // 5. Adjust animation speed
-        animationView!.animationSpeed = 1.0
-        animationView!.backgroundColor = UIColor(named: "CDBackground")
-        
-        // 6. Play animation
-        
-        animationView!.play()
-        
-        
+        setupUI()
         
         if mode == .pair {
             
-            guard let token = self.partnerUserId else {return}
+            guard let token = self.partnerUserId else {
+                
+                self.navigateToMainScreen()
+                return
+            }
             FirebaseManager.shared.pairUsersWithToken(token: token) { result in
                 
                 switch result {
@@ -77,7 +67,7 @@ class CDPairingViewController: UIViewController {
                             NotificationCenter.default.post(name: NSNotification.Name("CDPairingDismissed"), object: nil)
                             
                             
-                            self.dismiss(animated: true) {}
+                            self.navigateToMainScreen()
                         }
                         
                         
@@ -86,7 +76,7 @@ class CDPairingViewController: UIViewController {
                         print("Partner user ID was not saved successfully.")
                         CustomAlerts.displayNotification(title: "", message: "Partner user ID was not saved successfully.", view: self.view)
                         self.dismiss(animated: true)
-
+                        
                     }
                 case .failure(let error):
                     print("Failed to save partner user ID with error: \(error.localizedDescription)")
@@ -99,12 +89,16 @@ class CDPairingViewController: UIViewController {
         } else {
             
             
-            generateInvitationLink()
-            
-            
+            generateInvitationLink(for: UserManager.shared.currentUserID!) { result in
+                switch result {
+                case .success(let invitationLink):
+                    print("Generated link: \(invitationLink)")
+                    
+                case .failure(let error):
+                    print("Error generating link: \(error)")
+                }
+            }
         }
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -113,6 +107,16 @@ class CDPairingViewController: UIViewController {
         
     }
     
+    
+    func setupUI() {
+        self.view.backgroundColor = UIColor(named: "CDBackground")
+        self.label.textColor = UIColor(named: "CDText")
+        animationView!.contentMode = .scaleAspectFit
+        animationView!.loopMode = .loop
+        animationView!.animationSpeed = 1.0
+        animationView!.backgroundColor = UIColor(named: "CDBackground")
+        animationView!.play()
+    }
     
     
     func showMessagesWithAnimation() {
@@ -184,209 +188,101 @@ class CDPairingViewController: UIViewController {
     }
     
     
-    @objc func generateInvitationLink() {
-        // Call the Firebase function to generate the invitation link
+    
+    
+    // Function to generate the invitation link using partnerCode
+    func generateInvitationLink(for userId: String, completion: @escaping (Result<String, Error>) -> Void) {
+        let db = Firestore.firestore()
         
-        guard let currentUserID = UserManager.shared.currentUserID else {return}
-        let data: [String: Any] = ["partnerUserId": currentUserID ]
-        
-        functions.httpsCallable("generateInvitationLink").call(data) { result, error in
+        // Fetch the user's partnerCode from Firestore
+        let userRef = db.collection("users").document(userId)
+        userRef.getDocument { document, error in
             if let error = error {
-                print("Error generating invitation link: \(error.localizedDescription)")
-                CustomAlerts.displayNotification(title: "", message: "Error generating invitation link: \(error.localizedDescription)", view: self.view)
-                self.dismiss(animated: true)
+                completion(.failure(error)) // Return failure if there's an error
                 return
             }
             
-            if let resultData = result?.data as? [String: Any] {
-                // Handle the invitation response
-                self.handleInvitationResponse(response: resultData)
+            guard let document = document, document.exists,
+                  let data = document.data(),
+                  let partnerCode = data["partnerCode"] as? String else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not found or missing partner code"])))
+                return
             }
-        }
-    }
-    
-    
-    
-    
-    func handleInvitationResponse(response: [String: Any]) {
-        if let qrCodeDataURL = response["qrCodeBase64"] as? String,
-           let qrCodeImage = convertBase64ToImage(base64String: qrCodeDataURL) {
             
-            // Generate the invitation image with the QR code
-            if let senderName = CDDataProvider.shared.name {
-                let invitationImage = generateInvitationImage(senderName: senderName, qrCodeImage: qrCodeImage)
+            // Generate the invitation link
+            let invitationLink = "CoupDate://pair?token=\(partnerCode)"
+            print("Generated Invitation Link: \(invitationLink)")
+            
+            completion(.success(invitationLink)) // Return the invitation link
+        }
+    }
+    
+    
+    func handleInvitationResponse(response: String) {
+        
+        var items: [Any] = []  // Declare as [Any] to hold both UIImage and String
+        guard let url =  response.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            print("Invalid URL: \(response)")
+            return
+        }
+        
+        items.append(url)
+        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        
+        activityVC.completionWithItemsHandler = { activityType, completed, returnedItems, error in
+            if completed {
+                print("The sharing was successful.")
+                //                            self.dismiss(animated: true)
                 
-                if let qrImage = invitationImage, let url = response["link"] as? String {
-                    print("Generated invitation link: \(url)")
-
-                    var items: [Any] = []  // Declare as [Any] to hold both UIImage and String
-                    if let encodedURL = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                        items.append(encodedURL)
-                    } else {
-                        print("Invalid URL: \(url)")
-                    }
-                    items.append(qrImage)
-                    
-                    let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
-                    
-                    activityVC.completionWithItemsHandler = { activityType, completed, returnedItems, error in
-                        if completed {
-                            print("The sharing was successful.")
-                            self.dismiss(animated: true)
-                            if let activityType = activityType {
-                                print("Activity type: \(activityType.rawValue)")
-                            }
-                        } else {
-                            print("The sharing was canceled.")
-                            self.dismiss(animated: true)
-                        }
-                        
-                        if let error = error {
-                            print("An error occurred: \(error.localizedDescription)")
-                            self.dismiss(animated: true)
-                        }
-                    }
-                    
-                    // Check if the selected activity is AirDrop and only share the image
-                    activityVC.activityItemsConfiguration = [
-                        UIActivity.ActivityType.airDrop: [url], // Share only the image via AirDrop
-                        UIActivity.ActivityType.message: [qrImage, url], // Share both for other apps
-                        UIActivity.ActivityType.mail: [qrImage, url]
-                    ] as? UIActivityItemsConfigurationReading
-                    
-                    self.present(activityVC, animated: true)
-
-
-                    
-                   
-                    
-                } else {
-                    CustomAlerts.displayNotification(title: "", message: "Something went wrong, try again later - Invalid QR code", view: self.view)
-                    self.dismiss(animated: true)
+                CustomAlerts.displayNotification(title: "", message: "Your partner will join you soon", view: self.view,fromBottom: true)
+                
+                self.navigateToMainScreen()
+                
+                if let activityType = activityType {
+                    print("Activity type: \(activityType.rawValue)")
                 }
+            } else {
+                print("The sharing was canceled.")
+                CustomAlerts.displayNotification(title: "", message: "You can invite your partner later", view: self.view,fromBottom: true)
+                
+                //                            self.dismiss(animated: true)
+                self.navigateToMainScreen()
+                
             }
-        } else {
-            CustomAlerts.displayNotification(title: "", message: "Something went wrong, try again later - Invalid response from server", view: self.view)
-            self.dismiss(animated: true)
-        }
-    }
-
-    
-    
-    
-//    
-//    func handleInvitationResponse(response: [String: Any]) {
-//        if let qrCodeDataURL = response["qrCodeBase64"] as? String,
-//           let qrCodeImage = convertBase64ToImage(base64String: qrCodeDataURL) {
-//            
-//            // Generate the invitation image with the QR code
-//            if let senderName = CDDataProvider.shared.name {
-//                let invitationImage = generateInvitationImage(senderName: senderName, qrCodeImage: qrCodeImage)
-//                // Display or share the invitationImage (e.g., save to gallery, share via social media, etc.)
-//                
-//                
-//                if let qrImage = invitationImage, let url = response["link"] as? String {
-//                    print("Generated invitation link: \(url)")
-//                    // Show share sheet for the user to send the invitation link
-//                    
-//                    let activityVC = UIActivityViewController(activityItems: [url,qrImage], applicationActivities: nil)
-//                    
-//                    
-//                    
-//                    activityVC.completionWithItemsHandler = { activityType, completed, returnedItems, error in
-//                        if completed {
-//                            print("The sharing was successful.")
-//                            self.dismiss(animated: true)
-//                            if let activityType = activityType {
-//                                print("Activity type: \(activityType.rawValue)")
-//                            }
-//                        } else {
-//                            print("The sharing was canceled.")
-//                            self.dismiss(animated: true)
-//                            
-//                        }
-//                        
-//                        if let error = error {
-//                            print("An error occurred: \(error.localizedDescription)")
-//                            self.dismiss(animated: true)
-//                            
-//                        }
-//                    }
-//                    
-//                    self.present(activityVC, animated: true)
-//                    
-//                } else {
-//                    
-//                    CustomAlerts.displayNotification(title: "", message: "Something went wrong try again later - Invalid QR code", view: self.view)
-//                    self.dismiss(animated: true)
-//                    
-//                }
-//                
-//                
-//                
-//            }
-//        } else {
-//            
-//            CustomAlerts.displayNotification(title: "", message: "Something went wrong try again later - Invalid response from server", view: self.view)
-//            self.dismiss(animated: true)
-//        }
-//    }
-    
-    
-    // Convert base64 string to UIImage
-    func convertBase64ToImage(base64String: String) -> UIImage? {
-        // Remove the data:image/png;base64, prefix if it exists
-        var cleanBase64String = base64String
-        if base64String.hasPrefix("data:image/png;base64,") {
-            cleanBase64String = base64String.replacingOccurrences(of: "data:image/png;base64,", with: "")
+            
         }
         
-        // Convert the base64 string to Data
-        guard let imageData = Data(base64Encoded: cleanBase64String, options: .ignoreUnknownCharacters) else {
-            print("Error: Unable to decode base64 string")
-            return nil
-        }
+        // Check if the selected activity is AirDrop and only share the image
+        activityVC.activityItemsConfiguration = [
+            UIActivity.ActivityType.airDrop: [url], // Share only the image via AirDrop
+            UIActivity.ActivityType.message: [url], // Share both for other apps
+            UIActivity.ActivityType.mail: [url]
+        ] as? UIActivityItemsConfigurationReading
         
-        // Create and return the UIImage from the Data
-        let image = UIImage(data: imageData)
-        return image
+        self.present(activityVC, animated: true)
+        
     }
     
     
-    // Generate the final invitation image with QR code
-    func generateInvitationImage(senderName: String, qrCodeImage: UIImage) -> UIImage? {
-        let invitationText = "\(senderName) has requested to add you as a partner in CoupDate"
+    
+    func navigateToMainScreen() {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
         
-        let imageSize = CGSize(width: 300, height: 500)
-        UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
+        // Instantiate the UITabBarController from the storyboard
+        guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabbar") as? UITabBarController else {
+            print("Could not find UITabBarController with identifier 'MainTabbar'")
+            return
+        }
         
-        // Draw background
-        let backgroundColor = UIColor(named:"CDAccent")!
-        backgroundColor.setFill()
-        UIRectFill(CGRect(origin: .zero, size: imageSize))
+        // Find the PartnerActivityViewController in the tab bar's view controllers
+        if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
+            partnerActivityVC.viewModel = self.viewModel
+        }
         
-        // Draw text
-        let textFont = UIFont.systemFont(ofSize: 18, weight: .bold)
-        let textColor = UIColor.white
-        let textStyle = NSMutableParagraphStyle()
-        textStyle.alignment = .center
-        
-        let textRect = CGRect(x: 20, y: 50, width: imageSize.width - 40, height: 100)
-        let textAttributes: [NSAttributedString.Key: Any] = [
-            .font: textFont,
-            .foregroundColor: textColor,
-            .paragraphStyle: textStyle
-        ]
-        invitationText.draw(in: textRect, withAttributes: textAttributes)
-        
-        // Draw the QR code
-        let qrCodeRect = CGRect(x: (imageSize.width - 200) / 2, y: 200, width: 200, height: 200)
-        qrCodeImage.draw(in: qrCodeRect)
-        
-        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return finalImage
+        // Set the UITabBarController as the root view controller
+        updateRootViewController(to: tabBarVC)
     }
+    
+    
     
 }

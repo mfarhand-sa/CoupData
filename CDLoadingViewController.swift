@@ -33,6 +33,7 @@ class CDLoadingViewController : UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         let registrationVC = storyboard.instantiateViewController(withIdentifier: "CDUserRegistrationViewController") as! CDUserRegistrationViewController
         registrationVC.status = .fullName
+        registrationVC.viewModel = self.viewModel
         self.updateRootViewController(to: registrationVC)
     }
     

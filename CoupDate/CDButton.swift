@@ -28,7 +28,7 @@ class CDButton: UIButton {
         didSet {
             if isEnabled {
                 if let color = defaultBackgroundColor {
-                    self.backgroundColor = .white
+                    self.backgroundColor = UIColor(named: "CDAccent")
                 }
             }
             else {

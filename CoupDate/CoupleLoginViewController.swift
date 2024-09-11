@@ -171,6 +171,7 @@ class CoupleLoginViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         let registrationVC = storyboard.instantiateViewController(withIdentifier: "CDUserRegistrationViewController") as! CDUserRegistrationViewController
         registrationVC.status = .fullName
+        registrationVC.viewModel = self.partnerViewModel
         self.updateRootViewController(to: registrationVC)
     }
     
@@ -199,7 +200,6 @@ class CoupleLoginViewController: UIViewController {
     func navigateToMainScreen() {
 
         
-        // This will first check if user info is required, and if not, proceed to check authentication and load partner data
         partnerViewModel.$userInfoRequired
             .combineLatest(partnerViewModel.$isLoading)
             .filter { !$1 } // Only proceed when not loading
@@ -214,34 +214,15 @@ class CoupleLoginViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] shouldNavigate in
                 guard let self = self, shouldNavigate else { return }
-//                self.checkAuthenticationAndLoadPartnerData()
-                
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: .main)
-                
-                // Instantiate the UITabBarController from the storyboard
-                guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabbar") as? UITabBarController else {
-                    print("Could not find UITabBarController with identifier 'MainTabbar'")
-                    return
-                }
-                
-                // Find the PartnerActivityViewController in the tab bar's view controllers
-                if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
-                    // Assign the data to PartnerActivityViewController
-                    partnerActivityVC.poopData = partnerViewModel.poopData
-                    partnerActivityVC.sleepData = partnerViewModel.sleepData
-                }
-                
-                // Set the UITabBarController as the root view controller
-                updateRootViewController(to: tabBarVC)
-                
+                self.checkAuthenticationAndLoadPartnerData()
             }
             .store(in: &cancellables)
         
         partnerViewModel.loadMyDataAndThenPartnerData()
-
-    }    
+        
+    }
 }
+
 
 // MARK: - ASAuthorizationControllerDelegate
 

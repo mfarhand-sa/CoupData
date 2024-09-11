@@ -17,6 +17,8 @@ class CDDataProvider {
     static let shared = CDDataProvider()
     public var partnerID: String?
     public var name: String?
+    public var birthday: Date?
+
     var poopData: [String: Any]?
     var sleepData: [String: Any]?
 

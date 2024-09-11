@@ -434,6 +434,7 @@ public class RoundedImageView: UIImageView {
 
 
 extension UIViewController {
+    
     func updateRootViewController(to viewController: UIViewController) {
         // Ensure we are running on the main thread
         guard Thread.isMainThread else {
@@ -456,37 +457,33 @@ extension UIViewController {
                 return
             }
 
-            // Set up the blur effect view
-            let blurEffect = UIBlurEffect(style: .light)
-            let blurEffectView = UIVisualEffectView(effect: blurEffect)
-            blurEffectView.frame = currentVC.view.bounds
-            blurEffectView.alpha = 0 // Start transparent
-
-            viewController.view.frame = currentVC.view.frame
-            viewController.view.alpha = 0 // Start fully transparent
-
-            window.addSubview(blurEffectView) // Add the blur effect on top of the current view
-            window.addSubview(viewController.view) // Add the new view controller's view to the window
-
-            // Animate the blur and fade effect
-            UIView.animate(withDuration: 0.6, delay: 0, options: [.curveEaseInOut], animations: {
-                blurEffectView.alpha = 1 // Apply the blur effect gradually
-                currentVC.view.alpha = 0 // Fade out the old view
-                viewController.view.alpha = 1 // Fade in the new view
-            }, completion: { _ in
-                // Clean up and set the new root view controller
+            // Transition animation block
+            UIView.transition(with: window, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+                window.isUserInteractionEnabled = false // Disable interaction during transition
                 window.rootViewController = viewController
+            }, completion: { _ in
                 window.makeKeyAndVisible()
-                currentVC.view.removeFromSuperview()
-                blurEffectView.removeFromSuperview() // Remove the blur effect after the transition
+                
+                // Re-enable user interaction after transition
+                window.isUserInteractionEnabled = true
+
+                // Remove any lingering animations from the window layer
+                window.layer.removeAllAnimations()
+
+                // Delay the keyboard activation further to allow UI to fully settle
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Adjust this delay as needed
+                    viewController.becomeFirstResponder()
+                    print("Attempting to make \(viewController) the first responder after transition.")
+                }
             })
         } else {
             print("No active window scene found. Retrying in 0.5 seconds.")
-            // Retry after a small delay
+            // Retry after a small delay if no active window scene
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.updateRootViewController(to: viewController)
             }
         }
     }
+
 }
 

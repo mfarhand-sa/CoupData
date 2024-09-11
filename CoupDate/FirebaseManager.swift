@@ -68,7 +68,7 @@ class FirebaseManager {
     
 
 
-    func updateUserProfile(userID: String, firstName: String, birthday: Date!, partnerUserID: String?,completion: @escaping (Result<Bool, Error>) -> Void) {
+    func updateUserProfile(userID: String, firstName: String, birthday: Date!, partnerUserID: String?,gender: String? = nil,completion: @escaping (Result<Bool, Error>) -> Void) {
         let db = Firestore.firestore()
         
         // Convert Date to a string or timestamp
@@ -88,7 +88,11 @@ class FirebaseManager {
         
         // Add partnerUserID to userData if it is not nil
         if let partnerID = partnerUserID {
-            userData["partnerUserID"] = partnerID
+            userData["partnerUserId"] = partnerID
+        }
+        
+        if let gender = gender {
+            userData["gender"] = gender
         }
         
         // Update the document with the new fields
@@ -167,7 +171,7 @@ class FirebaseManager {
     func pairUsersWithToken(token: String,completion: @escaping (Result<Bool, Error>) -> Void) {
         let functions = Functions.functions()
         
-        functions.httpsCallable("validateInvitationAndPairUsers").call(["token": token]) { result, error in
+        functions.httpsCallable("validateInvitationAndPairUsers").call(["partnerCode": token]) { result, error in
             if let error = error {
                 print("Error during pairing: \(error.localizedDescription)")
                 // Handle error (e.g., show alert to user)
@@ -176,7 +180,7 @@ class FirebaseManager {
                 print("Users have been successfully paired")
                 // Handle success (e.g., update UI or navigate to main screen)
                 
-                if let receiverTmpPartnerId = data["receiverTmpPartnerId"] as? String {
+                if let receiverTmpPartnerId = data["receiverPartnerUserId"] as? String {
                     
                     UserManager.shared.partnerUserID = receiverTmpPartnerId
                     CDDataProvider.shared.partnerID = receiverTmpPartnerId

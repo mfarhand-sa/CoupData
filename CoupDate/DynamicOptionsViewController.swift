@@ -146,6 +146,7 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
     
     // Handle multiple selection
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        Haptic.play()
         let selectedOption = options[indexPath.row]
         selectedOptions.append(selectedOption) // Add the selected option to the list
     }
@@ -161,9 +162,10 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
     
     @objc private func saveSelectedOptions() {
         // Print the selected options
+        Haptic.play()
         print("Selected options: \(selectedOptions)")
-        
-
+        CDTracker.trackEvent(eventName: "Check-in", params: [self.category : selectedOptions])
+        CDNotificationManager.shared.scheduleNotifications(userName: CDDataProvider.shared.name, moods: selectedOptions)
         FirebaseManager.shared.saveDailyRecord(for: UserManager.shared.currentUserID!, date: Date(), category: self.category, statuses: selectedOptions, details: "") { result in
             // Handle result
         }

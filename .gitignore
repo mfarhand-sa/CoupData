@@ -1,56 +1,15 @@
+# macOS
+.DS_Store
+
 # Xcode
-#
-# Ignore Xcode project files that should not be shared
-xcuserdata/
-*.xcuserstate
-*.xccheckout
-*.xcscmblueprint
-
-# Ignore build products
 build/
-*.ipa
-*.dSYM.zip
-*.dSYM
-
-# Ignore temp files and logs
-*.log
 DerivedData/
 *.xcworkspace
-
-# Ignore index and metadata files
-*.xcuserdatad
-*.xcdebugger
-
-# Ignore Breakpoints
-*.xcbkptlist
-
-# Ignore Schemes
-*.xcscheme
-
-# Ignore Xcode Generated Files
-*.mode1v3
-*.mode2v3
-*.perspectivev3
-
-# Ignore xcresult files
-*.xcresult
-
-# Cocoapods
-Pods/
-Podfile.lock
+xcuserdata/
+*.xcuserstate
 
 # Swift Package Manager
 .build/
-.swiftpm/xcode/package.resolved
 
-# Carthage
-Carthage/Build/
-
-# Fastlane
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots/**/*.png
-fastlane/test_output
-
-# Ignore files created by AppCode
-.idea/
+# CocoaPods
+Pods/

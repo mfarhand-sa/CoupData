@@ -58,7 +58,11 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         setupUI()
         setupCollectionView()
         displayPartnerData()
-       // fetchPartnerData()
+        
+        CDNotificationManager.shared.requestNotificationAuthorization()
+        CDNotificationManager.shared.scheduleDailyNotification(userName: CDDataProvider.shared.name)
+
+
         
         NotificationCenter.default.addObserver(self, selector: #selector(handlePairingDismissed), name: NSNotification.Name("CDPairingDismissed"), object: nil)
         

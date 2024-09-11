@@ -109,8 +109,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let pairingVC = sb.instantiateViewController(withIdentifier: "CDPairingViewController") as! CDPairingViewController
             pairingVC.partnerUserId = token
             UIApplication.shared.keyWindow?.rootViewController?.present(pairingVC, animated: true)
-            
-            
         }
         
     }

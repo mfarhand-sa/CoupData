@@ -16,6 +16,7 @@ target 'CoupDate' do
   pod 'SwiftMessages'
   pod 'NotificationBannerSwift'
   pod 'Typist'
+  pod 'BugfenderSDK', '~> 1.10'
 
 end
 

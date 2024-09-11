@@ -33,6 +33,8 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         greetingLabel.lineBreakMode = .byClipping
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
         greetingLabel.textColor = UIColor(named: "CDAccent")
+        self.view.backgroundColor = UIColor(named: "CDBackground")
+        self.scrollView.backgroundColor =  UIColor(named: "CDBackground")
         
         
         let currentHour = Calendar.current.component(.hour, from: Date())
@@ -70,6 +72,7 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(DataEntryCardCell.self, forCellWithReuseIdentifier: "DataEntryCardCell")
+        collectionView.backgroundColor = UIColor(named: "CDBackground")
 
         view.addSubview(collectionView)
 
@@ -101,6 +104,8 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         // Present a new view controller based on the card tapped
 //        let selectedCard = cardData[indexPath.item]
         print(indexPath.row)
+        Haptic.play()
+
         let layout = UICollectionViewFlowLayout()
         let vibeCheckVC = DynamicOptionsCollectionViewController(collectionViewLayout: layout)
         

@@ -337,7 +337,12 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
                         DispatchQueue.main.asyncAfter(deadline: .now()) {
                             sender.isEnabled = true
                           //  CustomAlerts.displayNotification(title: "", message: "Porfile has been updated", view: self.view,fromBottom: false)
-                            self.navigateToInvitePartner()
+                            if let partnerId = CDDataProvider.shared.partnerID {
+                                self.navigateToMainScreen()
+
+                            } else {
+                                self.navigateToInvitePartner()
+                            }
                         }
                         
                     } else {

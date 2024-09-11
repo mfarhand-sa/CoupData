@@ -47,6 +47,8 @@
 		CD261CCE2C850CD900E4D5F2 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = CD261CCD2C850CD900E4D5F2 /* Base */; };
 		CD3F830C2C91049900126D8D /* Man.json in Resources */ = {isa = PBXBuildFile; fileRef = CD3F830B2C91049900126D8D /* Man.json */; };
 		CD3F830E2C9104A900126D8D /* Woman.json in Resources */ = {isa = PBXBuildFile; fileRef = CD3F830D2C9104A900126D8D /* Woman.json */; };
+		CD3F83102C91530B00126D8D /* CDTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3F830F2C91530B00126D8D /* CDTracker.swift */; };
+		CD3F83142C915CA800126D8D /* CDNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3F83132C915CA800126D8D /* CDNotificationManager.swift */; };
 		CD53300F2C85359400541112 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD53300E2C85359400541112 /* GoogleService-Info.plist */; };
 		CD6E71112C86E61B00AE02ED /* CDLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */; };
 		CD6E71132C86E6C100AE02ED /* Loading.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71122C86E6C100AE02ED /* Loading.json */; };
@@ -125,6 +127,8 @@
 		CD261CCF2C850CD900E4D5F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD3F830B2C91049900126D8D /* Man.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Man.json; sourceTree = "<group>"; };
 		CD3F830D2C9104A900126D8D /* Woman.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Woman.json; sourceTree = "<group>"; };
+		CD3F830F2C91530B00126D8D /* CDTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDTracker.swift; sourceTree = "<group>"; };
+		CD3F83132C915CA800126D8D /* CDNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDNotificationManager.swift; sourceTree = "<group>"; };
 		CD53300E2C85359400541112 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDLoadingViewController.swift; sourceTree = SOURCE_ROOT; };
 		CD6E71122C86E6C100AE02ED /* Loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Loading.json; sourceTree = "<group>"; };
@@ -203,6 +207,7 @@
 		CD261CB52C850CD800E4D5F2 = {
 			isa = PBXGroup;
 			children = (
+				CD3F830F2C91530B00126D8D /* CDTracker.swift */,
 				CD261CC02C850CD800E4D5F2 /* CoupDate */,
 				CD261CBF2C850CD800E4D5F2 /* Products */,
 				4D0A580A8FCB74FF9BD919DF /* Frameworks */,
@@ -231,6 +236,7 @@
 				CD261CC32C850CD800E4D5F2 /* SceneDelegate.swift */,
 				CD18B2892C853C8E00AC858B /* PartnerActivityViewController.swift */,
 				CD18B2832C853BD400AC858B /* DataEntryViewController.swift */,
+				CD3F83132C915CA800126D8D /* CDNotificationManager.swift */,
 				CD787D6B2C8D241F00B419D1 /* DynamicOptionsViewController.swift */,
 				CD18B2872C853C5800AC858B /* FirebaseManager.swift */,
 				CD18B28B2C853F4B00AC858B /* UserManager.swift */,
@@ -434,9 +440,11 @@
 				CD240D812C88DE2E00DA034C /* MoodSelectionViewController.swift in Sources */,
 				CD18B2882C853C5800AC858B /* FirebaseManager.swift in Sources */,
 				CD787D6C2C8D241F00B419D1 /* DynamicOptionsViewController.swift in Sources */,
+				CD3F83102C91530B00126D8D /* CDTracker.swift in Sources */,
 				CD261CC42C850CD800E4D5F2 /* SceneDelegate.swift in Sources */,
 				CD240D872C891EFE00DA034C /* GoogleSiginButton.swift in Sources */,
 				CD6E71112C86E61B00AE02ED /* CDLoadingViewController.swift in Sources */,
+				CD3F83142C915CA800126D8D /* CDNotificationManager.swift in Sources */,
 				CD8711F42C8A465C0090608A /* CDButton.swift in Sources */,
 				CD240D832C89084F00DA034C /* CoupleLoginViewController.swift in Sources */,
 				CD18B28A2C853C8E00AC858B /* PartnerActivityViewController.swift in Sources */,

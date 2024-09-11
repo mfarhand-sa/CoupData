@@ -19,6 +19,7 @@ class CDLoadingViewController : UIViewController {
     @IBOutlet weak var copyrightLabel: UILabel!
     private var viewModel = PartnerViewModel()
     private var cancellables = Set<AnyCancellable>()
+    private var hasNavigated = false // Add this flag
     // Array of messages
     let messages = [
         "Take a deep breath and connect with your partner today.",
@@ -96,27 +97,35 @@ class CDLoadingViewController : UIViewController {
         } else {
             
             // This will first check if user info is required, and if not, proceed to check authentication and load partner data
+
             viewModel.$userInfoRequired
-                .combineLatest(viewModel.$isLoading)
-                .filter { !$1 } // Only proceed when not loading
-                .flatMap { (userInfoRequired, _) -> AnyPublisher<Bool, Never> in
-                    if userInfoRequired {
-                        self.showRegistrationScreen()
-                        return Just(false).eraseToAnyPublisher() // Prevent further navigation
-                    } else {
-                        return Just(true).eraseToAnyPublisher() // Continue to authentication and partner data loading
-                    }
-                }
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] shouldNavigate in
-                    guard let self = self, shouldNavigate else { return }
-                    self.checkAuthenticationAndLoadPartnerData()
-                }
-                .store(in: &cancellables)
-            
-            viewModel.loadMyDataAndThenPartnerData()
-            
-        }
+                      .combineLatest(viewModel.$isLoading)
+                      .filter { !$1 } // Only proceed when not loading
+                      .flatMap { [weak self] (userInfoRequired, _) -> AnyPublisher<Bool, Never> in
+                          guard let self = self else { return Just(false).eraseToAnyPublisher() }
+                          
+                          if self.hasNavigated {
+                              return Just(false).eraseToAnyPublisher() // Prevent further navigation after the first
+                          }
+
+                          if userInfoRequired {
+                              self.showRegistrationScreen()
+                              self.hasNavigated = true // Set flag after navigating
+                              return Just(false).eraseToAnyPublisher()
+                          } else {
+                              return Just(true).eraseToAnyPublisher()
+                          }
+                      }
+                      .receive(on: DispatchQueue.main)
+                      .sink { [weak self] shouldNavigate in
+                          guard let self = self, shouldNavigate, !self.hasNavigated else { return }
+                          self.checkAuthenticationAndLoadPartnerData()
+                          self.hasNavigated = true // Ensure we only navigate once
+                      }
+                      .store(in: &cancellables)
+
+                  viewModel.loadMyDataAndThenPartnerData()
+              }
     }
     
     

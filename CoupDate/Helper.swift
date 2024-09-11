@@ -458,7 +458,7 @@ extension UIViewController {
             }
 
             // Transition animation block
-            UIView.transition(with: window, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+            UIView.transition(with: window, duration: 0.5, options: [.transitionCrossDissolve], animations: {
                 window.isUserInteractionEnabled = false // Disable interaction during transition
                 window.rootViewController = viewController
             }, completion: { _ in

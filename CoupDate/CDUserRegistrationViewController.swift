@@ -174,7 +174,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
             
             // Set delegate for birthdayTextField
             if #available(iOS 17.0, *) {
-                inputTextField?.textContentType = .birthdateDay
+                inputTextField?.textContentType = .birthdate
             } else {
                 // Fallback on earlier versions
                 inputTextField?.textContentType = nil
@@ -306,7 +306,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
                         CDDataProvider.shared.birthday = bday!
                         DispatchQueue.main.asyncAfter(deadline: .now()) {
                             sender.isEnabled = true
-                            CustomAlerts.displayNotification(title: "", message: "Porfile has been updated", view: self.view,fromBottom: false)
+                          //  CustomAlerts.displayNotification(title: "", message: "Porfile has been updated", view: self.view,fromBottom: false)
                             self.showRegistrationScreen(mode: .gender)
                         }
                         
@@ -336,7 +336,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
                         
                         DispatchQueue.main.asyncAfter(deadline: .now()) {
                             sender.isEnabled = true
-                            CustomAlerts.displayNotification(title: "", message: "Porfile has been updated", view: self.view,fromBottom: false)
+                          //  CustomAlerts.displayNotification(title: "", message: "Porfile has been updated", view: self.view,fromBottom: false)
                             self.navigateToInvitePartner()
                         }
                         
@@ -444,7 +444,30 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MM/dd"
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Ensure consistent date formatting
-        return dateFormatter.date(from: birthdayString) != nil
+
+        // Check if the date string can be converted to a valid date
+        guard let birthdayDate = dateFormatter.date(from: birthdayString) else {
+            return false // Invalid date format
+        }
+
+        // Ensure the user is at least 18 years old
+        let calendar = Calendar.current
+        let now = Date()
+        let ageComponents = calendar.dateComponents([.year], from: birthdayDate, to: now)
+
+        guard let age = ageComponents.year, age >= 18 else {
+            CustomAlerts.displayNotification(title: "Invalid Date of Birth", message: "You must be at least 18 years old to proceed.", view: self.view, fromBottom: false)
+
+            return false // User is younger than 18
+        }
+
+        // Ensure the date is not in the future
+        if birthdayDate > now {
+            CustomAlerts.displayNotification(title: "", message: "Invalid Date of Birth", view: self.view, fromBottom: false)
+            return false // Birthday cannot be in the future
+        }
+
+        return true
     }
     
     //validate name logic

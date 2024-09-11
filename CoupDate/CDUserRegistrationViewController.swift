@@ -557,7 +557,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
     @objc func handleTapOnManView() {
         print("Lottie View 1 tapped")
         // Handle Lottie View 1 tap action
-        self.gender = "man"
+        self.gender = "Male"
         self.manView?.layer.borderColor = UIColor(named: "CDAccent")?.cgColor
         self.womanView?.layer.borderColor = UIColor.lightGray.cgColor
         self.nextButton.isEnabled = true
@@ -566,7 +566,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
 
     @objc func handleTapOnWomanView() {
         print("Lottie View 2 tapped")
-        self.gender = "woman"
+        self.gender = "Female"
         self.womanView?.layer.borderColor = UIColor(named: "CDAccent")?.cgColor
         self.manView?.layer.borderColor = UIColor.lightGray.cgColor
         self.nextButton.isEnabled = true

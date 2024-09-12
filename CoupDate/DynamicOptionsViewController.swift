@@ -42,7 +42,7 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         // Title label
         titleLabel.text = categoryTitle
         titleLabel.font = UIFont(name: "Poppins-Bold", size: 24)
-        titleLabel.textColor = UIColor(named: "CDText")
+        titleLabel.textColor = .CDText
         titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(titleLabel)
@@ -52,7 +52,7 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         closeButton.setImage(UIImage(named: "close")?.withRenderingMode(.alwaysTemplate), for: .normal) // Ensure the image respects the tint
         closeButton.addTarget(self, action: #selector(closeView), for: .touchUpInside)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.tintColor = UIColor(named: "CDText") // Set the button tint color to white
+        closeButton.tintColor = .CDText // Set the button tint color to white
         view.addSubview(closeButton)
 
         // Layout constraints for close button (besides the greeting label)
@@ -66,7 +66,7 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         // Description label
         descriptionLabel.text = descriptionText
         descriptionLabel.font = UIFont(name: "Poppins-Regular", size: 16)
-        descriptionLabel.textColor = UIColor(named: "CDText")
+        descriptionLabel.textColor = .CDText
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 0
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +75,7 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         // Save button
         saveButton.setTitle("Save", for: .normal)
         saveButton.setTitleColor(.white, for: .normal)
-        saveButton.backgroundColor = UIColor(named: "CDAccent")
+        saveButton.backgroundColor = .accent
         saveButton.layer.cornerRadius = 10
         saveButton.addTarget(self, action: #selector(saveSelectedOptions), for: .touchUpInside)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
@@ -202,7 +202,7 @@ class OptionCell: UICollectionViewCell {
         // Set up the border for the cell
         layer.borderWidth = 0.6
         layer.cornerRadius = 10
-        layer.borderColor = UIColor(named: "CDText")?.cgColor // Default border color
+        layer.borderColor = UIColor.CDText.cgColor // Default border color
         
         // Configure the stack view for vertical alignment of Lottie and label
         stackView.axis = .vertical
@@ -256,7 +256,7 @@ class OptionCell: UICollectionViewCell {
     // Highlight the cell when selected
     override var isSelected: Bool {
         didSet {
-            self.layer.borderColor = isSelected ? UIColor(named: "CDAccent")?.cgColor : UIColor(named: "CDText")?.cgColor
+            self.layer.borderColor = isSelected ? UIColor.accent.cgColor : UIColor.CDText.cgColor
         }
     }
 }

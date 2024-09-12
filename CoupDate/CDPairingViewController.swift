@@ -110,7 +110,7 @@ class CDPairingViewController: UIViewController {
     
     func setupUI() {
         self.view.backgroundColor = UIColor(named: "CDBackground")
-        self.label.textColor = UIColor(named: "CDText")
+        self.label.textColor = .CDText
         animationView!.contentMode = .scaleAspectFit
         animationView!.loopMode = .loop
         animationView!.animationSpeed = 1.0

@@ -32,7 +32,7 @@ class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
         
-        self.partnerCodeTextField.textColor = UIColor(named: "CDText")
+        self.partnerCodeTextField.textColor = .CDText
         self.partnerCodeTextField.keyboardType = .default
         self.partnerCodeTextField.autocapitalizationType = .allCharacters
         self.codeLabel.text = "Your code: \(self.partnerCode ?? "Unavailable!")!"

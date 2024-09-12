@@ -65,8 +65,8 @@ class CDLoadingViewController : UIViewController {
         
         
         self.view.backgroundColor = UIColor(named: "CDBackground")
-        self.copyrightLabel.textColor = UIColor(named: "CDText")
-        self.floatingLabel.textColor = UIColor(named: "CDText")
+        self.copyrightLabel.textColor = .CDText
+        self.floatingLabel.textColor = .CDText
         animationView!.contentMode = .scaleAspectFit
         
         // 4. Set animation loop mode

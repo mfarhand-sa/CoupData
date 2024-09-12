@@ -484,3 +484,17 @@ extension UIViewController {
 
 }
 
+
+extension UIColor {
+    static var accent: UIColor {
+        return UIColor(named: "CDAccent") ?? UIColor(red: 255.0/255.0, green: 175.0/255.0, blue: 127.0/255.0, alpha: 1.0) // Fallback color
+    }
+    
+    static var CDBackground: UIColor {
+        return UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0) // #F2F2F2
+    }
+    
+    static var CDText: UIColor {
+        return UIColor(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 1.0) // #1A1A1A
+    }
+}

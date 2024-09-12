@@ -18,19 +18,81 @@ class StreakViewController: UIViewController {
         animationView!.animationSpeed = 1.0
         animationView!.play()
         self.label.font = UIFont(name: "Poppins-Regular", size: 20)
-        
+        if CDDataProvider.shared.partnerID == nil {
+            self.label.text = "You'll be able to track your streak with your partner once they join you."
+            
+            let smallAnimationView = LottieAnimationView(name: "LoginAnimtation")
+            self.streakCalendarView.addSubview(smallAnimationView)
+            
+            smallAnimationView.contentMode = .scaleAspectFit
+            smallAnimationView.loopMode = .loop
+            smallAnimationView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                smallAnimationView.leadingAnchor.constraint(equalTo: self.streakCalendarView.leadingAnchor),
+                smallAnimationView.trailingAnchor.constraint(equalTo: self.streakCalendarView.trailingAnchor),
+                smallAnimationView.topAnchor.constraint(equalTo: self.streakCalendarView.topAnchor),
+                smallAnimationView.bottomAnchor.constraint(equalTo: self.streakCalendarView.bottomAnchor)
+            ])
+
+            smallAnimationView.play()
+
+            return
+
+        }
+
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         
         guard CDDataProvider.shared.partnerID != nil else { return }
+        
+//        viewModel.loadUserAndPartnerData(userID: UserManager.shared.currentUserID!, partnerID: UserManager.shared.partnerUserID!) { streakCount, startDate, endDate, error in
+//            
+//            if let streakCount = streakCount, let startDate = startDate, let endDate = endDate {
+//                print("The current streak is: \(streakCount) days")
+//                
+//                print("Streak: \(streakCount)")
+//                print("Start Date: \(startDate)")
+//                print("End Date: \(endDate)")
+//                
+//                let fullText = "\(streakCount) days and counting—your bond with your partner keeps growing!"
+//                let attributedString = NSMutableAttributedString(string: fullText)
+//                let boldRange = (fullText as NSString).range(of: "\(streakCount) days")
+//                
+//                attributedString.addAttribute(.font, value: UIFont(name: "Poppins-Bold", size: 24)!, range: boldRange)
+//                self.label.attributedText = attributedString
+//                
+//                self.calendarView = CalendarView(initialContent: self.makeContent(startDate: startDate, endDate: endDate))
+//                
+//                // Day selection handler to refresh content when a date is selected
+//                self.calendarView.daySelectionHandler = nil
+//                 self.streakCalendarView.addSubview(self.calendarView)
+//                self.calendarView.translatesAutoresizingMaskIntoConstraints = false
+//                
+//                NSLayoutConstraint.activate([
+//                    self.calendarView.leadingAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.leadingAnchor),
+//                    self.calendarView.trailingAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.trailingAnchor),
+//                    self.calendarView.topAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.topAnchor),
+//                    self.calendarView.bottomAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.bottomAnchor),
+//                ])
+//                
+//                self.calendarView.scroll(
+//                    toMonthContaining: endDate,
+//                    scrollPosition: .centered, // or .firstFullyVisiblePosition
+//                    animated: false // Set to true if you want to animate the scroll
+//                )
+//            } else if let error = error {
+//                print("Error: \(error)")
+//            }
+//        }
         
         viewModel.loadUserAndPartnerData(userID: UserManager.shared.currentUserID!, partnerID: UserManager.shared.partnerUserID!) { streakCount, startDate, endDate, error in
             
             if let streakCount = streakCount, let startDate = startDate, let endDate = endDate {
                 print("The current streak is: \(streakCount) days")
-                
-                print("Streak: \(streakCount)")
-                print("Start Date: \(startDate)")
-                print("End Date: \(endDate)")
                 
                 let fullText = "\(streakCount) days and counting—your bond with your partner keeps growing!"
                 let attributedString = NSMutableAttributedString(string: fullText)
@@ -39,29 +101,41 @@ class StreakViewController: UIViewController {
                 attributedString.addAttribute(.font, value: UIFont(name: "Poppins-Bold", size: 24)!, range: boldRange)
                 self.label.attributedText = attributedString
                 
-                self.calendarView = CalendarView(initialContent: self.makeContent(startDate: startDate, endDate: endDate))
+                // Check if `calendarView` already exists, update its content
+                if self.calendarView != nil {
+                    // Update the content of the existing calendar view
+                    self.calendarView.setContent(self.makeContent(startDate: startDate, endDate: endDate))
+                } else {
+                    // Initialize and add the calendar view if it doesn't exist yet
+                    self.calendarView = CalendarView(initialContent: self.makeContent(startDate: startDate, endDate: endDate))
+                    
+                    self.streakCalendarView.addSubview(self.calendarView)
+                    self.calendarView.translatesAutoresizingMaskIntoConstraints = false
+
+                    NSLayoutConstraint.activate([
+                        self.calendarView.leadingAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.leadingAnchor),
+                        self.calendarView.trailingAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.trailingAnchor),
+                        self.calendarView.topAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.topAnchor),
+                        self.calendarView.bottomAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.bottomAnchor),
+                    ])
+                }
                 
-                // Day selection handler to refresh content when a date is selected
-                self.calendarView.daySelectionHandler = nil
-                self.streakCalendarView.addSubview(self.calendarView)
-                self.calendarView.translatesAutoresizingMaskIntoConstraints = false
-                
-                NSLayoutConstraint.activate([
-                    self.calendarView.leadingAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.leadingAnchor),
-                    self.calendarView.trailingAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.trailingAnchor),
-                    self.calendarView.topAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.topAnchor),
-                    self.calendarView.bottomAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.bottomAnchor),
-                ])
-                
+                // Scroll to the specific month
                 self.calendarView.scroll(
                     toMonthContaining: endDate,
-                    scrollPosition: .centered, // or .firstFullyVisiblePosition
-                    animated: false // Set to true if you want to animate the scroll
+                    scrollPosition: .centered,
+                    animated: false // Set to true if you want animation
                 )
             } else if let error = error {
                 print("Error: \(error)")
             }
         }
+        
+        
+        
+        
+        
+        
     }
     
     private func makeContent(startDate: Date, endDate:Date) -> CalendarViewContent {
@@ -69,9 +143,9 @@ class StreakViewController: UIViewController {
         let highlightStartDate = startDate
         let highlightEndDate = endDate
         let components = calendar.dateComponents([.year, .month, .day], from: Date())
-//        let startDate = calendar.date(from: DateComponents(year: components.year, month: components.month, day: components.day))!
+        //        let startDate = calendar.date(from: DateComponents(year: components.year, month: components.month, day: components.day))!
         let startDate = calendar.date(from: DateComponents(year: 2024, month: 01, day: 01))!
-
+        
         let endDate = calendar.date(from: DateComponents(year: 2026, month: 12, day: 31))!
         
         
@@ -156,7 +230,7 @@ struct CustomDayView: CalendarItemViewRepresentable {
         
         
         // Set the background color based on the custom isHighlighted property
-        view.backgroundColor = view.isHighlighted ? UIColor(red: 255.0/255.0, green: 175.0/255.0, blue: 127.0/255.0, alpha: 1.0) : UIColor.clear
+        view.backgroundColor = view.isHighlighted ? .accent : UIColor.clear
     }
 }
 

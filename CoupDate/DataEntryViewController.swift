@@ -32,7 +32,7 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         greetingLabel.adjustsFontForContentSizeCategory = false
         greetingLabel.lineBreakMode = .byClipping
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
-        greetingLabel.textColor = UIColor(named: "CDAccent")
+        greetingLabel.textColor = .accent
         self.view.backgroundColor = UIColor(named: "CDBackground")
         self.scrollView.backgroundColor =  UIColor(named: "CDBackground")
         
@@ -186,7 +186,7 @@ class DataEntryCardCell: UICollectionViewCell {
         contentView.addSubview(animationView)
         
         titleLabel.font = UIFont(name: "Poppins-Regular", size: 18)
-        titleLabel.textColor = UIColor(named: "CDText")
+        titleLabel.textColor = .CDText
         titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)

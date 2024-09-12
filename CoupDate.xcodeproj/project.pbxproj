@@ -51,7 +51,6 @@
 		CD3F83142C915CA800126D8D /* CDNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3F83132C915CA800126D8D /* CDNotificationManager.swift */; };
 		CD53300F2C85359400541112 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD53300E2C85359400541112 /* GoogleService-Info.plist */; };
 		CD6E71112C86E61B00AE02ED /* CDLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */; };
-		CD6E71132C86E6C100AE02ED /* Loading.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71122C86E6C100AE02ED /* Loading.json */; };
 		CD6E71152C86EA6100AE02ED /* PartnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */; };
 		CD6E71172C86F07000AE02ED /* Poop.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71162C86F07000AE02ED /* Poop.json */; };
 		CD6E71192C86F1DD00AE02ED /* Sleeping.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71182C86F1DD00AE02ED /* Sleeping.json */; };
@@ -134,7 +133,6 @@
 		CD3F83132C915CA800126D8D /* CDNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDNotificationManager.swift; sourceTree = "<group>"; };
 		CD53300E2C85359400541112 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDLoadingViewController.swift; sourceTree = SOURCE_ROOT; };
-		CD6E71122C86E6C100AE02ED /* Loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Loading.json; sourceTree = "<group>"; };
 		CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerViewModel.swift; sourceTree = "<group>"; };
 		CD6E71162C86F07000AE02ED /* Poop.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Poop.json; sourceTree = "<group>"; };
 		CD6E71182C86F1DD00AE02ED /* Sleeping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Sleeping.json; sourceTree = "<group>"; };
@@ -256,7 +254,7 @@
 				CD261CCC2C850CD900E4D5F2 /* LaunchScreen.storyboard */,
 				CD261CCF2C850CD900E4D5F2 /* Info.plist */,
 				CD18B29F2C85A72900AC858B /* sound1.caf */,
-				CD6E71122C86E6C100AE02ED /* Loading.json */,
+				CD240D842C8916DE00DA034C /* LoginAnimtation.json */,
 				CD6E71162C86F07000AE02ED /* Poop.json */,
 				CD6E71182C86F1DD00AE02ED /* Sleeping.json */,
 				CD3F830D2C9104A900126D8D /* Woman.json */,
@@ -267,7 +265,6 @@
 				CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */,
 				CD240D7E2C88DDF900DA034C /* MoodSlider.swift */,
 				CD240D802C88DE2E00DA034C /* MoodSelectionViewController.swift */,
-				CD240D842C8916DE00DA034C /* LoginAnimtation.json */,
 				CD1AB30F2C902DD7008A46FA /* PinCodeTextField.swift */,
 				CD8711F32C8A465C0090608A /* CDButton.swift */,
 				CD787D712C8D2A9000B419D1 /* MoodAnimation */,
@@ -361,7 +358,6 @@
 				CDDC3EC92C92362800B2CB4A /* Streak.json in Resources */,
 				CD787D7B2C8D315200B419D1 /* Anxious.json in Resources */,
 				CD53300F2C85359400541112 /* GoogleService-Info.plist in Resources */,
-				CD6E71132C86E6C100AE02ED /* Loading.json in Resources */,
 				CD240D9D2C89359400DA034C /* Poppins-ExtraBoldItalic.ttf in Resources */,
 				CD240D9E2C89359400DA034C /* Poppins-Thin.ttf in Resources */,
 				CD240D9F2C89359400DA034C /* Poppins-ThinItalic.ttf in Resources */,

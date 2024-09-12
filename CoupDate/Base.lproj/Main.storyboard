@@ -143,33 +143,32 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="Streak"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We are calculating your streak" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzL-Kf-ovt">
-                                <rect key="frame" x="32" y="291" width="329" height="26.333333333333314"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We are calculating your streak" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzL-Kf-ovt">
+                                <rect key="frame" x="32" y="261" width="329" height="112.66666666666669"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uuV-g9-Vbb">
-                                <rect key="frame" x="0.0" y="382.33333333333326" width="393" height="386.66666666666674"/>
+                                <rect key="frame" x="0.0" y="381.66666666666674" width="393" height="387.33333333333326"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GVk-WS-czR"/>
                         <color key="backgroundColor" name="CDBackground"/>
                         <constraints>
-                            <constraint firstItem="lzL-Kf-ovt" firstAttribute="centerX" secondItem="GVk-WS-czR" secondAttribute="centerX" id="1fQ-f5-wFO"/>
-                            <constraint firstItem="lzL-Kf-ovt" firstAttribute="top" secondItem="G3i-kK-J3M" secondAttribute="bottom" constant="40" id="7ay-Kg-g7D"/>
-                            <constraint firstItem="uuV-g9-Vbb" firstAttribute="centerX" secondItem="GVk-WS-czR" secondAttribute="centerX" id="AqI-M3-CcF"/>
+                            <constraint firstItem="lzL-Kf-ovt" firstAttribute="top" secondItem="G3i-kK-J3M" secondAttribute="bottom" constant="10" id="7ay-Kg-g7D"/>
                             <constraint firstItem="G3i-kK-J3M" firstAttribute="top" secondItem="GVk-WS-czR" secondAttribute="top" constant="50" id="Ct9-Ut-tmB"/>
                             <constraint firstItem="GVk-WS-czR" firstAttribute="trailing" secondItem="lzL-Kf-ovt" secondAttribute="trailing" constant="32" id="EhA-RV-lcd"/>
                             <constraint firstItem="lzL-Kf-ovt" firstAttribute="leading" secondItem="GVk-WS-czR" secondAttribute="leading" constant="32" id="Gux-1M-5fE"/>
                             <constraint firstItem="GVk-WS-czR" firstAttribute="bottom" secondItem="uuV-g9-Vbb" secondAttribute="bottom" id="JvT-Tl-1hF"/>
                             <constraint firstItem="uuV-g9-Vbb" firstAttribute="leading" secondItem="GVk-WS-czR" secondAttribute="leading" id="Nj7-jZ-eaL"/>
+                            <constraint firstItem="lzL-Kf-ovt" firstAttribute="bottom" secondItem="uuV-g9-Vbb" secondAttribute="top" constant="-8" id="Wbx-MP-Bwr"/>
                             <constraint firstItem="G3i-kK-J3M" firstAttribute="width" secondItem="aDd-9g-Qh3" secondAttribute="width" multiplier="0.610687" id="Wq5-vy-kaO"/>
                             <constraint firstItem="G3i-kK-J3M" firstAttribute="height" secondItem="aDd-9g-Qh3" secondAttribute="height" multiplier="1:6" id="bOg-09-Zk4"/>
                             <constraint firstItem="G3i-kK-J3M" firstAttribute="centerX" secondItem="GVk-WS-czR" secondAttribute="centerX" id="c2S-BK-nvw"/>
-                            <constraint firstItem="uuV-g9-Vbb" firstAttribute="top" secondItem="lzL-Kf-ovt" secondAttribute="bottom" constant="65" id="cJv-bx-kut"/>
                             <constraint firstItem="GVk-WS-czR" firstAttribute="trailing" secondItem="uuV-g9-Vbb" secondAttribute="trailing" id="oxb-56-3Od"/>
+                            <constraint firstItem="uuV-g9-Vbb" firstAttribute="height" secondItem="aDd-9g-Qh3" secondAttribute="height" multiplier="1:2.2" id="pON-bJ-HiI"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Streak" image="streak" id="GLw-c4-VLD"/>
@@ -636,13 +635,13 @@
         <image name="posture" width="24" height="24"/>
         <image name="streak" width="24" height="24"/>
         <namedColor name="CDAccent">
-            <color red="0.93300002813339233" green="0.29800000786781311" blue="0.57599997520446777" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.68627450980392157" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CDBackground">
-            <color red="0.94900000095367432" green="0.94900000095367432" blue="0.94900000095367432" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CDText">
-            <color red="0.10000000149011612" green="0.10000000149011612" blue="0.10000000149011612" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="TabbarNormal">
             <color red="0.55699998140335083" green="0.55699998140335083" blue="0.57599997520446777" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

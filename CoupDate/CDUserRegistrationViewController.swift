@@ -60,7 +60,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         
         
         
-        self.nextButton.setBackgroundColor(UIColor(named: "CDAccent"), for: .normal)
+        self.nextButton.setBackgroundColor(.accent, for: .normal)
         self.nextButton.setBackgroundColor(UIColor.lightGray, for: .disabled)
         
         
@@ -141,12 +141,12 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
     
     func applyUI() {
         
-        self.nextButton.setBackgroundColor(UIColor(named: "CDAccent"), for: .normal)
+        self.nextButton.setBackgroundColor(.accent, for: .normal)
         self.nextButton.setBackgroundColor(.lightGray, for: .disabled)
         self.nextButton.setTitleColor(UIColor.white, for: .normal)
-        self.statusLabel.textColor = UIColor(named: "CDText")
-        self.greetingLabel.textColor = UIColor(named: "CDText")
-        self.inputTextField?.textColor = UIColor(named: "CDText")
+        self.statusLabel.textColor = .CDText
+        self.greetingLabel.textColor = .CDText
+        self.inputTextField?.textColor = .CDText
         self.nextButton.isEnabled = (CDDataProvider.shared.name?.isEmpty == false)
         
         
@@ -558,7 +558,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         print("Lottie View 1 tapped")
         // Handle Lottie View 1 tap action
         self.gender = "Male"
-        self.manView?.layer.borderColor = UIColor(named: "CDAccent")?.cgColor
+        self.manView?.layer.borderColor = UIColor.accent.cgColor
         self.womanView?.layer.borderColor = UIColor.lightGray.cgColor
         self.nextButton.isEnabled = true
 
@@ -567,7 +567,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
     @objc func handleTapOnWomanView() {
         print("Lottie View 2 tapped")
         self.gender = "Female"
-        self.womanView?.layer.borderColor = UIColor(named: "CDAccent")?.cgColor
+        self.womanView?.layer.borderColor = UIColor.accent.cgColor
         self.manView?.layer.borderColor = UIColor.lightGray.cgColor
         self.nextButton.isEnabled = true
 

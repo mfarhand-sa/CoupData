@@ -64,6 +64,35 @@ class FirebaseManager {
     }
     
     
+    func streakRecords(for userId: String, from startDate: Date, to endDate: Date, completion: @escaping (Result<[Date: Bool], Error>) -> Void) {
+        let dateFormatter = DateFormatter()
+           dateFormatter.dateFormat = "yyyy-MM-dd" // Your document ID format
+
+           let startString = dateFormatter.string(from: startDate)
+           let endString = dateFormatter.string(from: endDate)
+
+           db.collection("users").document(userId).collection("dailyRecords")
+               .whereField(FieldPath.documentID(), isGreaterThanOrEqualTo: startString)
+               .whereField(FieldPath.documentID(), isLessThanOrEqualTo: endString)
+               .getDocuments { snapshot, error in
+                   if let error = error {
+                       completion(.failure(error))
+                   } else if let snapshot = snapshot {
+                       var records: [Date: Bool] = [:]
+                       for document in snapshot.documents {
+                           if let date = dateFormatter.date(from: document.documentID) {
+                               records[date] = true // Record exists for this date
+                           }
+                       }
+                       completion(.success(records))
+                   } else {
+                       completion(.success([:])) // No records found
+                   }
+               }
+    }
+
+    
+    
     
     
 

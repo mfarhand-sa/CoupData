@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23086.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LD2-9T-Xh6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LD2-9T-Xh6">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23076"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -91,7 +91,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L2U-TP-tfz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-486" y="450"/>
+            <point key="canvasLocation" x="-2363" y="1427"/>
         </scene>
         <!--My Partner-->
         <scene sceneID="RaD-cb-lqA">
@@ -120,12 +120,68 @@
                     </tabBar>
                     <connections>
                         <segue destination="y2r-F1-HAe" kind="relationship" relationship="viewControllers" id="zzL-BJ-3be"/>
-                        <segue destination="B4h-l1-Cub" kind="relationship" relationship="viewControllers" id="x6y-3S-iFX"/>
+                        <segue destination="vc6-do-m7f" kind="relationship" relationship="viewControllers" id="H2b-bY-ba2"/>
+                        <segue destination="B4h-l1-Cub" kind="relationship" relationship="viewControllers" id="wSs-ye-jDY"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LNs-7b-XDl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2222" y="450"/>
+            <point key="canvasLocation" x="-2941" y="662"/>
+        </scene>
+        <!--Streak-->
+        <scene sceneID="jXp-Ve-7tQ">
+            <objects>
+                <viewController storyboardIdentifier="StreakViewController" id="vc6-do-m7f" customClass="StreakViewController" customModule="CoupDate" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aDd-9g-Qh3">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G3i-kK-J3M" customClass="LottieAnimationView" customModule="Lottie">
+                                <rect key="frame" x="76.666666666666686" y="109" width="240" height="142"/>
+                                <color key="backgroundColor" name="CDBackground"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="Streak"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We are calculating your streak" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzL-Kf-ovt">
+                                <rect key="frame" x="32" y="291" width="329" height="26.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uuV-g9-Vbb">
+                                <rect key="frame" x="0.0" y="382.33333333333326" width="393" height="386.66666666666674"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="GVk-WS-czR"/>
+                        <color key="backgroundColor" name="CDBackground"/>
+                        <constraints>
+                            <constraint firstItem="lzL-Kf-ovt" firstAttribute="centerX" secondItem="GVk-WS-czR" secondAttribute="centerX" id="1fQ-f5-wFO"/>
+                            <constraint firstItem="lzL-Kf-ovt" firstAttribute="top" secondItem="G3i-kK-J3M" secondAttribute="bottom" constant="40" id="7ay-Kg-g7D"/>
+                            <constraint firstItem="uuV-g9-Vbb" firstAttribute="centerX" secondItem="GVk-WS-czR" secondAttribute="centerX" id="AqI-M3-CcF"/>
+                            <constraint firstItem="G3i-kK-J3M" firstAttribute="top" secondItem="GVk-WS-czR" secondAttribute="top" constant="50" id="Ct9-Ut-tmB"/>
+                            <constraint firstItem="GVk-WS-czR" firstAttribute="trailing" secondItem="lzL-Kf-ovt" secondAttribute="trailing" constant="32" id="EhA-RV-lcd"/>
+                            <constraint firstItem="lzL-Kf-ovt" firstAttribute="leading" secondItem="GVk-WS-czR" secondAttribute="leading" constant="32" id="Gux-1M-5fE"/>
+                            <constraint firstItem="GVk-WS-czR" firstAttribute="bottom" secondItem="uuV-g9-Vbb" secondAttribute="bottom" id="JvT-Tl-1hF"/>
+                            <constraint firstItem="uuV-g9-Vbb" firstAttribute="leading" secondItem="GVk-WS-czR" secondAttribute="leading" id="Nj7-jZ-eaL"/>
+                            <constraint firstItem="G3i-kK-J3M" firstAttribute="width" secondItem="aDd-9g-Qh3" secondAttribute="width" multiplier="0.610687" id="Wq5-vy-kaO"/>
+                            <constraint firstItem="G3i-kK-J3M" firstAttribute="height" secondItem="aDd-9g-Qh3" secondAttribute="height" multiplier="1:6" id="bOg-09-Zk4"/>
+                            <constraint firstItem="G3i-kK-J3M" firstAttribute="centerX" secondItem="GVk-WS-czR" secondAttribute="centerX" id="c2S-BK-nvw"/>
+                            <constraint firstItem="uuV-g9-Vbb" firstAttribute="top" secondItem="lzL-Kf-ovt" secondAttribute="bottom" constant="65" id="cJv-bx-kut"/>
+                            <constraint firstItem="GVk-WS-czR" firstAttribute="trailing" secondItem="uuV-g9-Vbb" secondAttribute="trailing" id="oxb-56-3Od"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Streak" image="streak" id="GLw-c4-VLD"/>
+                    <connections>
+                        <outlet property="animationView" destination="G3i-kK-J3M" id="T6W-8p-aSC"/>
+                        <outlet property="label" destination="lzL-Kf-ovt" id="Qif-oF-ztT"/>
+                        <outlet property="streakCalendarView" destination="uuV-g9-Vbb" id="awd-5a-oCR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R55-H0-S2f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-836" y="1391"/>
         </scene>
         <!--Pairing View Controller-->
         <scene sceneID="HKq-mu-wel">
@@ -558,9 +614,27 @@
             <point key="canvasLocation" x="1118" y="450"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="6UD-9j-FwZ">
+            <size key="intrinsicContentSize" width="45" height="40"/>
+        </designable>
+        <designable name="aFw-YC-wPg">
+            <size key="intrinsicContentSize" width="45" height="40"/>
+        </designable>
+        <designable name="fds-Hs-e6K">
+            <size key="intrinsicContentSize" width="6" height="31.333333333333332"/>
+        </designable>
+        <designable name="nkK-Wh-sWq">
+            <size key="intrinsicContentSize" width="45" height="40"/>
+        </designable>
+        <designable name="phk-9t-Gmj">
+            <size key="intrinsicContentSize" width="81" height="32"/>
+        </designable>
+    </designables>
     <resources>
         <image name="kiss" width="24" height="24"/>
         <image name="posture" width="24" height="24"/>
+        <image name="streak" width="24" height="24"/>
         <namedColor name="CDAccent">
             <color red="0.93300002813339233" green="0.29800000786781311" blue="0.57599997520446777" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

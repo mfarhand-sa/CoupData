@@ -222,6 +222,11 @@ class CDLoadingViewController : UIViewController {
             partnerActivityVC.moodData = viewModel.moodData
         }
         
+        if let streakViewController = tabBarVC.viewControllers?.first(where: { $0 is StreakViewController }) as? StreakViewController {
+            // Assign the data to PartnerActivityViewController
+            streakViewController.viewModel = self.viewModel
+        }
+        
         // Set the UITabBarController as the root view controller
         updateRootViewController(to: tabBarVC)
     }

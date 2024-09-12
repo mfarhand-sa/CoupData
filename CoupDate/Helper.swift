@@ -457,24 +457,21 @@ extension UIViewController {
                 return
             }
 
-            // Transition animation block
-            UIView.transition(with: window, duration: 0.5, options: [.transitionCrossDissolve], animations: {
-                window.isUserInteractionEnabled = false // Disable interaction during transition
-                window.rootViewController = viewController
-            }, completion: { _ in
-                window.makeKeyAndVisible()
-                
-                // Re-enable user interaction after transition
-                window.isUserInteractionEnabled = true
+            // Set the new rootViewController of the window.
+            // Calling "UIView.transition" below will animate the swap.
+            window.rootViewController = viewController
 
-                // Remove any lingering animations from the window layer
-                window.layer.removeAllAnimations()
+            // A mask of options indicating how you want to perform the animations.
+            let options: UIView.AnimationOptions = .transitionCrossDissolve
 
-                // Delay the keyboard activation further to allow UI to fully settle
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Adjust this delay as needed
-                    viewController.becomeFirstResponder()
-                    print("Attempting to make \(viewController) the first responder after transition.")
-                }
+            // The duration of the transition animation, measured in seconds.
+            let duration: TimeInterval = 0.4
+
+            // Creates a transition animation.
+            // Though `animations` is optional, the documentation tells us that it must not be nil. ¯\_(ツ)_/¯
+            UIView.transition(with: window, duration: duration, options: options, animations: {}, completion:
+            { completed in
+                // maybe do something on completion here
             })
         } else {
             print("No active window scene found. Retrying in 0.5 seconds.")

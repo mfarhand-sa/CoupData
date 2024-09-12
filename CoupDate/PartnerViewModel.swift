@@ -97,6 +97,89 @@ class PartnerViewModel: ObservableObject {
             }
         }
     }
+    
+    
+    func loadUserAndPartnerData(userID: String, partnerID: String, daysToCheck: Int = 30, completion: @escaping (Int?, Date?, Date?, Error?) -> Void) {
+        self.isLoading = true
+
+        let endDate = Date() // Today
+        let startDate = Calendar.current.date(byAdding: .day, value: -daysToCheck, to: endDate)!
+
+        FirebaseManager.shared.streakRecords(for: userID, from: startDate, to: endDate) { [weak self] userResult in
+            guard let self = self else { return }
+
+            FirebaseManager.shared.streakRecords(for: partnerID, from: startDate, to: endDate) { [weak self] partnerResult in
+                guard let self = self else { return }
+                self.isLoading = false
+
+                switch (userResult, partnerResult) {
+                case (.success(let userRecords), .success(let partnerRecords)):
+                    // The original streak calculation logic remains unchanged
+                    let streakCount = self.calculateStreak(userRecords: userRecords, partnerRecords: partnerRecords)
+                    
+                    // Find the actual start and end dates based on the streak records
+                    let actualStartDate = self.getActualStartDate(from: userRecords, partnerRecords: partnerRecords)
+                    let actualEndDate = self.getActualEndDate(from: userRecords, partnerRecords: partnerRecords)
+
+                    // Return the correct start and end dates along with the streak count
+                    completion(streakCount, actualStartDate, actualEndDate, nil)
+                case (.failure(let userError), _):
+                    completion(nil, nil, nil, userError) // Handle user error
+                case (_, .failure(let partnerError)):
+                    completion(nil, nil, nil, partnerError) // Handle partner error
+                }
+            }
+        }
+    }
+
+    func getActualStartDate(from userRecords: [Date: Bool], partnerRecords: [Date: Bool]) -> Date? {
+        let validDates = userRecords.keys.filter { userRecords[$0] == true && partnerRecords[$0] == true }
+        return validDates.min() // The earliest date in the streak
+    }
+    
+    func getActualEndDate(from userRecords: [Date: Bool], partnerRecords: [Date: Bool]) -> Date? {
+        let validDates = userRecords.keys.filter { userRecords[$0] == true && partnerRecords[$0] == true }
+        return validDates.max() // The latest date in the streak
+    }
+
+    
+    
+    func calculateStreak(userRecords: [Date: Bool], partnerRecords: [Date: Bool]) -> Int {
+        // Sort the records by date in descending order (most recent first)
+        let sortedUserRecords = userRecords.keys.sorted(by: >) // Sort by date descending
+        let sortedPartnerRecords = partnerRecords.keys.sorted(by: >) // Sort by date descending
+
+        var streakCount = 0
+        var lastValidDate: Date?
+
+        for date in sortedUserRecords {
+            // Check if both users have records for this date
+            if let userRecordExists = userRecords[date], let partnerRecordExists = partnerRecords[date], userRecordExists && partnerRecordExists {
+                if let lastDate = lastValidDate {
+                    // Check if this record is exactly one day after the last valid record
+                    if Calendar.current.isDate(date, inSameDayAs: Calendar.current.date(byAdding: .day, value: -1, to: lastDate)!) {
+                        streakCount += 1
+                        lastValidDate = date // Continue the streak
+                    } else {
+                        // Streak is broken, we can stop here
+                        break
+                    }
+                } else {
+                    // This is the first valid record, start the streak
+                    streakCount += 1
+                    lastValidDate = date
+                }
+            } else {
+                // Streak is broken because a record is missing for either user
+                break
+            }
+        }
+
+        return streakCount
+    }
+
+
+    
 
     func updateRootViewController(to viewController: UIViewController) {
         // Ensure we are running on the main thread

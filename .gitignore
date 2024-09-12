@@ -1,16 +1,12 @@
-# macOS
-.DS_Store
+# Pods
+/Pods/
+Podfile.lock
 
 # Xcode
-build/
-DerivedData/
-*.xcworkspace
-xcuserdata/
 *.xcuserstate
+*.xcuserdata
+DerivedData/
 
-# Swift Package Manager
-.build/
-
-# CocoaPods
-Pods/
-Podfile.lock
+# Build
+/build/
+.DS_Store

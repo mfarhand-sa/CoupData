@@ -70,6 +70,20 @@
 		CDDC3ECB2C92387400B2CB4A /* StreakViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3ECA2C92387400B2CB4A /* StreakViewController.swift */; };
 		CDDC3ECD2C9243A200B2CB4A /* CDModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */; };
 		CDDC3ECF2C9368DF00B2CB4A /* CDTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3ECE2C9368DF00B2CB4A /* CDTabbarController.swift */; };
+		CDDC3EDF2C939C1D00B2CB4A /* Anxious.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3ED32C939C1D00B2CB4A /* Anxious.json */; };
+		CDDC3EE02C939C1D00B2CB4A /* Calm.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3ED42C939C1D00B2CB4A /* Calm.json */; };
+		CDDC3EE12C939C1D00B2CB4A /* Excited.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3ED52C939C1D00B2CB4A /* Excited.json */; };
+		CDDC3EE22C939C1D00B2CB4A /* Happy.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3ED62C939C1D00B2CB4A /* Happy.json */; };
+		CDDC3EE32C939C1D00B2CB4A /* Loved.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3ED72C939C1D00B2CB4A /* Loved.json */; };
+		CDDC3EE42C939C1D00B2CB4A /* Mood.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3ED82C939C1D00B2CB4A /* Mood.json */; };
+		CDDC3EE52C939C1D00B2CB4A /* Stressed.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3ED92C939C1D00B2CB4A /* Stressed.json */; };
+		CDDC3EEB2C939CFE00B2CB4A /* CardTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3EE82C939CFE00B2CB4A /* CardTabBarView.swift */; };
+		CDDC3EEC2C939CFE00B2CB4A /* BarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3EE92C939CFE00B2CB4A /* BarItemView.swift */; };
+		CDDC3EED2C939CFE00B2CB4A /* CardTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3EEA2C939CFE00B2CB4A /* CardTabBarController.swift */; };
+		CDDC3EF22C939D0D00B2CB4A /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3EEE2C939D0D00B2CB4A /* UIColor+.swift */; };
+		CDDC3EF32C939D0D00B2CB4A /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3EEF2C939D0D00B2CB4A /* UIImage+.swift */; };
+		CDDC3EF42C939D0D00B2CB4A /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3EF02C939D0D00B2CB4A /* UIStackView+.swift */; };
+		CDDC3EF52C939D0D00B2CB4A /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3EF12C939D0D00B2CB4A /* UIView+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -133,7 +147,7 @@
 		CD3F830F2C91530B00126D8D /* CDTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDTracker.swift; sourceTree = "<group>"; };
 		CD3F83132C915CA800126D8D /* CDNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDNotificationManager.swift; sourceTree = "<group>"; };
 		CD53300E2C85359400541112 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDLoadingViewController.swift; sourceTree = SOURCE_ROOT; };
+		CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CDLoadingViewController.swift; path = CoupDate/ViewControllers/CDLoadingViewController.swift; sourceTree = SOURCE_ROOT; };
 		CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerViewModel.swift; sourceTree = "<group>"; };
 		CD6E71162C86F07000AE02ED /* Poop.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Poop.json; sourceTree = "<group>"; };
 		CD6E71182C86F1DD00AE02ED /* Sleeping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Sleeping.json; sourceTree = "<group>"; };
@@ -153,6 +167,20 @@
 		CDDC3ECA2C92387400B2CB4A /* StreakViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakViewController.swift; sourceTree = "<group>"; };
 		CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDModels.swift; sourceTree = "<group>"; };
 		CDDC3ECE2C9368DF00B2CB4A /* CDTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDTabbarController.swift; sourceTree = "<group>"; };
+		CDDC3ED32C939C1D00B2CB4A /* Anxious.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Anxious.json; sourceTree = "<group>"; };
+		CDDC3ED42C939C1D00B2CB4A /* Calm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Calm.json; sourceTree = "<group>"; };
+		CDDC3ED52C939C1D00B2CB4A /* Excited.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Excited.json; sourceTree = "<group>"; };
+		CDDC3ED62C939C1D00B2CB4A /* Happy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Happy.json; sourceTree = "<group>"; };
+		CDDC3ED72C939C1D00B2CB4A /* Loved.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Loved.json; sourceTree = "<group>"; };
+		CDDC3ED82C939C1D00B2CB4A /* Mood.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Mood.json; sourceTree = "<group>"; };
+		CDDC3ED92C939C1D00B2CB4A /* Stressed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Stressed.json; sourceTree = "<group>"; };
+		CDDC3EE82C939CFE00B2CB4A /* CardTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardTabBarView.swift; sourceTree = "<group>"; };
+		CDDC3EE92C939CFE00B2CB4A /* BarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarItemView.swift; sourceTree = "<group>"; };
+		CDDC3EEA2C939CFE00B2CB4A /* CardTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardTabBarController.swift; sourceTree = "<group>"; };
+		CDDC3EEE2C939D0D00B2CB4A /* UIColor+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		CDDC3EEF2C939D0D00B2CB4A /* UIImage+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
+		CDDC3EF02C939D0D00B2CB4A /* UIStackView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
+		CDDC3EF12C939D0D00B2CB4A /* UIView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		D9988D54073533D8B824BD6D /* Pods-CoupDate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDate.release.xcconfig"; path = "Target Support Files/Pods-CoupDate/Pods-CoupDate.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -231,45 +259,25 @@
 		CD261CC02C850CD800E4D5F2 /* CoupDate */ = {
 			isa = PBXGroup;
 			children = (
-				CD8711E92C897DBA0090608A /* CDDataProvider.swift */,
-				CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */,
-				CD240D882C8934D900DA034C /* Helper.swift */,
+				CDDC3EE72C939C6500B2CB4A /* Resources */,
+				CDDC3EDC2C939C1D00B2CB4A /* Core */,
+				CDDC3EDB2C939C1D00B2CB4A /* Helpers */,
+				CDDC3EDA2C939C1D00B2CB4A /* MoodAnimation */,
+				CDDC3EDD2C939C1D00B2CB4A /* ViewControllers */,
+				CDDC3ED22C939C1C00B2CB4A /* ViewModels */,
 				CD18B28D2C85678E00AC858B /* CoupDateDebug.entitlements */,
 				CD261CC12C850CD800E4D5F2 /* AppDelegate.swift */,
-				CD240D822C89084F00DA034C /* CoupleLoginViewController.swift */,
-				CD240D862C891EFE00DA034C /* GoogleSiginButton.swift */,
 				CD261CC32C850CD800E4D5F2 /* SceneDelegate.swift */,
-				CD18B2892C853C8E00AC858B /* PartnerActivityViewController.swift */,
-				CD18B2832C853BD400AC858B /* DataEntryViewController.swift */,
-				CD3F83132C915CA800126D8D /* CDNotificationManager.swift */,
-				CD787D6B2C8D241F00B419D1 /* DynamicOptionsViewController.swift */,
-				CD18B2872C853C5800AC858B /* FirebaseManager.swift */,
-				CD18B28B2C853F4B00AC858B /* UserManager.swift */,
 				CD261CC72C850CD800E4D5F2 /* Main.storyboard */,
-				CDDC3ECA2C92387400B2CB4A /* StreakViewController.swift */,
-				CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */,
-				CD8711ED2C89A6E50090608A /* CDPairingViewController.swift */,
-				CD1AB3112C903108008A46FA /* CDPartnerCodeViewController.swift */,
 				CDDC3ECE2C9368DF00B2CB4A /* CDTabbarController.swift */,
-				CD3F830F2C91530B00126D8D /* CDTracker.swift */,
 				CD261CCA2C850CD900E4D5F2 /* Assets.xcassets */,
 				CD1C3E142C893F7C009B30B8 /* Colours.xcassets */,
 				CD261CCC2C850CD900E4D5F2 /* LaunchScreen.storyboard */,
 				CD261CCF2C850CD900E4D5F2 /* Info.plist */,
 				CD18B29F2C85A72900AC858B /* sound1.caf */,
-				CD240D842C8916DE00DA034C /* LoginAnimtation.json */,
-				CD6E71162C86F07000AE02ED /* Poop.json */,
-				CD6E71182C86F1DD00AE02ED /* Sleeping.json */,
-				CD3F830D2C9104A900126D8D /* Woman.json */,
-				CD3F830B2C91049900126D8D /* Man.json */,
-				CDDC3EC82C92362800B2CB4A /* Streak.json */,
 				CD53300E2C85359400541112 /* GoogleService-Info.plist */,
-				CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */,
-				CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */,
 				CD240D7E2C88DDF900DA034C /* MoodSlider.swift */,
 				CD240D802C88DE2E00DA034C /* MoodSelectionViewController.swift */,
-				CD1AB30F2C902DD7008A46FA /* PinCodeTextField.swift */,
-				CD8711F32C8A465C0090608A /* CDButton.swift */,
 				CD787D712C8D2A9000B419D1 /* MoodAnimation */,
 				CD240D9C2C89359400DA034C /* Fonts */,
 			);
@@ -288,6 +296,96 @@
 				CD787D7E2C8D3E7500B419D1 /* Mood.json */,
 			);
 			path = MoodAnimation;
+			sourceTree = "<group>";
+		};
+		CDDC3ED22C939C1C00B2CB4A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */,
+				CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CDDC3EDA2C939C1D00B2CB4A /* MoodAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				CDDC3ED32C939C1D00B2CB4A /* Anxious.json */,
+				CDDC3ED42C939C1D00B2CB4A /* Calm.json */,
+				CDDC3ED52C939C1D00B2CB4A /* Excited.json */,
+				CDDC3ED62C939C1D00B2CB4A /* Happy.json */,
+				CDDC3ED72C939C1D00B2CB4A /* Loved.json */,
+				CDDC3ED82C939C1D00B2CB4A /* Mood.json */,
+				CDDC3ED92C939C1D00B2CB4A /* Stressed.json */,
+			);
+			path = MoodAnimation;
+			sourceTree = "<group>";
+		};
+		CDDC3EDB2C939C1D00B2CB4A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CD240D862C891EFE00DA034C /* GoogleSiginButton.swift */,
+				CD1AB30F2C902DD7008A46FA /* PinCodeTextField.swift */,
+				CD8711F32C8A465C0090608A /* CDButton.swift */,
+				CD240D882C8934D900DA034C /* Helper.swift */,
+				CDDC3EE92C939CFE00B2CB4A /* BarItemView.swift */,
+				CDDC3EEA2C939CFE00B2CB4A /* CardTabBarController.swift */,
+				CDDC3EE82C939CFE00B2CB4A /* CardTabBarView.swift */,
+				CDDC3EEE2C939D0D00B2CB4A /* UIColor+.swift */,
+				CDDC3EEF2C939D0D00B2CB4A /* UIImage+.swift */,
+				CDDC3EF02C939D0D00B2CB4A /* UIStackView+.swift */,
+				CDDC3EF12C939D0D00B2CB4A /* UIView+.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		CDDC3EDC2C939C1D00B2CB4A /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				CD8711E92C897DBA0090608A /* CDDataProvider.swift */,
+				CD3F830F2C91530B00126D8D /* CDTracker.swift */,
+				CD18B28B2C853F4B00AC858B /* UserManager.swift */,
+				CD18B2872C853C5800AC858B /* FirebaseManager.swift */,
+				CD3F83132C915CA800126D8D /* CDNotificationManager.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		CDDC3EDD2C939C1D00B2CB4A /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */,
+				CD240D822C89084F00DA034C /* CoupleLoginViewController.swift */,
+				CD18B2892C853C8E00AC858B /* PartnerActivityViewController.swift */,
+				CD18B2832C853BD400AC858B /* DataEntryViewController.swift */,
+				CD787D6B2C8D241F00B419D1 /* DynamicOptionsViewController.swift */,
+				CDDC3ECA2C92387400B2CB4A /* StreakViewController.swift */,
+				CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */,
+				CD8711ED2C89A6E50090608A /* CDPairingViewController.swift */,
+				CD1AB3112C903108008A46FA /* CDPartnerCodeViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CDDC3EE62C939C6500B2CB4A /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				CD240D842C8916DE00DA034C /* LoginAnimtation.json */,
+				CD6E71162C86F07000AE02ED /* Poop.json */,
+				CD6E71182C86F1DD00AE02ED /* Sleeping.json */,
+				CD3F830D2C9104A900126D8D /* Woman.json */,
+				CD3F830B2C91049900126D8D /* Man.json */,
+				CDDC3EC82C92362800B2CB4A /* Streak.json */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
+		CDDC3EE72C939C6500B2CB4A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CDDC3EE62C939C6500B2CB4A /* Animations */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,18 +466,24 @@
 				CD1C3E152C893F7C009B30B8 /* Colours.xcassets in Resources */,
 				CD240DA12C89359400DA034C /* Poppins-ExtraLight.ttf in Resources */,
 				CD240DA22C89359400DA034C /* Poppins-ExtraLightItalic.ttf in Resources */,
+				CDDC3EE22C939C1D00B2CB4A /* Happy.json in Resources */,
 				CD240DA32C89359400DA034C /* Poppins-BoldItalic.ttf in Resources */,
+				CDDC3EE12C939C1D00B2CB4A /* Excited.json in Resources */,
 				CD240DA42C89359400DA034C /* Poppins-Regular.ttf in Resources */,
 				CD787D722C8D2A9000B419D1 /* Loved.json in Resources */,
 				CD787D732C8D2A9000B419D1 /* Stressed.json in Resources */,
 				CD787D752C8D2A9000B419D1 /* Calm.json in Resources */,
+				CDDC3EE42C939C1D00B2CB4A /* Mood.json in Resources */,
 				CD240DA52C89359400DA034C /* Poppins-Italic.ttf in Resources */,
 				CD787D772C8D30E200B419D1 /* Happy.json in Resources */,
 				CD240DA62C89359400DA034C /* Poppins-Bold.ttf in Resources */,
 				CD240DA72C89359400DA034C /* Poppins-SemiBoldItalic.ttf in Resources */,
+				CDDC3EE02C939C1D00B2CB4A /* Calm.json in Resources */,
+				CDDC3EE52C939C1D00B2CB4A /* Stressed.json in Resources */,
 				CD240DA82C89359400DA034C /* Poppins-SemiBold.ttf in Resources */,
 				CD240DA92C89359400DA034C /* Poppins-Medium.ttf in Resources */,
 				CD240DAA2C89359400DA034C /* Poppins-Light.ttf in Resources */,
+				CDDC3EDF2C939C1D00B2CB4A /* Anxious.json in Resources */,
 				CD240DAB2C89359400DA034C /* Poppins-Black.ttf in Resources */,
 				CD240DAC2C89359400DA034C /* Poppins-ExtraBold.ttf in Resources */,
 				CD240DAD2C89359400DA034C /* Poppins-MediumItalic.ttf in Resources */,
@@ -387,6 +491,7 @@
 				CD261CCE2C850CD900E4D5F2 /* Base in Resources */,
 				CD3F830E2C9104A900126D8D /* Woman.json in Resources */,
 				CD261CC92C850CD800E4D5F2 /* Base in Resources */,
+				CDDC3EE32C939C1D00B2CB4A /* Loved.json in Resources */,
 				CD3F830C2C91049900126D8D /* Man.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -440,9 +545,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDDC3EF42C939D0D00B2CB4A /* UIStackView+.swift in Sources */,
 				CD18B28C2C853F4B00AC858B /* UserManager.swift in Sources */,
 				CD8711F22C8A45CB0090608A /* CDUserRegistrationViewController.swift in Sources */,
 				CDDC3ECF2C9368DF00B2CB4A /* CDTabbarController.swift in Sources */,
+				CDDC3EED2C939CFE00B2CB4A /* CardTabBarController.swift in Sources */,
 				CD8711EA2C897DBA0090608A /* CDDataProvider.swift in Sources */,
 				CD8711EE2C89A6E50090608A /* CDPairingViewController.swift in Sources */,
 				CDDC3ECB2C92387400B2CB4A /* StreakViewController.swift in Sources */,
@@ -450,12 +557,15 @@
 				CD261CC22C850CD800E4D5F2 /* AppDelegate.swift in Sources */,
 				CD240D812C88DE2E00DA034C /* MoodSelectionViewController.swift in Sources */,
 				CD18B2882C853C5800AC858B /* FirebaseManager.swift in Sources */,
+				CDDC3EF52C939D0D00B2CB4A /* UIView+.swift in Sources */,
 				CD787D6C2C8D241F00B419D1 /* DynamicOptionsViewController.swift in Sources */,
 				CD3F83102C91530B00126D8D /* CDTracker.swift in Sources */,
 				CD261CC42C850CD800E4D5F2 /* SceneDelegate.swift in Sources */,
 				CD240D872C891EFE00DA034C /* GoogleSiginButton.swift in Sources */,
 				CD6E71112C86E61B00AE02ED /* CDLoadingViewController.swift in Sources */,
+				CDDC3EEC2C939CFE00B2CB4A /* BarItemView.swift in Sources */,
 				CD3F83142C915CA800126D8D /* CDNotificationManager.swift in Sources */,
+				CDDC3EEB2C939CFE00B2CB4A /* CardTabBarView.swift in Sources */,
 				CD8711F42C8A465C0090608A /* CDButton.swift in Sources */,
 				CD240D832C89084F00DA034C /* CoupleLoginViewController.swift in Sources */,
 				CD18B28A2C853C8E00AC858B /* PartnerActivityViewController.swift in Sources */,
@@ -463,6 +573,8 @@
 				CD240D7F2C88DDF900DA034C /* MoodSlider.swift in Sources */,
 				CDDC3ECD2C9243A200B2CB4A /* CDModels.swift in Sources */,
 				CD240D892C8934D900DA034C /* Helper.swift in Sources */,
+				CDDC3EF22C939D0D00B2CB4A /* UIColor+.swift in Sources */,
+				CDDC3EF32C939D0D00B2CB4A /* UIImage+.swift in Sources */,
 				CD18B2842C853BD400AC858B /* DataEntryViewController.swift in Sources */,
 				CD6E71152C86EA6100AE02ED /* PartnerViewModel.swift in Sources */,
 			);

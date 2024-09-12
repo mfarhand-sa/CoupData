@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import CardTabBar
+import UIKit
 
 class CDTabbarController: CardTabBarController {
 

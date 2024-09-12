@@ -242,13 +242,13 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="One more step" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="es8-Zk-mRO">
-                                <rect key="frame" x="92.333333333333329" y="105.33333333333333" width="208.66666666666669" height="39.333333333333329"/>
+                                <rect key="frame" x="103.66666666666669" y="105.33333333333333" width="186" height="32.666666666666671"/>
                                 <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="28"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kB6-QW-qlf">
-                                <rect key="frame" x="32" y="197.66666666666666" width="329" height="56"/>
+                                <rect key="frame" x="32" y="186.33333333333334" width="329" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="vqC-vS-pMA"/>
                                 </constraints>
@@ -257,13 +257,13 @@
                                 <textInputTraits key="textInputTraits" returnKeyType="done" textContentType="name"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What should we call you?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nK3-v6-j0b">
-                                <rect key="frame" x="32" y="145.66666666666666" width="329" height="28"/>
+                                <rect key="frame" x="32" y="139" width="329" height="23.333333333333343"/>
                                 <fontDescription key="fontDescription" name="Poppins-Light" family="Poppins" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFw-YC-wPg" customClass="CDButton" customModule="CoupDate" customModuleProvider="target">
-                                <rect key="frame" x="32" y="277.66666666666669" width="329" height="64"/>
+                                <rect key="frame" x="32" y="266.33333333333331" width="329" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="VFv-cQ-eG0"/>
@@ -348,13 +348,13 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect with your partner" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lW0-Kv-Oat">
-                                <rect key="frame" x="32" y="105.33333333333333" width="329" height="33.666666666666671"/>
+                                <rect key="frame" x="32" y="105.33333333333333" width="329" height="27.999999999999986"/>
                                 <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="24"/>
                                 <color key="textColor" name="CDText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fds-Hs-e6K" customClass="PinCodeTextField" customModule="CoupDate" customModuleProvider="target">
-                                <rect key="frame" x="32" y="192" width="329" height="56"/>
+                                <rect key="frame" x="32" y="181.66666666666666" width="329" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="zmz-HV-hBa"/>
                                 </constraints>
@@ -374,7 +374,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I have my partner's code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YcS-Vw-j0J">
-                                <rect key="frame" x="32" y="140" width="329" height="28"/>
+                                <rect key="frame" x="32" y="134.33333333333334" width="329" height="23.333333333333343"/>
                                 <fontDescription key="fontDescription" name="Poppins-Light" family="Poppins" pointSize="20"/>
                                 <color key="textColor" name="CDText"/>
                                 <nil key="highlightedColor"/>
@@ -434,19 +434,19 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I want to invite my partner" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJA-le-Chx">
-                                <rect key="frame" x="32" y="498" width="329" height="20"/>
+                                <rect key="frame" x="32" y="487.66666666666669" width="329" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your code with your partner to pair with them on CoupDate" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fz-fT-eyv">
-                                <rect key="frame" x="32" y="533" width="329" height="39.666666666666629"/>
+                                <rect key="frame" x="32" y="522.66666666666663" width="329" height="39.666666666666629"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your code:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ub5-OF-BOJ">
-                                <rect key="frame" x="32" y="598.66666666666663" width="329" height="21"/>
+                                <rect key="frame" x="32" y="588.33333333333337" width="329" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -516,19 +516,19 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="One more step" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BvW-4Z-npZ">
-                                <rect key="frame" x="92.333333333333329" y="105.33333333333333" width="208.66666666666669" height="39.333333333333329"/>
+                                <rect key="frame" x="103.66666666666669" y="105.33333333333333" width="186" height="32.666666666666671"/>
                                 <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="28"/>
                                 <color key="textColor" name="CDText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What should we call you?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DoW-aE-W9h">
-                                <rect key="frame" x="32" y="145.66666666666666" width="329" height="28"/>
+                                <rect key="frame" x="32" y="139" width="329" height="23.333333333333343"/>
                                 <fontDescription key="fontDescription" name="Poppins-Light" family="Poppins" pointSize="20"/>
                                 <color key="textColor" name="CDText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nkK-Wh-sWq" customClass="CDButton" customModule="CoupDate" customModuleProvider="target">
-                                <rect key="frame" x="32" y="413.66666666666669" width="329" height="64"/>
+                                <rect key="frame" x="32" y="402.33333333333331" width="329" height="64"/>
                                 <color key="backgroundColor" name="CDAccent"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="QaI-aq-a9n"/>
@@ -555,7 +555,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="yTa-UD-e1S">
-                                <rect key="frame" x="32" y="213.66666666666663" width="329" height="150"/>
+                                <rect key="frame" x="32" y="202.33333333333337" width="329" height="150"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mlh-hM-d5p" customClass="LottieAnimationView" customModule="Lottie">
                                         <rect key="frame" x="0.0" y="0.0" width="154.66666666666666" height="150"/>
@@ -615,19 +615,19 @@
     </scenes>
     <designables>
         <designable name="6UD-9j-FwZ">
-            <size key="intrinsicContentSize" width="45" height="40"/>
+            <size key="intrinsicContentSize" width="42" height="36"/>
         </designable>
         <designable name="aFw-YC-wPg">
-            <size key="intrinsicContentSize" width="45" height="40"/>
+            <size key="intrinsicContentSize" width="42" height="36"/>
         </designable>
         <designable name="fds-Hs-e6K">
-            <size key="intrinsicContentSize" width="6" height="31.333333333333332"/>
+            <size key="intrinsicContentSize" width="6" height="26.333333333333332"/>
         </designable>
         <designable name="nkK-Wh-sWq">
-            <size key="intrinsicContentSize" width="45" height="40"/>
+            <size key="intrinsicContentSize" width="42" height="36"/>
         </designable>
         <designable name="phk-9t-Gmj">
-            <size key="intrinsicContentSize" width="81" height="32"/>
+            <size key="intrinsicContentSize" width="72" height="29"/>
         </designable>
     </designables>
     <resources>

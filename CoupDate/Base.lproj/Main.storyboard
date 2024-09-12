@@ -87,13 +87,13 @@
                         <viewLayoutGuide key="safeArea" id="yPw-hW-AOy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Me" image="posture" id="msd-2d-MaR"/>
+                    <tabBarItem key="tabBarItem" title="Me" image="myself-male" id="msd-2d-MaR"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L2U-TP-tfz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2363" y="1427"/>
         </scene>
-        <!--My Partner-->
+        <!--Partner-->
         <scene sceneID="RaD-cb-lqA">
             <objects>
                 <viewController storyboardIdentifier="PartnerActivityViewController" id="y2r-F1-HAe" customClass="PartnerActivityViewController" customModule="CoupDate" customModuleProvider="target" sceneMemberID="viewController">
@@ -103,16 +103,16 @@
                         <viewLayoutGuide key="safeArea" id="919-gr-f0a"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="My Partner" image="kiss" id="crR-iM-xt1"/>
+                    <tabBarItem key="tabBarItem" title="Partner" image="kiss" id="crR-iM-xt1"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LZo-Np-Lwp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-486" y="-245"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Tabbar Controller-->
         <scene sceneID="dFL-bD-F6x">
             <objects>
-                <tabBarController storyboardIdentifier="MainTabbar" id="eqQ-yE-X3N" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabbar" id="eqQ-yE-X3N" customClass="CDTabbarController" customModule="CoupDate" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AfC-Gw-tVZ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -632,7 +632,7 @@
     </designables>
     <resources>
         <image name="kiss" width="24" height="24"/>
-        <image name="posture" width="24" height="24"/>
+        <image name="myself-male" width="24" height="24"/>
         <image name="streak" width="24" height="24"/>
         <namedColor name="CDAccent">
             <color red="1" green="0.68627450980392157" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

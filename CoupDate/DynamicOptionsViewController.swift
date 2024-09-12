@@ -35,9 +35,18 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         // Ensure the view has a black background
         view.backgroundColor = UIColor(named: "CDBackground")
         
+        updateSaveButtonState()
+        
         // Ensure the collection view also has a black background
     }
 
+    
+    private func updateSaveButtonState() {
+        saveButton.isEnabled = !selectedOptions.isEmpty
+        saveButton.backgroundColor = selectedOptions.isEmpty ? .lightGray : .accent // Optional: change color when disabled
+    }
+    
+    
     private func setupUI() {
         // Title label
         titleLabel.text = categoryTitle
@@ -149,6 +158,7 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         Haptic.play()
         let selectedOption = options[indexPath.row]
         selectedOptions.append(selectedOption) // Add the selected option to the list
+        updateSaveButtonState() // Update button state after selecting an option
     }
 
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -156,6 +166,7 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         if let index = selectedOptions.firstIndex(of: deselectedOption) {
             selectedOptions.remove(at: index) // Remove the deselected option from the list
         }
+        updateSaveButtonState() // Update button state after deselecting an option
     }
 
     // MARK: - Save Button Action
@@ -257,6 +268,7 @@ class OptionCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             self.layer.borderColor = isSelected ? UIColor.accent.cgColor : UIColor.CDText.cgColor
+            self.layer.borderWidth = isSelected ? 1 : 0.6
         }
     }
 }

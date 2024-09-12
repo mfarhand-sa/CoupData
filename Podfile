@@ -18,6 +18,7 @@ target 'CoupDate' do
   pod 'Typist'
   pod 'BugfenderSDK', '~> 1.10'
   pod 'HorizonCalendar', '~> 1.16.0'
+  pod 'CardTabBar'
 
 end
 

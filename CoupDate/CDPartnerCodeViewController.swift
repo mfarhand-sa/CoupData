@@ -187,15 +187,16 @@ class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         
         // Instantiate the UITabBarController from the storyboard
-        guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabbar") as? UITabBarController else {
+        guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabbar") as? CDTabbarController else {
             print("Could not find UITabBarController with identifier 'MainTabbar'")
             return
         }
         
+        tabBarVC.viewModel = self.viewModel
         // Find the PartnerActivityViewController in the tab bar's view controllers
-        if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
-            partnerActivityVC.viewModel = self.viewModel
-        }
+//        if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
+//            partnerActivityVC.viewModel = self.viewModel
+//        }
         
         // Set the UITabBarController as the root view controller
         updateRootViewController(to: tabBarVC)

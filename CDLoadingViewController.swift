@@ -40,25 +40,30 @@ class CDLoadingViewController : UIViewController {
     
     
     private func checkAuthenticationAndLoadPartnerData() {
-        // Wait for partner data to be loaded before navigating to the main screen
         viewModel.$poopData
-            .combineLatest(viewModel.$sleepData,viewModel.$moodData)
+            .combineLatest(viewModel.$sleepData, viewModel.$moodData)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] poopData, sleepData, moodData in
-                guard let self = self else { return }
+                guard let strongSelf = self else { return }
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                    guard !strongSelf.hasNavigated else { return } // Only proceed if we haven't navigated
+
                     if let user = Auth.auth().currentUser, let _ = UserDefaults.standard.string(forKey: "loggedIn") {
                         print("User is already signed in: \(user.uid)")
-                        self.navigateToMainScreen()
+                        strongSelf.navigateToMainScreen()
+                        strongSelf.hasNavigated = true // Set flag here after navigating to the main screen
                     } else {
                         print("No user is signed in.")
-                        self.navigateToLoginScreen()
+                        strongSelf.navigateToLoginScreen()
+                        strongSelf.hasNavigated = true // Set flag here after navigating to the login screen
                     }
                 }
             }
             .store(in: &cancellables)
     }
+
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,32 +104,34 @@ class CDLoadingViewController : UIViewController {
             // This will first check if user info is required, and if not, proceed to check authentication and load partner data
 
             viewModel.$userInfoRequired
-                      .combineLatest(viewModel.$isLoading)
-                      .filter { !$1 } // Only proceed when not loading
-                      .flatMap { [weak self] (userInfoRequired, _) -> AnyPublisher<Bool, Never> in
-                          guard let self = self else { return Just(false).eraseToAnyPublisher() }
-                          
-                          if self.hasNavigated {
-                              return Just(false).eraseToAnyPublisher() // Prevent further navigation after the first
-                          }
+                .combineLatest(viewModel.$isLoading)
+                .filter { !$1 } // Only proceed when not loading
+                .flatMap { [weak self] (userInfoRequired, _) -> AnyPublisher<Bool, Never> in
+                    guard let strongSelf = self else { return Just(false).eraseToAnyPublisher() }
 
-                          if userInfoRequired {
-                              self.showRegistrationScreen()
-                              self.hasNavigated = true // Set flag after navigating
-                              return Just(false).eraseToAnyPublisher()
-                          } else {
-                              return Just(true).eraseToAnyPublisher()
-                          }
-                      }
-                      .receive(on: DispatchQueue.main)
-                      .sink { [weak self] shouldNavigate in
-                          guard let self = self, shouldNavigate, !self.hasNavigated else { return }
-                          self.checkAuthenticationAndLoadPartnerData()
-                          self.hasNavigated = true // Ensure we only navigate once
-                      }
-                      .store(in: &cancellables)
+                    if strongSelf.hasNavigated {
+                        return Just(false).eraseToAnyPublisher() // Prevent further navigation after the first
+                    }
 
-                  viewModel.loadMyDataAndThenPartnerData()
+                    if userInfoRequired {
+                        strongSelf.showRegistrationScreen()
+                        strongSelf.hasNavigated = true // Set flag after successfully navigating
+                        return Just(false).eraseToAnyPublisher()
+                    } else {
+                        return Just(true).eraseToAnyPublisher()
+                    }
+                }
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] shouldNavigate in
+                    guard let strongSelf = self, shouldNavigate, !strongSelf.hasNavigated else { return }
+                    strongSelf.checkAuthenticationAndLoadPartnerData()
+                    // Don't set hasNavigated here yet because it will be handled in checkAuthenticationAndLoadPartnerData
+                }
+                .store(in: &cancellables)
+
+            viewModel.loadMyDataAndThenPartnerData()
+
+
               }
     }
     
@@ -208,24 +215,26 @@ class CDLoadingViewController : UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         
         // Instantiate the UITabBarController from the storyboard
-        guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabbar") as? UITabBarController else {
+        guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabbar") as? CDTabbarController else {
             print("Could not find UITabBarController with identifier 'MainTabbar'")
             return
         }
         
-        // Find the PartnerActivityViewController in the tab bar's view controllers
-        if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
-            // Assign the data to PartnerActivityViewController
-            partnerActivityVC.viewModel = self.viewModel
-            partnerActivityVC.poopData = viewModel.poopData
-            partnerActivityVC.sleepData = viewModel.sleepData
-            partnerActivityVC.moodData = viewModel.moodData
-        }
+        tabBarVC.viewModel = self.viewModel
         
-        if let streakViewController = tabBarVC.viewControllers?.first(where: { $0 is StreakViewController }) as? StreakViewController {
-            // Assign the data to PartnerActivityViewController
-            streakViewController.viewModel = self.viewModel
-        }
+        // Find the PartnerActivityViewController in the tab bar's view controllers
+//        if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
+//            // Assign the data to PartnerActivityViewController
+//            partnerActivityVC.viewModel = self.viewModel
+//            partnerActivityVC.poopData = viewModel.poopData
+//            partnerActivityVC.sleepData = viewModel.sleepData
+//            partnerActivityVC.moodData = viewModel.moodData
+//        }
+//        
+//        if let streakViewController = tabBarVC.viewControllers?.first(where: { $0 is StreakViewController }) as? StreakViewController {
+//            // Assign the data to PartnerActivityViewController
+//            streakViewController.viewModel = self.viewModel
+//        }
         
         // Set the UITabBarController as the root view controller
         updateRootViewController(to: tabBarVC)

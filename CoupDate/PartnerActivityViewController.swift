@@ -399,11 +399,11 @@ class PartnerActivityCardCell: UICollectionViewCell {
                 // Single status or no data
                 statusStackView.isHidden = true
                 statusLabel.isHidden = false
-                statusLabel.text = data["status"] as? String ?? "No data available"
+                statusLabel.text = data["status"] as? String ?? "Nothing shared yet!"
             }
         } else {
             statusLabel.isHidden = false
-            statusLabel.text = "No data available"
+            statusLabel.text = "Nothing shared yet!"
             statusStackView.isHidden = true
         }
     }

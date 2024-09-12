@@ -32,6 +32,10 @@ class PartnerViewModel: ObservableObject {
                     CDDataProvider.shared.name = firstName
                 }
                 
+                if let gender = data["gender"] as? String {
+                    CDDataProvider.shared.gender = gender
+                }
+                
                 
                 // Check if user profile is incomplete
                 if (data["firstName"] == nil || data["birthday"] == nil || data["partnerUserId"] == nil || data["gender"] == nil ) {

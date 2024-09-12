@@ -22,16 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
         Haptic.doSomethinStupid(status: false)
         CDTracker.initializeTrackers()
         
-        if #available(iOS 13.0, *) {
-            let appearance = UITabBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(named: "TabbarNormal")!]
-            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.accent]
-            appearance.stackedLayoutAppearance.normal.iconColor =  UIColor(named: "TabbarNormal")!
-            appearance.stackedLayoutAppearance.selected.iconColor =  UIColor.accent
-            UITabBar.appearance().standardAppearance = appearance
-            UITabBar.appearance().scrollEdgeAppearance = appearance
-        }
+//        if #available(iOS 13.0, *) {
+//            let appearance = UITabBarAppearance()
+//            appearance.configureWithOpaqueBackground()
+//            appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(named: "TabbarNormal")!]
+//            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.accent]
+//            appearance.stackedLayoutAppearance.normal.iconColor =  UIColor(named: "TabbarNormal")!
+//            appearance.stackedLayoutAppearance.selected.iconColor =  UIColor.accent
+//            UITabBar.appearance().standardAppearance = appearance
+//            UITabBar.appearance().scrollEdgeAppearance = appearance
+//        }
         
         FirebaseApp.configure()
         Messaging.messaging().delegate = self

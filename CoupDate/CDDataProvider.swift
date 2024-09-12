@@ -18,6 +18,8 @@ class CDDataProvider {
     public var partnerID: String?
     public var name: String?
     public var birthday: Date?
+    public var gender: String?
+
 
     var poopData: [String: Any]?
     var sleepData: [String: Any]?

@@ -219,24 +219,7 @@ class CDLoadingViewController : UIViewController {
             print("Could not find UITabBarController with identifier 'MainTabbar'")
             return
         }
-        
         tabBarVC.viewModel = self.viewModel
-        
-        // Find the PartnerActivityViewController in the tab bar's view controllers
-//        if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
-//            // Assign the data to PartnerActivityViewController
-//            partnerActivityVC.viewModel = self.viewModel
-//            partnerActivityVC.poopData = viewModel.poopData
-//            partnerActivityVC.sleepData = viewModel.sleepData
-//            partnerActivityVC.moodData = viewModel.moodData
-//        }
-//        
-//        if let streakViewController = tabBarVC.viewControllers?.first(where: { $0 is StreakViewController }) as? StreakViewController {
-//            // Assign the data to PartnerActivityViewController
-//            streakViewController.viewModel = self.viewModel
-//        }
-        
-        // Set the UITabBarController as the root view controller
         updateRootViewController(to: tabBarVC)
     }
 

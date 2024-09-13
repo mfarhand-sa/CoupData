@@ -15,7 +15,9 @@ class CoupleLoginViewController: UIViewController {
     // Partner View Model
     private var partnerViewModel = PartnerViewModel()
     private var cancellables = Set<AnyCancellable>()
-
+    
+    var hasNavigatedToMainScreen : Bool = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,10 +72,10 @@ class CoupleLoginViewController: UIViewController {
         googleSignInButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(googleSignInButton)
         
- 
+        
         // Optional: Add target action for sign-in
         googleSignInButton.addTarget(self, action: #selector(googleSignInTapped), for: .touchUpInside)
-
+        
         
         // Configure Apple Sign-In button
         appleSignInButton.addTarget(self, action: #selector(appleSignInTapped), for: .touchUpInside)
@@ -94,7 +96,7 @@ class CoupleLoginViewController: UIViewController {
             guard error == nil, let signInResult = signInResult else {
                 print("Error signing in with Google: \(String(describing: error?.localizedDescription))")
                 CustomAlerts.displayNotification(title: "", message: "Error signing in with Google: \(String(describing: error?.localizedDescription))", view: self.view)
-
+                
                 return
             }
             
@@ -140,12 +142,12 @@ class CoupleLoginViewController: UIViewController {
                                             UserDefaults.standard.setValue("YES", forKey: "loggedIn")
                                             self.navigateToMainScreen() // Navigate after successful sign-in
                                         }
-
+                                        
                                     }
                                 }
                             }
                             
-
+                            
                         }
                     }
                 }
@@ -176,6 +178,19 @@ class CoupleLoginViewController: UIViewController {
     }
     
     
+    private func showMainScreen() {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        
+        // Instantiate the UITabBarController from the storyboard
+        guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabbar") as? CDTabbarController else {
+            print("Could not find UITabBarController with identifier 'MainTabbar'")
+            return
+        }
+        tabBarVC.viewModel = self.partnerViewModel
+        updateRootViewController(to: tabBarVC)
+    }
+    
+    
     private func checkAuthenticationAndLoadPartnerData() {
         // Wait for partner data to be loaded before navigating to the main screen
         partnerViewModel.$poopData
@@ -183,7 +198,7 @@ class CoupleLoginViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] poopData, sleepData in
                 guard let self = self else { return }
-
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
                     if let user = Auth.auth().currentUser, let _ = UserDefaults.standard.string(forKey: "loggedIn") {
                         print("User is already signed in: \(user.uid)")
@@ -196,32 +211,36 @@ class CoupleLoginViewController: UIViewController {
             .store(in: &cancellables)
     }
     
-
+    
     func navigateToMainScreen() {
-
-        
         partnerViewModel.$userInfoRequired
             .combineLatest(partnerViewModel.$isLoading)
-            .filter { !$1 } // Only proceed when not loading
-            .flatMap { (userInfoRequired, _) -> AnyPublisher<Bool, Never> in
+            .filter { !$1 } // Proceed only when not loading
+            .flatMap { [weak self] (userInfoRequired: Bool, isLoading: Bool) -> AnyPublisher<Bool, Never> in
+                guard let self = self else { return Just(false).eraseToAnyPublisher() }
+
                 if userInfoRequired {
+                    // If user info is required, show the registration screen
                     self.showRegistrationScreen()
                     return Just(false).eraseToAnyPublisher() // Prevent further navigation
                 } else {
-                    return Just(true).eraseToAnyPublisher() // Continue to authentication and partner data loading
+                    // Ensure the main screen is shown only once
+                    if !self.hasNavigatedToMainScreen {
+                        self.showMainScreen()
+                        self.hasNavigatedToMainScreen = true
+                    }
+                    return Just(false).eraseToAnyPublisher() // Stop further navigation
                 }
             }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] shouldNavigate in
+            .receive(on: DispatchQueue.main) // Use explicit DispatchQueue.main
+            .sink(receiveValue: { [weak self] (shouldNavigate: Bool) in
                 guard let self = self, shouldNavigate else { return }
                 self.checkAuthenticationAndLoadPartnerData()
-            }
+            })
             .store(in: &cancellables)
         
         partnerViewModel.loadMyDataAndThenPartnerData()
-        
-    }
-}
+    }}
 
 
 // MARK: - ASAuthorizationControllerDelegate

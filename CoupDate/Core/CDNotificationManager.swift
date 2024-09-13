@@ -26,24 +26,43 @@ class CDNotificationManager {
         }
     }
 
-    // Cancel all daily notifications to avoid duplicates
+    // Cancel all daily notifications with a specific prefix
     func cancelPreviousDailyNotifications() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["daily9AMNotification"])
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            let identifiers = requests
+                .filter { $0.identifier.hasPrefix("daily9AMNotification") }
+                .map { $0.identifier }
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
     }
 
     // Cancel all previous mood-based notifications
     func cancelPreviousMoodNotifications() {
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            let identifiers = requests
+                .filter { $0.identifier.hasPrefix("moodNotification") }
+                .map { $0.identifier }
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
     }
 
-    // Schedule a daily notification at 9AM
+    // Schedule a daily notification at 9 AM with different motivational texts
     func scheduleDailyNotification(userName: String?) {
         cancelPreviousDailyNotifications()
 
         let content = UNMutableNotificationContent()
         let name = userName ?? "there"
-        content.title = "Good Morning, \(name)!"
-        content.body = "Start your day off right! How are you feeling today? Check-in and let your partner know."
+
+        let motivationalTexts = [
+            "A fresh day ahead, \(name)! Time to shine 🌟",
+            "Good Morning, \(name)! Let’s make today awesome!",
+            "New day, new opportunities, \(name)! What’s on your mind?",
+            "Rise and shine, \(name)! What are you looking forward to?",
+            "\(name), it’s a brand new day! How are you feeling?"
+        ]
+
+        content.title = motivationalTexts.randomElement()!
+        content.body = "Check-in and let your partner know how you're feeling today."
         content.sound = .default
 
         var dateComponents = DateComponents()
@@ -51,7 +70,7 @@ class CDNotificationManager {
         dateComponents.minute = 0
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-        let request = UNNotificationRequest(identifier: "daily9AMNotification", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: "daily9AMNotification-\(UUID().uuidString)", content: content, trigger: trigger)
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
@@ -60,9 +79,8 @@ class CDNotificationManager {
         }
     }
 
-    // Schedule mood-based notification 2 hours later
+    // Schedule mood-based notification
     func scheduleMoodNotification(mood: String, userName: String?) {
-        // Cancel any previous mood notifications before scheduling a new one
         cancelPreviousMoodNotifications()
 
         let content = UNMutableNotificationContent()
@@ -70,23 +88,29 @@ class CDNotificationManager {
 
         switch mood {
         case "Happy":
-            content.title = "Keep the Good Vibes Going!"
-            content.body = "You were feeling happy earlier! Keep it up, \(name). Spread your joy today!"
+            content.title = ["Keep Smiling!", "Happiness is Contagious!", "Share your Joy!", "What’s keeping you smiling, \(name)?"].randomElement()!
+            content.body = ["You were feeling happy earlier, keep the good vibes going!", "\(name), spread your happiness and brighten someone’s day!", "Let your partner know what’s making you happy today!"].randomElement()!
         case "Excited":
-            content.title = "Fuel that Excitement!"
-            content.body = "\(name), let that excitement continue! What's keeping you motivated today?"
+            content.title = ["Keep the Energy Flowing!", "Excitement Feels Good!", "You're Energized!"].randomElement()!
+            content.body = ["Let that excitement fuel your day!", "What’s getting you pumped today, \(name)?", "\(name), use that excitement to motivate yourself!"].randomElement()!
         case "Loved":
-            content.title = "Share the Love!"
-            content.body = "\(name), feel the love and let your partner know how much they mean to you."
+            content.title = ["Love is Powerful!", "Feeling Loved?", "Spread the Love"].randomElement()!
+            content.body = ["Feeling loved is a blessing. Show appreciation today.", "\(name), send some love back to your partner.", "Let your partner know how much they mean to you!"].randomElement()!
         case "Calm":
-            content.title = "Stay in the Moment"
-            content.body = "You've been calm today. Take a deep breath and stay balanced."
+            content.title = ["Feeling at Peace?", "Embrace the Calm", "Stay Zen"].randomElement()!
+            content.body = ["Keep your calm energy flowing, \(name).", "Take a moment to breathe and stay balanced.", "\(name), continue enjoying your peaceful day!"].randomElement()!
         case "Stressed":
-            content.title = "Take a Break!"
-            content.body = "\(name), feeling stressed? Take 5 minutes to relax and breathe."
+            content.title = ["Feeling Overwhelmed?", "Take it Easy", "Stressful Times?"].randomElement()!
+            content.body = ["Remember to take breaks, \(name).", "You got this! Take it one step at a time.", "Feeling stressed? Make time for yourself, \(name)."].randomElement()!
         case "Anxious":
-            content.title = "You Got This!"
-            content.body = "It's okay to feel anxious, \(name). You've got everything under control."
+            content.title = ["Everything Will Be Okay", "Feeling Nervous?", "Anxiety’s Just a Phase"].randomElement()!
+            content.body = ["It’s okay to feel anxious, take it slow.", "Breathe deeply, you’ll get through this.", "Focus on what’s in your control, \(name)."].randomElement()!
+        case "Sick":
+            content.title = ["Rest Up!", "Take Care", "Feeling Under the Weather?"].randomElement()!
+            content.body = ["Take it easy today, \(name). You need to recover.", "Don’t forget to hydrate and get plenty of rest.", "Let your partner know if you need any help!"].randomElement()!
+        case "Period":
+            content.title = ["Take it Easy", "Self-Care is Key", "Period Pains?"].randomElement()!
+            content.body = ["Remember to rest and prioritize self-care.", "\(name), take some time for yourself today.", "It’s okay to relax and take a break during tough days!"].randomElement()!
         default:
             content.title = "How Are You?"
             content.body = "Let us know how you're feeling and check in."
@@ -94,8 +118,8 @@ class CDNotificationManager {
 
         content.sound = .default
 
-        // Create a unique identifier for the mood notification to easily cancel it
-        let notificationIdentifier = "moodNotification-\(mood)"
+        // Unique identifier for mood notification
+        let notificationIdentifier = "moodNotification-\(mood)-\(UUID().uuidString)"
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 15 * 60, repeats: false) // 2 hours later
         let request = UNNotificationRequest(identifier: notificationIdentifier, content: content, trigger: trigger)
 
@@ -114,7 +138,7 @@ class CDNotificationManager {
 
     // Method to prioritize moods based on need (adjust priority as needed)
     private func prioritizeMood(moods: [String]) -> String {
-        let moodPriority = ["Stressed", "Anxious", "Calm", "Excited", "Loved", "Happy"]
+        let moodPriority = ["Sick", "Period", "Stressed", "Anxious", "Calm", "Excited", "Loved", "Happy"]
 
         // Return the highest-priority mood from the user's selections
         for mood in moodPriority {
@@ -133,4 +157,3 @@ class CDNotificationManager {
         scheduleMoodBasedNotifications(moods: moods, userName: userName)
     }
 }
-

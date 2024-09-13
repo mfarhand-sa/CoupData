@@ -40,6 +40,7 @@
 		CD240DAC2C89359400DA034C /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD240D8E2C89359400DA034C /* Poppins-ExtraBold.ttf */; };
 		CD240DAD2C89359400DA034C /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD240D962C89359400DA034C /* Poppins-MediumItalic.ttf */; };
 		CD240DAE2C89359400DA034C /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD240D8B2C89359400DA034C /* Poppins-BlackItalic.ttf */; };
+		CD245BAA2C94B4560087EA92 /* reaction1.json in Resources */ = {isa = PBXBuildFile; fileRef = CD245BA92C94B4560087EA92 /* reaction1.json */; };
 		CD261CC22C850CD800E4D5F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD261CC12C850CD800E4D5F2 /* AppDelegate.swift */; };
 		CD261CC42C850CD800E4D5F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD261CC32C850CD800E4D5F2 /* SceneDelegate.swift */; };
 		CD261CC92C850CD800E4D5F2 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = CD261CC82C850CD800E4D5F2 /* Base */; };
@@ -137,6 +138,7 @@
 		CD240D992C89359400DA034C /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		CD240D9A2C89359400DA034C /* Poppins-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Thin.ttf"; sourceTree = "<group>"; };
 		CD240D9B2C89359400DA034C /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ThinItalic.ttf"; sourceTree = "<group>"; };
+		CD245BA92C94B4560087EA92 /* reaction1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = reaction1.json; sourceTree = "<group>"; };
 		CD261CBE2C850CD800E4D5F2 /* CoupDate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoupDate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD261CC12C850CD800E4D5F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD261CC32C850CD800E4D5F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				CDDC3ED92C939C1D00B2CB4A /* Stressed.json */,
 				CD571CC72C949FA8005E96AD /* Sick.json */,
 				CD571CC92C949FB2005E96AD /* Period.json */,
+				CD245BA92C94B4560087EA92 /* reaction1.json */,
 			);
 			path = MoodAnimation;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 				CD787D722C8D2A9000B419D1 /* Loved.json in Resources */,
 				CD787D732C8D2A9000B419D1 /* Stressed.json in Resources */,
 				CD787D752C8D2A9000B419D1 /* Calm.json in Resources */,
+				CD245BAA2C94B4560087EA92 /* reaction1.json in Resources */,
 				CDDC3EE42C939C1D00B2CB4A /* Mood.json in Resources */,
 				CD240DA52C89359400DA034C /* Poppins-Italic.ttf in Resources */,
 				CD787D772C8D30E200B419D1 /* Happy.json in Resources */,
@@ -738,7 +742,7 @@
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -773,7 +777,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;

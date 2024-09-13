@@ -9,6 +9,7 @@ class StreakViewController: UIViewController {
     public var viewModel: PartnerViewModel!
     @IBOutlet weak var streakCalendarView: UIView!
     private var  calendarView :CalendarView!
+    var heartAnimationView: LottieAnimationView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,14 +34,68 @@ class StreakViewController: UIViewController {
                 smallAnimationView.topAnchor.constraint(equalTo: self.streakCalendarView.topAnchor),
                 smallAnimationView.bottomAnchor.constraint(equalTo: self.streakCalendarView.bottomAnchor)
             ])
-
             smallAnimationView.play()
-
             return
 
         }
+        
+        
+        animationView.isUserInteractionEnabled = true
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longPressGesture.minimumPressDuration = 0.5
+        
+        animationView.addGestureRecognizer(longPressGesture)
+
 
     }
+    
+    
+    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            print("Long press began")
+            
+            Haptic.vibrating() // Trigger haptic feedback
+
+            // Create the heart reaction animation
+            if heartAnimationView == nil { // Only create if it's not already created
+                heartAnimationView = LottieAnimationView(name: "reaction1")
+                heartAnimationView?.contentMode = .scaleAspectFit
+                heartAnimationView?.loopMode = .loop
+                heartAnimationView?.translatesAutoresizingMaskIntoConstraints = false
+
+                // Add the heart animation as a subview on top of the main animation view
+                if let heartAnimationView = heartAnimationView {
+                    self.animationView.addSubview(heartAnimationView)
+                    
+                    // Position the heart animation over the center of the existing animation view
+                    NSLayoutConstraint.activate([
+                        heartAnimationView.centerXAnchor.constraint(equalTo: self.animationView.centerXAnchor),
+                        heartAnimationView.centerYAnchor.constraint(equalTo: self.animationView.centerYAnchor),
+                        heartAnimationView.widthAnchor.constraint(equalTo: self.animationView.widthAnchor),
+                        heartAnimationView.heightAnchor.constraint(equalTo: self.animationView.heightAnchor),
+                        // Same width as animationView                        heartAnimationView.heightAnchor.constraint(equalToConstant: 200)
+                    ])
+
+                    heartAnimationView.isUserInteractionEnabled = false
+                    heartAnimationView.play()
+                }
+            }
+            
+        } else if gesture.state == .ended || gesture.state == .cancelled {
+            // Stop the animation and remove it when the user lifts their finger
+            if let heartAnimationView = heartAnimationView {
+                print("Long press ended, animation stopped")
+                heartAnimationView.stop() // Stop the animation
+                heartAnimationView.removeFromSuperview() // Remove from the view hierarchy
+                self.heartAnimationView = nil // Clear the reference
+            }
+        }
+    }
+
+
+
+
     
     
     override func viewWillAppear(_ animated: Bool) {

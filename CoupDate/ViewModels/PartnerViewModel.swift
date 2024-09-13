@@ -150,13 +150,26 @@ class PartnerViewModel: ObservableObject {
     
     func calculateStreak(userRecords: [Date: Bool], partnerRecords: [Date: Bool]) -> Int {
         // Sort the records by date in descending order (most recent first)
-        let sortedUserRecords = userRecords.keys.sorted(by: >) // Sort by date descending
-        let sortedPartnerRecords = partnerRecords.keys.sorted(by: >) // Sort by date descending
+        let sortedUserRecords = userRecords.keys.sorted(by: >)
+        let sortedPartnerRecords = partnerRecords.keys.sorted(by: >)
 
         var streakCount = 0
         var lastValidDate: Date?
 
+        // Get today's date
+        let today = Calendar.current.startOfDay(for: Date())
+        
+        // Flag to track if we skip today's check
+        var skipToday = true
+
         for date in sortedUserRecords {
+            // Skip today if not both users have checked in today
+            if Calendar.current.isDate(date, inSameDayAs: today) {
+                if userRecords[date] != true || partnerRecords[date] != true {
+                    continue
+                }
+            }
+
             // Check if both users have records for this date
             if let userRecordExists = userRecords[date], let partnerRecordExists = partnerRecords[date], userRecordExists && partnerRecordExists {
                 if let lastDate = lastValidDate {
@@ -165,17 +178,19 @@ class PartnerViewModel: ObservableObject {
                         streakCount += 1
                         lastValidDate = date // Continue the streak
                     } else {
-                        // Streak is broken, we can stop here
+                        // Streak is broken, stop here
                         break
                     }
                 } else {
-                    // This is the first valid record, start the streak
+                    // First valid record, start the streak
                     streakCount += 1
                     lastValidDate = date
                 }
             } else {
-                // Streak is broken because a record is missing for either user
-                break
+                // Break the loop if we don't have a match for both users' records (but ignore today)
+                if !Calendar.current.isDate(date, inSameDayAs: today) {
+                    break
+                }
             }
         }
 

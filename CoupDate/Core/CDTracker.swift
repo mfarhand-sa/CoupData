@@ -42,6 +42,10 @@ class CDTracker {
         if let name = CDDataProvider.shared.name {
             Bugfender.setDeviceString(name, forKey: "name")
         }
+        
+        if let gender = CDDataProvider.shared.gender {
+            Bugfender.setDeviceString(gender, forKey: "gender")
+        }
     }
     
     class func trackIssue(title:String,text:String) {

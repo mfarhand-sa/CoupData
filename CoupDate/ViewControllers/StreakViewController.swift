@@ -113,8 +113,8 @@ class StreakViewController: UIViewController {
                     self.calendarView.translatesAutoresizingMaskIntoConstraints = false
 
                     NSLayoutConstraint.activate([
-                        self.calendarView.leadingAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.leadingAnchor),
-                        self.calendarView.trailingAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.trailingAnchor),
+                        self.calendarView.leadingAnchor.constraint(equalTo: self.streakCalendarView.safeAreaLayoutGuide.leadingAnchor),
+                        self.calendarView.trailingAnchor.constraint(equalTo: self.streakCalendarView.safeAreaLayoutGuide.trailingAnchor),
                         self.calendarView.topAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.topAnchor),
                         self.calendarView.bottomAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.bottomAnchor),
                     ])

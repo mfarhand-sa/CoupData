@@ -5,6 +5,49 @@ import Lottie
 import Combine
 import Firebase
 
+
+class MessageListener {
+    private var listener: ListenerRegistration?
+
+    func listenForMessages() {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+
+        let messagesRef = Firestore.firestore().collection("users").document(currentUserUid).collection("messages")
+
+        listener = messagesRef.addSnapshotListener { snapshot, error in
+            guard let documents = snapshot?.documents else {
+                print("Error fetching messages: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+
+            for document in documents {
+                let data = document.data()
+                let message = data["message"] as? String ?? ""
+                let messageType = data["messageType"] as? String ?? "text"
+
+                if messageType == "kiss" {
+                    self.showKissAnimation()
+                } else {
+                    print("New message: \(message)")
+                }
+
+                // After processing, you may want to remove the message to avoid processing it again
+                document.reference.delete()
+            }
+        }
+    }
+
+    func showKissAnimation() {
+        // Show kiss animation on screen (e.g., a heart or kiss emoji floating across the screen)
+        print("Showing kiss animation!")
+    }
+
+    func stopListening() {
+        listener?.remove()
+    }
+}
+
+
 class PartnerActivityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     // UI Components
@@ -16,6 +59,8 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     
     public var viewModel : PartnerViewModel!
     private var cancellables = Set<AnyCancellable>()
+    
+    let messageListener = MessageListener()
     
     // Example Data for Cards (This can be dynamic or fetched from a server)
     var cardData: [(title: String, animationName: String, data: [String: Any]?)] = [
@@ -98,6 +143,8 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
+        
+        messageListener.listenForMessages()
     }
     
 //    func fetchPartnerData() {

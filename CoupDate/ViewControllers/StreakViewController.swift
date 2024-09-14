@@ -43,7 +43,7 @@ class StreakViewController: UIViewController {
         animationView.isUserInteractionEnabled = true
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        longPressGesture.minimumPressDuration = 0.5
+        longPressGesture.minimumPressDuration = 2.0
         
         animationView.addGestureRecognizer(longPressGesture)
 
@@ -89,6 +89,10 @@ class StreakViewController: UIViewController {
                 heartAnimationView.stop() // Stop the animation
                 heartAnimationView.removeFromSuperview() // Remove from the view hierarchy
                 self.heartAnimationView = nil // Clear the reference
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    FirebaseManager.shared.sendMessageToPartner(partnerUid: UserManager.shared.partnerUserID!, message: "I'm thinking of you 🫶🏻❤️", messageType: "normal")
+
+                }
             }
         }
     }

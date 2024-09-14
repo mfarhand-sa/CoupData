@@ -221,6 +221,61 @@ class FirebaseManager {
             }
         }
     }
+    
+    
+    func sendMessageToPartner(partnerUid: String, message: String, messageType: String) {
+        let functions = Functions.functions()
+        let data: [String: Any] = ["partnerUid": partnerUid, "message": message, "messageType": messageType]
+
+        functions.httpsCallable("sendPartnerMessage").call(data) { result, error in
+            if let error = error as NSError? {
+                print("Error sending message: \(error.localizedDescription)")
+            } else {
+                print("Message sent successfully.")
+            }
+        }
+    }
+    
+    
+    func sendTestMessageToSelf() {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        
+        let functions = Functions.functions()
+        let data: [String: Any] = [
+            "partnerUid": currentUserUid, // Sending to yourself
+            "message": "This is a test message",
+            "messageType": "text"
+        ]
+
+        functions.httpsCallable("sendPartnerMessage").call(data) { result, error in
+            if let error = error as NSError? {
+                print("Error sending message: \(error.localizedDescription)")
+            } else {
+                print("Test message sent successfully.")
+            }
+        }
+    }
+    
+
+
+    
+    
+
+    func deleteMessage(messageId: String) {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+
+        let messageRef = Firestore.firestore().collection("users").document(currentUserUid).collection("messages").document(messageId)
+
+        messageRef.delete { error in
+            if let error = error {
+                print("Error deleting message: \(error.localizedDescription)")
+            } else {
+                print("Message deleted successfully.")
+            }
+        }
+    }
+
+
 
     
     

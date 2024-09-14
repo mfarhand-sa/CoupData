@@ -5,6 +5,8 @@ Podfile.lock
 # Xcode
 *.xcuserstate
 *.xcuserdata
+*.xcbkptlist
+*.xcexplist
 DerivedData/
 
 # Build

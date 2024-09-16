@@ -10,6 +10,8 @@ class StreakViewController: UIViewController {
     @IBOutlet weak var streakCalendarView: UIView!
     private var  calendarView :CalendarView!
     var heartAnimationView: LottieAnimationView?
+    private var dailyRecords: [Date: (userMoods: [String], partnerMoods: [String])] = [:]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -171,26 +173,23 @@ class StreakViewController: UIViewController {
         guard CDDataProvider.shared.partnerID != nil else { return }
         
 
-        loadUserAndPartnerData(userID: UserManager.shared.currentUserID!, partnerID: UserManager.shared.partnerUserID!) { streakCount, startDate, endDate, error in
-            
+        loadUserAndPartnerData(userID: UserManager.shared.currentUserID!, partnerID: UserManager.shared.partnerUserID!) { streakCount, startDate, endDate, dailyRecords, error in
             if let streakCount = streakCount, let startDate = startDate, let endDate = endDate {
-                print("The current streak is: \(streakCount) days")
-                
+                // Update the label with the streak count
+                self.dailyRecords = dailyRecords
                 let fullText = "\(streakCount) days and counting—your bond with your partner keeps growing!"
                 let attributedString = NSMutableAttributedString(string: fullText)
                 let boldRange = (fullText as NSString).range(of: "\(streakCount) days")
-                
                 attributedString.addAttribute(.font, value: UIFont(name: "Poppins-Bold", size: 24)!, range: boldRange)
                 self.label.attributedText = attributedString
-                
-                // Check if `calendarView` already exists, update its content
+
+                // Update or create the calendar view
                 if self.calendarView != nil {
                     // Update the content of the existing calendar view
-                    self.calendarView.setContent(self.makeContent(startDate: startDate, endDate: endDate))
+                    self.calendarView.setContent(self.makeContent(startDate: startDate, endDate: endDate, dailyRecords: dailyRecords))
                 } else {
                     // Initialize and add the calendar view if it doesn't exist yet
-                    self.calendarView = CalendarView(initialContent: self.makeContent(startDate: startDate, endDate: endDate))
-                    
+                    self.calendarView = CalendarView(initialContent: self.makeContent(startDate: startDate, endDate: endDate, dailyRecords: dailyRecords))
                     self.streakCalendarView.addSubview(self.calendarView)
                     self.calendarView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -202,6 +201,24 @@ class StreakViewController: UIViewController {
                     ])
                 }
                 
+                self.calendarView.daySelectionHandler = { [weak self] day in
+                    guard let self = self else { return }
+
+                    // Convert the selected day to a Date object
+                    let calendar = Calendar.current
+                    let selectedDate = calendar.date(from: day.components)!
+
+                    // Check if there are any records for the selected date
+                    if let moods = self.dailyRecords[selectedDate], (!moods.userMoods.isEmpty || !moods.partnerMoods.isEmpty) {
+                        // The selected date has mood data, show mood information
+                        self.showSelectedDateInfo(date: selectedDate, moods: moods)
+                    } else {
+                        // No records found for the selected date, ignore selection
+                        return
+                    }
+                }
+
+
                 // Scroll to the specific month
                 self.calendarView.scroll(
                     toMonthContaining: endDate,
@@ -212,29 +229,53 @@ class StreakViewController: UIViewController {
                 print("Error: \(error)")
             }
         }
-        
-        
-        
-        
-        
-        
+
+
     }
     
-    private func makeContent(startDate: Date, endDate:Date) -> CalendarViewContent {
+    
+    // Update `showSelectedDateInfo` to properly display mood data
+    func showSelectedDateInfo(date: Date, moods: (userMoods: [String], partnerMoods: [String])) {
+        // Format the date as needed
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        let dateString = dateFormatter.string(from: date)
+
+        // Prepare the mood data for display
+        let userMoodsString = moods.userMoods.isEmpty ? "No mood data" : moods.userMoods.joined(separator: ", ")
+        let partnerMoodsString = moods.partnerMoods.isEmpty ? "No mood data" : moods.partnerMoods.joined(separator: ", ")
+
+        // Create the message to display
+        let message = "Your Moods: \(userMoodsString)\nPartner's Moods: \(partnerMoodsString)"
+
+        // Show an alert or any other UI to indicate the selected date
+        let alertController = UIAlertController(
+            title: "Date: \(dateString)",
+            message: message,
+            preferredStyle: .alert
+        )
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alertController, animated: true, completion: nil)
+    }
+
+
+
+
+
+
+
+    
+    private func makeContent(startDate: Date, endDate: Date, dailyRecords: [Date: (userMoods: [String], partnerMoods: [String])]) -> CalendarViewContent {
         let calendar = Calendar.current
-        let highlightStartDate = startDate
-        let highlightEndDate = endDate
-        let components = calendar.dateComponents([.year, .month, .day], from: Date())
-        //        let startDate = calendar.date(from: DateComponents(year: components.year, month: components.month, day: components.day))!
-        let startDate = calendar.date(from: DateComponents(year: 2024, month: 01, day: 01))!
-        
-        let endDate = calendar.date(from: DateComponents(year: 2026, month: 12, day: 31))!
-        
-        
-        
+        let highlightDates = dailyRecords.keys // Only these dates should be selectable and highlighted
+
+        let visibleStartDate = calendar.date(from: DateComponents(year: 2024, month: 01, day: 01))!
+        let visibleEndDate = calendar.date(from: DateComponents(year: 2026, month: 12, day: 31))!
+
         return CalendarViewContent(
             calendar: calendar,
-            visibleDateRange: startDate...endDate,
+            visibleDateRange: visibleStartDate...visibleEndDate,
             monthsLayout: .vertical(options: VerticalMonthsLayoutOptions())
         )
         .interMonthSpacing(24)
@@ -242,105 +283,157 @@ class StreakViewController: UIViewController {
         .horizontalDayMargin(8)
         .dayItemProvider { day in
             let dayDate = calendar.date(from: day.components)!
-            let isInHighlightedRange = (highlightStartDate...highlightEndDate).contains(dayDate)
-            
-            if isInHighlightedRange == true {
-                print("YESS")
-            }
+            let isInHighlightedRange = highlightDates.contains(dayDate)
+
             return CalendarItemModel<CustomDayView>(
                 invariantViewProperties: CustomDayView.InvariantViewProperties(isHighlighted: isInHighlightedRange),
                 viewModel: CustomDayView.ViewModel(dayText: "\(day.day)")
             )
         }
     }
+
+
+
+
+    // Helper method to get all streak dates
+    private func getStreakDates(startDate: Date, endDate: Date) -> Set<Date> {
+        var streakDates: Set<Date> = []
+        var currentDate = startDate
+
+        while currentDate <= endDate {
+            streakDates.insert(currentDate)
+            if let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate) {
+                currentDate = nextDate
+            } else {
+                break
+            }
+        }
+
+        return streakDates
+    }
+
     
     
     
     // Method to load user and partner streaks
-    func loadUserAndPartnerData(userID: String, partnerID: String, daysToCheck: Int = 30, completion: @escaping (Int?, Date?, Date?, Error?) -> Void) {
-        let endDate = Date()
+    
+    func loadUserAndPartnerData(userID: String, partnerID: String, daysToCheck: Int = 30, completion: @escaping (Int?, Date?, Date?, [Date: (userMoods: [String], partnerMoods: [String])], Error?) -> Void) {
+        let endDate = Date() // Fixed typo
         let startDate = Calendar.current.date(byAdding: .day, value: -daysToCheck, to: endDate)!
-        
+
         FirebaseManager.shared.streakRecords(for: userID, from: startDate, to: endDate) { userResult in
             switch userResult {
             case .success(let userRecords):
                 FirebaseManager.shared.streakRecords(for: partnerID, from: startDate, to: endDate) { partnerResult in
                     switch partnerResult {
                     case .success(let partnerRecords):
+                        var combinedRecords: [Date: (userMoods: [String], partnerMoods: [String])] = [:]
+
+                        // Combine user and partner records into a single dictionary
+                        let allDates = Array(Set(userRecords.keys).union(Set(partnerRecords.keys)))
+                        for date in allDates {
+                            let userMoods = userRecords[date] ?? []
+                            let partnerMoods = partnerRecords[date] ?? []
+                            combinedRecords[date] = (userMoods: userMoods, partnerMoods: partnerMoods)
+                        }
+
+                        // Calculate the streak count using the updated calculateStreak method
                         let streakCount = self.calculateStreak(userRecords: userRecords, partnerRecords: partnerRecords)
+                        
+                        // Find the actual start and end dates
                         let actualStartDate = self.getActualStartDate(from: userRecords, partnerRecords: partnerRecords)
                         let actualEndDate = self.getActualEndDate(from: userRecords, partnerRecords: partnerRecords)
-                        completion(streakCount, actualStartDate, actualEndDate, nil)
+                        
+                        completion(streakCount, actualStartDate, actualEndDate, combinedRecords, nil)
                     case .failure(let partnerError):
-                        completion(nil, nil, nil, partnerError)
+                        completion(nil, nil, nil, [:], partnerError)
                     }
                 }
             case .failure(let userError):
-                completion(nil, nil, nil, userError)
+                completion(nil, nil, nil, [:], userError)
             }
         }
     }
+
+
+
+
+
+
+
+
     
-    func getActualStartDate(from userRecords: [Date: Bool], partnerRecords: [Date: Bool]) -> Date? {
-        let validDates = userRecords.keys.filter { userRecords[$0] == true && partnerRecords[$0] == true }
+
+    
+    func getActualStartDate(from userRecords: [Date: [String]], partnerRecords: [Date: [String]]) -> Date? {
+        let validDates = userRecords.keys.filter {
+            (userRecords[$0]?.count ?? 0 > 0) && (partnerRecords[$0]?.count ?? 0 > 0)
+        }
         return validDates.min() // The earliest date in the streak
     }
-    
-    func getActualEndDate(from userRecords: [Date: Bool], partnerRecords: [Date: Bool]) -> Date? {
-        let validDates = userRecords.keys.filter { userRecords[$0] == true && partnerRecords[$0] == true }
+
+    func getActualEndDate(from userRecords: [Date: [String]], partnerRecords: [Date: [String]]) -> Date? {
+        let validDates = userRecords.keys.filter {
+            (userRecords[$0]?.count ?? 0 > 0) && (partnerRecords[$0]?.count ?? 0 > 0)
+        }
         return validDates.max() // The latest date in the streak
     }
+
+
+
     
     
-    
-    func calculateStreak(userRecords: [Date: Bool], partnerRecords: [Date: Bool]) -> Int {
-        // Sort the records by date in descending order (most recent first)
-        let sortedUserRecords = userRecords.keys.sorted(by: >)
-        let sortedPartnerRecords = partnerRecords.keys.sorted(by: >)
-        
+
+    func calculateStreak(userRecords: [Date: [String]], partnerRecords: [Date: [String]]) -> Int {
+        // Create a set of all dates that are present in either user's records
+        let allDates = Array(Set(userRecords.keys).union(Set(partnerRecords.keys))).sorted()
+
         var streakCount = 0
-        var lastValidDate: Date?
-        
-        // Get today's date
-        let today = Calendar.current.startOfDay(for: Date())
-        
-        // Flag to track if we skip today's check
-        var skipToday = true
-        
-        for date in sortedUserRecords {
-            // Skip today if not both users have checked in today
-            if Calendar.current.isDate(date, inSameDayAs: today) {
-                if userRecords[date] != true || partnerRecords[date] != true {
-                    continue
-                }
-            }
-            
-            // Check if both users have records for this date
-            if let userRecordExists = userRecords[date], let partnerRecordExists = partnerRecords[date], userRecordExists && partnerRecordExists {
-                if let lastDate = lastValidDate {
-                    // Check if this record is exactly one day after the last valid record
-                    if Calendar.current.isDate(date, inSameDayAs: Calendar.current.date(byAdding: .day, value: -1, to: lastDate)!) {
-                        streakCount += 1
-                        lastValidDate = date // Continue the streak
+        var currentStreak = 0
+        var lastDate: Date?
+
+        // Iterate through dates, checking for consecutive days with records for both users
+        for date in allDates {
+            // Check if both users have a record for the current date
+            let userHasRecord = userRecords[date] != nil
+            let partnerHasRecord = partnerRecords[date] != nil
+
+            if userHasRecord && partnerHasRecord {
+                // Both users have records for this date
+                if let lastDate = lastDate {
+                    // Check if the current date is consecutive to the last date
+                    if Calendar.current.isDate(date, inSameDayAs: Calendar.current.date(byAdding: .day, value: 1, to: lastDate)!) {
+                        // Continue the streak
+                        currentStreak += 1
                     } else {
-                        // Streak is broken, stop here
-                        break
+                        // Not consecutive, reset streak
+                        currentStreak = 1
                     }
                 } else {
-                    // First valid record, start the streak
-                    streakCount += 1
-                    lastValidDate = date
+                    // Start a new streak
+                    currentStreak = 1
                 }
+
+                // Update the last valid date to the current date
+                lastDate = date
             } else {
-                // Break the loop if we don't have a match for both users' records (but ignore today)
-                if !Calendar.current.isDate(date, inSameDayAs: today) {
-                    break
-                }
+                // Break the streak if either user is missing a record for this date
+                currentStreak = 0
             }
+
+            // Update the maximum streak count
+            streakCount = max(streakCount, currentStreak)
         }
-        
+
         return streakCount
     }
+
+
+
+
+
+
+
     
     
     

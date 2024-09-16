@@ -64,32 +64,52 @@ class FirebaseManager {
     }
     
     
-    func streakRecords(for userId: String, from startDate: Date, to endDate: Date, completion: @escaping (Result<[Date: Bool], Error>) -> Void) {
+    func streakRecords(for userId: String, from startDate: Date, to endDate: Date, completion: @escaping (Result<[Date: [String]], Error>) -> Void) {
         let dateFormatter = DateFormatter()
-           dateFormatter.dateFormat = "yyyy-MM-dd" // Your document ID format
+        dateFormatter.dateFormat = "yyyy-MM-dd" // Your document ID format
 
-           let startString = dateFormatter.string(from: startDate)
-           let endString = dateFormatter.string(from: endDate)
+        let startString = dateFormatter.string(from: startDate)
+        let endString = dateFormatter.string(from: endDate)
 
-           db.collection("users").document(userId).collection("dailyRecords")
-               .whereField(FieldPath.documentID(), isGreaterThanOrEqualTo: startString)
-               .whereField(FieldPath.documentID(), isLessThanOrEqualTo: endString)
-               .getDocuments { snapshot, error in
-                   if let error = error {
-                       completion(.failure(error))
-                   } else if let snapshot = snapshot {
-                       var records: [Date: Bool] = [:]
-                       for document in snapshot.documents {
-                           if let date = dateFormatter.date(from: document.documentID) {
-                               records[date] = true // Record exists for this date
-                           }
-                       }
-                       completion(.success(records))
-                   } else {
-                       completion(.success([:])) // No records found
-                   }
-               }
+        db.collection("users").document(userId).collection("dailyRecords")
+            .whereField(FieldPath.documentID(), isGreaterThanOrEqualTo: startString)
+            .whereField(FieldPath.documentID(), isLessThanOrEqualTo: endString)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("Error fetching streak records for user \(userId): \(error.localizedDescription)")
+                    completion(.failure(error))
+                } else if let snapshot = snapshot {
+                    var records: [Date: [String]] = [:]
+                    for document in snapshot.documents {
+                        if let date = dateFormatter.date(from: document.documentID) {
+                            // Debug: Print the document data
+                            print("Document ID: \(document.documentID), Data: \(document.data())")
+
+                            // Fetch the 'status' array inside the 'mood' field
+                            if let moodData = document.data()["mood"] as? [String: Any],
+                               let statusArray = moodData["status"] as? [String] {
+                                records[date] = statusArray // Store the status array for this date
+                                // Debug: Print the status array found
+                                print("Status for date \(date): \(statusArray)")
+                            } else {
+                                // No 'status' field found inside 'mood'
+                                records[date] = [] // No status found, return an empty array
+                                // Debug: Print that no status was found for this date
+                                print("No status found for date \(date).")
+                            }
+                        }
+                    }
+                    completion(.success(records))
+                } else {
+                    print("No documents found in the specified date range for user \(userId).")
+                    completion(.success([:])) // No records found
+                }
+            }
     }
+
+
+
+
 
     
     

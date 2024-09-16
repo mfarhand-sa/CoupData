@@ -274,7 +274,7 @@ class CDPairingViewController: UIViewController {
             return
         }
         
-        tabBarVC.viewModel = self.viewModel
+//        tabBarVC.viewModel = self.viewModel
         // Find the PartnerActivityViewController in the tab bar's view controllers
 //        if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
 //            partnerActivityVC.viewModel = self.viewModel

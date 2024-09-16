@@ -256,6 +256,59 @@ class FirebaseManager {
         }
     }
     
+    
+    func sendOTP(_ phoneNumber: String, completion: @escaping (Bool, Error?) -> Void) {
+        let functions = Functions.functions()
+        functions.httpsCallable("sendOtp").call(["phoneNumber": phoneNumber]) { result, error in
+            if let error = error {
+                print("Error sending OTP: \(error)")
+                completion(false, error)
+                return
+            }
+            print("OTP sent successfully")
+            completion(true, nil)
+        }
+    }
+
+    
+    
+    
+    func verifyOTP(_ otpCode: String, completion: @escaping (_ success: Bool, _ userNeedMoreData: Bool, _ userHasData: Bool, _ partnerHasData: Bool, _ error: Error?) -> Void) {
+        let functions = Functions.functions()
+        let phoneNumber = CDDataProvider.shared.countryCode! + CDDataProvider.shared.phoneNumber!
+
+        functions.httpsCallable("verifyOtp").call(["phoneNumber": phoneNumber, "otpCode": otpCode]) { result, error in
+            if let error = error {
+                print("Error verifying OTP: \(error)")
+                completion(false, false, false, false, error)
+                return
+            }
+
+            if let data = result?.data as? [String: Any],
+               let token = data["token"] as? String {
+                // Use the custom token to authenticate with Firebase
+                Auth.auth().signIn(withCustomToken: token) { authResult, error in
+                    if let error = error {
+                        print("Error signing in with custom token: \(error)")
+                        completion(false, false, false, false, error)
+                        return
+                    }
+
+                    // After signing in, load user data
+                    CDDataProvider.shared.loadMyDataAndThenPartnerData { success, userNeedMoreData, userHasData, partnerHasData, error in
+                        // Pass all the parameters from loadMyDataAndThenPartnerData to the completion handler
+                        completion(success, userNeedMoreData, userHasData, partnerHasData, error)
+                    }
+                }
+            } else {
+                // Handle unexpected result
+                completion(false, false, false, false, NSError(domain: "UnexpectedResult", code: -1, userInfo: nil))
+            }
+        }
+    }
+
+
+    
 
 
     

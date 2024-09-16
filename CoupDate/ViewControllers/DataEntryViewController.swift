@@ -20,7 +20,7 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(named: "CDBackground")
+        view.backgroundColor = .systemBackground //UIColor(named: "CDBackground")
         
         setupUI()
         setupCollectionView()
@@ -33,8 +33,8 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         greetingLabel.lineBreakMode = .byClipping
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
         greetingLabel.textColor = .accent
-        self.view.backgroundColor = UIColor(named: "CDBackground")
-        self.scrollView.backgroundColor =  UIColor(named: "CDBackground")
+        self.view.backgroundColor = .systemBackground //UIColor(named: "CDBackground")
+        self.scrollView.backgroundColor = .systemBackground  //UIColor(named: "CDBackground")
         
         
         let currentHour = Calendar.current.component(.hour, from: Date())
@@ -72,7 +72,7 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(DataEntryCardCell.self, forCellWithReuseIdentifier: "DataEntryCardCell")
-        collectionView.backgroundColor = UIColor(named: "CDBackground")
+        collectionView.backgroundColor = .systemBackground //UIColor(named: "CDBackground")
 
         view.addSubview(collectionView)
 

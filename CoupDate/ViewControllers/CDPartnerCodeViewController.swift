@@ -12,7 +12,7 @@ import Firebase
 
 
 
-class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate {
+class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate,PinCodeTextFieldDelegate {
     
     @IBOutlet weak var label1: UILabel!
     @IBOutlet weak var label2: UILabel!
@@ -20,6 +20,9 @@ class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate {
     @IBOutlet weak var codeLabel: UILabel!
     @IBOutlet weak var nextButton: CDButton!
     @IBOutlet weak var shareButton: CDButton!
+    private let closeButton = UIButton(type: .custom)
+    public var shouldShowCloseButton = false
+
     var partnerCode: String!
     var viewModel : PartnerViewModel!
     
@@ -35,7 +38,23 @@ class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate {
         self.partnerCodeTextField.textColor = .CDText
         self.partnerCodeTextField.keyboardType = .default
         self.partnerCodeTextField.autocapitalizationType = .allCharacters
+        self.partnerCodeTextField.pinCodeDelegate = self
         self.codeLabel.text = "Your code: \(self.partnerCode ?? "Unavailable!")!"
+        
+        closeButton.setImage(UIImage(named: "close")?.withRenderingMode(.alwaysTemplate), for: .normal) // Ensure the image respects the tint
+        closeButton.addTarget(self, action: #selector(closeView), for: .touchUpInside)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.tintColor = .CDText // Set the button tint color to white
+        view.addSubview(closeButton)
+        self.closeButton.isHidden = !shouldShowCloseButton
+
+        // Layout constraints for close button (besides the greeting label)
+        NSLayoutConstraint.activate([
+            closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            closeButton.widthAnchor.constraint(equalToConstant: 25), // Adjust size as needed
+            closeButton.heightAnchor.constraint(equalToConstant: 25)
+        ])
         
         
         // Create a UITapGestureRecognizer
@@ -66,6 +85,24 @@ class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate {
             }
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePartnerJoined), name: NSNotification.Name("Partner_Joined"), object: nil)
+        
+        self.nextButton.setTitle("Skip", for: .normal)
+
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("Partner_Joined"), object: nil)
+    }
+    
+    @objc func handlePartnerJoined() {
+        print("handlePartnerJoined got called")
+        if shouldShowCloseButton == true {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            self.navigateToMainScreen()
+        }
     }
     
     
@@ -82,6 +119,10 @@ class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate {
         UIPasteboard.general.string = self.partnerCode
         CustomAlerts.displayNotification(title: "", message: "Partner code has been copied", view: self.view,fromBottom: true)
         
+    }
+    
+    @objc private func closeView() {
+        dismiss(animated: true, completion: nil)
     }
     
     
@@ -191,14 +232,7 @@ class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate {
             print("Could not find UITabBarController with identifier 'MainTabbar'")
             return
         }
-        
-        tabBarVC.viewModel = self.viewModel
-        // Find the PartnerActivityViewController in the tab bar's view controllers
-//        if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
-//            partnerActivityVC.viewModel = self.viewModel
-//        }
-        
-        // Set the UITabBarController as the root view controller
+
         updateRootViewController(to: tabBarVC)
     }
     
@@ -225,4 +259,16 @@ class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate {
     }
     
     
+    func pinCodeTextFieldDidReachLimit(_ textField: PinCodeTextField) {
+        print("Pin code reached the limit!")
+        
+        self.nextButton.setTitle("Next", for: .normal)
+        // You can also access the text entered by the user if needed
+        let enteredPinCode = textField.text ?? ""
+        print("Entered Pin Code: \(enteredPinCode)")
+        textField.resignFirstResponder()
+    }
+    
 }
+
+

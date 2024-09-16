@@ -11,7 +11,7 @@ import UIKit
 class CDTabbarController: CardTabBarController {
 
     
-    public var viewModel : PartnerViewModel!
+    //public var viewModel : PartnerViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
@@ -34,7 +34,7 @@ class CDTabbarController: CardTabBarController {
             print("Could not find PartnerActivityViewController with identifier 'MainTabbar'")
             return
         }
-        partnerVC.viewModel = self.viewModel
+//        partnerVC.viewModel = self.viewModel
 
         
         guard let dataEntryVC = storyboard.instantiateViewController(withIdentifier: "DataEntryViewController") as? DataEntryViewController else {
@@ -55,7 +55,7 @@ class CDTabbarController: CardTabBarController {
             print("Could not find StreakViewController with identifier 'MainTabbar'")
             return
         }        
-        streakVC.viewModel = self.viewModel
+//        streakVC.viewModel = self.viewModel
         viewControllers = [partnerVC, streakVC,dataEntryVC]
     }
 }

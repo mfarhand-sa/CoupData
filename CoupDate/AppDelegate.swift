@@ -21,22 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
         
         Haptic.doSomethinStupid(status: false)
         CDTracker.initializeTrackers()
-        
-//        if #available(iOS 13.0, *) {
-//            let appearance = UITabBarAppearance()
-//            appearance.configureWithOpaqueBackground()
-//            appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(named: "TabbarNormal")!]
-//            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.accent]
-//            appearance.stackedLayoutAppearance.normal.iconColor =  UIColor(named: "TabbarNormal")!
-//            appearance.stackedLayoutAppearance.selected.iconColor =  UIColor.accent
-//            UITabBar.appearance().standardAppearance = appearance
-//            UITabBar.appearance().scrollEdgeAppearance = appearance
-//        }
-        
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         
         // Request notification permissions
+        UNUserNotificationCenter.current().delegate = self // Set the notification delegate
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             print("Permission granted: \(granted)")
             if let error = error {
@@ -150,21 +139,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
 
 }
 
-
-
-
 extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    // Handle background notification tap
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
-        // Handle the notification content
         print("Received notification with userInfo: \(userInfo)")
+        
+        // Update UI or perform an action when a notification is tapped
+        handleNotification(userInfo: userInfo)
+        
         completionHandler()
     }
     
+    // Handle foreground notifications
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
-        // Handle the notification content while the app is in the foreground
         print("Received notification with userInfo: \(userInfo)")
+        
+        // Show notification while in the foreground
         completionHandler([.alert, .badge, .sound])
+        
+        // Update UI or perform an action
+        handleNotification(userInfo: userInfo)
+    }
+    
+    // Handle the notification and update the UI
+    private func handleNotification(userInfo: [AnyHashable: Any]) {
+        // Log the entire userInfo dictionary to see its content
+        print("Received push notification with userInfo: \(userInfo)")
+
+        // Extract specific data if available
+        if let notificationTitle = userInfo["title"] as? String,
+           let notificationBody = userInfo["body"] as? String {
+            print("Notification Title: \(notificationTitle)")
+            print("Notification Body: \(notificationBody)")
+            
+            if let rootVCView = UIApplication.shared.keyWindow?.rootViewController?.view {
+                CustomAlerts.displayNotification(title: notificationTitle, message: notificationBody, view:rootVCView ,fromBottom: true)
+            }
+            
+            NotificationCenter.default.post(name: NSNotification.Name("Partner_Joined"), object: nil)
+
+        }
+        
+        // Update UI or perform actions based on the notification content
+    
+        
     }
 }
+

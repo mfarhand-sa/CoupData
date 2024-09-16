@@ -1,9 +1,11 @@
 import Foundation
 import UIKit
 
+
 @IBDesignable
 public class PinCodeTextField: UITextField {
     
+    public weak var pinCodeDelegate: PinCodeTextFieldDelegate?
     static let padding: CGFloat = 20
     static let digitToBorderSpace: CGFloat = 10
     
@@ -58,6 +60,7 @@ public class PinCodeTextField: UITextField {
         setupBorders()
         configureDefaultValues()
         addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        super.delegate = self
     }
 
     private var borders: [CALayer] = []
@@ -77,7 +80,6 @@ public class PinCodeTextField: UITextField {
     }
 
     private func configureDefaultValues() {
-        delegate = self
         adjustsFontSizeToFitWidth = false
         keyboardType = .numberPad
         textAlignment = .left
@@ -115,6 +117,10 @@ public class PinCodeTextField: UITextField {
         configureBorderColor(at: length)
         configureInitialSpacing(at: length)
         addSpacingToText(with: length)
+        
+        if length == digitsCount {
+            pinCodeDelegate?.pinCodeTextFieldDidReachLimit(self)
+        }
     }
 
     private func configureBorderColor(at index: Int) {
@@ -216,4 +222,8 @@ extension PinCodeTextField: UITextFieldDelegate {
 
         return true
     }
+}
+
+public protocol PinCodeTextFieldDelegate: AnyObject {
+    func pinCodeTextFieldDidReachLimit(_ textField: PinCodeTextField)
 }

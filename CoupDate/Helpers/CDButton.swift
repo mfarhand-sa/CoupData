@@ -27,14 +27,10 @@ class CDButton: UIButton {
     override var isEnabled: Bool {
         didSet {
             if isEnabled {
-                if let color = defaultBackgroundColor {
-                    self.backgroundColor = .accent
-                }
+                self.backgroundColor = .accent
             }
             else {
-                if let color = disabledBackgroundColor {
-                    self.backgroundColor = .gray
-                }
+                self.backgroundColor = .gray
             }
         }
     }

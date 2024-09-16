@@ -238,6 +238,8 @@ class OptionCell: UICollectionViewCell {
 
     func configure(with text: String, lottieAnimation: String?) {
         label.text = text
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
 
         // Remove previous Lottie view if it exists
         if let lottieView = lottieView {

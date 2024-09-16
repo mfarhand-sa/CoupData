@@ -10,13 +10,9 @@ class CoupleLoginViewController: UIViewController {
     // UI Components
     private let googleSignInButton = GIDSignInButton()
     private let appleSignInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+    private let phoneSignInButton = UIButton(type: .system) // New button
     private let animationView = LottieAnimationView(name: "LoginAnimtation")
     
-    // Partner View Model
-    private var partnerViewModel = PartnerViewModel()
-    private var cancellables = Set<AnyCancellable>()
-    
-    var hasNavigatedToMainScreen : Bool = false
     
     
     override func viewDidLoad() {
@@ -60,7 +56,13 @@ class CoupleLoginViewController: UIViewController {
             appleSignInButton.bottomAnchor.constraint(equalTo: googleSignInButton.topAnchor, constant: -20),
             appleSignInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             appleSignInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            appleSignInButton.heightAnchor.constraint(equalToConstant: 50)
+            appleSignInButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            // Phone Sign-In button constraints (new)
+                      phoneSignInButton.bottomAnchor.constraint(equalTo: appleSignInButton.topAnchor, constant: -20),
+                      phoneSignInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                      phoneSignInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+                      phoneSignInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -81,6 +83,17 @@ class CoupleLoginViewController: UIViewController {
         appleSignInButton.addTarget(self, action: #selector(appleSignInTapped), for: .touchUpInside)
         appleSignInButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(appleSignInButton)
+        
+        
+        // Configure Phone Sign-In button (new)
+        phoneSignInButton.setTitle("Login with Phone Number", for: .normal)
+        phoneSignInButton.backgroundColor = .black // Set background color to match Apple button
+        phoneSignInButton.setTitleColor(.white, for: .normal) // Set title color to white
+        phoneSignInButton.layer.cornerRadius = 8 // Set corner radius
+        phoneSignInButton.clipsToBounds = true // Ensure the corners are clipped
+        phoneSignInButton.addTarget(self, action: #selector(phoneSignInTapped), for: .touchUpInside)
+        phoneSignInButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(phoneSignInButton)
     }
     
     // MARK: - Google Sign-In
@@ -122,6 +135,13 @@ class CoupleLoginViewController: UIViewController {
                             if let document = document, document.exists {
                                 // User document already exists
                                 print("User document already exists.")
+                                
+                                DispatchQueue.main.async {
+                                    UserDefaults.standard.setValue("YES", forKey: "loggedIn")
+                                    self.checkAuthenticationAndLoadPartnerData()
+                                }
+                                
+                                
                             } else {
                                 // Create new user document in Firestore
                                 let userData: [String: Any] = [
@@ -140,7 +160,7 @@ class CoupleLoginViewController: UIViewController {
                                         // Handle successful sign-in here
                                         DispatchQueue.main.async {
                                             UserDefaults.standard.setValue("YES", forKey: "loggedIn")
-                                            self.navigateToMainScreen() // Navigate after successful sign-in
+                                            self.checkAuthenticationAndLoadPartnerData()
                                         }
                                         
                                     }
@@ -168,12 +188,22 @@ class CoupleLoginViewController: UIViewController {
     }
     
     
+    // MARK: - Phone Sign-In (new)
+    
+    @objc private func phoneSignInTapped() {
+        // Implement your phone sign-in logic here
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        let phoneRegistrationVC = storyboard.instantiateViewController(withIdentifier: "CDPhoneRegistrationViewController") as! CDPhoneRegistrationViewController
+        self.updateRootViewController(to: phoneRegistrationVC)
+    }
+    
+    
     
     private func showRegistrationScreen() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         let registrationVC = storyboard.instantiateViewController(withIdentifier: "CDUserRegistrationViewController") as! CDUserRegistrationViewController
         registrationVC.status = .fullName
-        registrationVC.viewModel = self.partnerViewModel
         self.updateRootViewController(to: registrationVC)
     }
     
@@ -186,61 +216,48 @@ class CoupleLoginViewController: UIViewController {
             print("Could not find UITabBarController with identifier 'MainTabbar'")
             return
         }
-        tabBarVC.viewModel = self.partnerViewModel
         updateRootViewController(to: tabBarVC)
     }
     
     
     private func checkAuthenticationAndLoadPartnerData() {
-        // Wait for partner data to be loaded before navigating to the main screen
-        partnerViewModel.$poopData
-            .combineLatest(partnerViewModel.$sleepData)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] poopData, sleepData in
-                guard let self = self else { return }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-                    if let user = Auth.auth().currentUser, let _ = UserDefaults.standard.string(forKey: "loggedIn") {
-                        print("User is already signed in: \(user.uid)")
-                        self.navigateToMainScreen()
-                    } else {
-                        print("No user is signed in.")
-                    }
-                }
+        
+        CDDataProvider.shared.loadMyDataAndThenPartnerData { success, userNeedMoreData, userData, partnerData, errorInfo in
+            
+            guard success else {
+                print("Oops, something went wrong")
+                return
             }
-            .store(in: &cancellables)
+            
+            if userNeedMoreData {
+                self.showRegistrationScreen()
+            } else if userData || partnerData {
+                
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                    self.navigateToMainScreen()
+                })
+                
+            } else {
+                // Show the pairing screen if needed
+            }
+        }
     }
-    
+
     
     func navigateToMainScreen() {
-        partnerViewModel.$userInfoRequired
-            .combineLatest(partnerViewModel.$isLoading)
-            .filter { !$1 } // Proceed only when not loading
-            .flatMap { [weak self] (userInfoRequired: Bool, isLoading: Bool) -> AnyPublisher<Bool, Never> in
-                guard let self = self else { return Just(false).eraseToAnyPublisher() }
-
-                if userInfoRequired {
-                    // If user info is required, show the registration screen
-                    self.showRegistrationScreen()
-                    return Just(false).eraseToAnyPublisher() // Prevent further navigation
-                } else {
-                    // Ensure the main screen is shown only once
-                    if !self.hasNavigatedToMainScreen {
-                        self.showMainScreen()
-                        self.hasNavigatedToMainScreen = true
-                    }
-                    return Just(false).eraseToAnyPublisher() // Stop further navigation
-                }
-            }
-            .receive(on: DispatchQueue.main) // Use explicit DispatchQueue.main
-            .sink(receiveValue: { [weak self] (shouldNavigate: Bool) in
-                guard let self = self, shouldNavigate else { return }
-                self.checkAuthenticationAndLoadPartnerData()
-            })
-            .store(in: &cancellables)
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
         
-        partnerViewModel.loadMyDataAndThenPartnerData()
-    }}
+        // Instantiate the UITabBarController from the storyboard
+        guard let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabbar") as? CDTabbarController else {
+            print("Could not find UITabBarController with identifier 'MainTabbar'")
+            return
+        }
+//        tabBarVC.viewModel = self.viewModel
+        updateRootViewController(to: tabBarVC)
+    }
+    
+}
 
 
 // MARK: - ASAuthorizationControllerDelegate
@@ -276,7 +293,9 @@ extension CoupleLoginViewController: ASAuthorizationControllerDelegate {
                 print("User signed in with Apple successfully")
                 UserDefaults.standard.setValue("YES", forKey: "loggedIn")
                 // Handle successful sign-in here
-                self.navigateToMainScreen() // Navigate after successful sign-in
+                DispatchQueue.main.async {
+                    self.checkAuthenticationAndLoadPartnerData()
+                }
             }
         }
     }

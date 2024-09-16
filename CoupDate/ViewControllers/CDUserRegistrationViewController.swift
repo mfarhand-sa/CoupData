@@ -38,7 +38,6 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
 
     
     @IBOutlet weak var animationView: LottieAnimationView?
-    public var viewModel : PartnerViewModel!
     
     
     
@@ -498,7 +497,6 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         
         let registrationVC = storyboard.instantiateViewController(withIdentifier: identifier) as! CDUserRegistrationViewController
         registrationVC.status = mode
-        registrationVC.viewModel = self.viewModel
         self.updateRootViewController(to: registrationVC)
     }
     
@@ -514,7 +512,6 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
         
         
         let pairingVC = storyboard.instantiateViewController(withIdentifier: "PartnerCodeViewController") as! PartnerCodeViewController
-        pairingVC.viewModel = self.viewModel
         
         // Set the UITabBarController as the root view controller
         updateRootViewController(to: pairingVC)
@@ -529,15 +526,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
             print("Could not find UITabBarController with identifier 'MainTabbar'")
             return
         }
-        
-        // Find the PartnerActivityViewController in the tab bar's view controllers
-//        if let partnerActivityVC = tabBarVC.viewControllers?.first(where: { $0 is PartnerActivityViewController }) as? PartnerActivityViewController {
-//            partnerActivityVC.viewModel = self.viewModel
-//        }
-        
-        tabBarVC.viewModel = self.viewModel
-        
-        // Set the UITabBarController as the root view controller
+
         updateRootViewController(to: tabBarVC)
     }
     

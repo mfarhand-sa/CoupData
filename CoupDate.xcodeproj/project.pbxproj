@@ -69,6 +69,8 @@
 		CD8711EE2C89A6E50090608A /* CDPairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711ED2C89A6E50090608A /* CDPairingViewController.swift */; };
 		CD8711F22C8A45CB0090608A /* CDUserRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */; };
 		CD8711F42C8A465C0090608A /* CDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711F32C8A465C0090608A /* CDButton.swift */; };
+		CDB2E8DD2C967540000FE1D5 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2E8DC2C967540000FE1D5 /* ListViewController.swift */; };
+		CDB2E8E12C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2E8E02C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift */; };
 		CDDC3EC92C92362800B2CB4A /* Streak.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3EC82C92362800B2CB4A /* Streak.json */; };
 		CDDC3ECB2C92387400B2CB4A /* StreakViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3ECA2C92387400B2CB4A /* StreakViewController.swift */; };
 		CDDC3ECD2C9243A200B2CB4A /* CDModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */; };
@@ -169,6 +171,8 @@
 		CD8711ED2C89A6E50090608A /* CDPairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPairingViewController.swift; sourceTree = "<group>"; };
 		CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDUserRegistrationViewController.swift; sourceTree = "<group>"; };
 		CD8711F32C8A465C0090608A /* CDButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDButton.swift; sourceTree = "<group>"; };
+		CDB2E8DC2C967540000FE1D5 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		CDB2E8E02C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPhoneRegistrationViewController.swift; sourceTree = "<group>"; };
 		CDDC3EC82C92362800B2CB4A /* Streak.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Streak.json; sourceTree = "<group>"; };
 		CDDC3ECA2C92387400B2CB4A /* StreakViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakViewController.swift; sourceTree = "<group>"; };
 		CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDModels.swift; sourceTree = "<group>"; };
@@ -274,10 +278,10 @@
 				CD18B28D2C85678E00AC858B /* CoupDateDebug.entitlements */,
 				CD261CC12C850CD800E4D5F2 /* AppDelegate.swift */,
 				CD261CC32C850CD800E4D5F2 /* SceneDelegate.swift */,
-				CD261CC72C850CD800E4D5F2 /* Main.storyboard */,
 				CDDC3ECE2C9368DF00B2CB4A /* CDTabbarController.swift */,
 				CD261CCA2C850CD900E4D5F2 /* Assets.xcassets */,
 				CD1C3E142C893F7C009B30B8 /* Colours.xcassets */,
+				CD261CC72C850CD800E4D5F2 /* Main.storyboard */,
 				CD261CCC2C850CD900E4D5F2 /* LaunchScreen.storyboard */,
 				CD261CCF2C850CD900E4D5F2 /* Info.plist */,
 				CD18B29F2C85A72900AC858B /* sound1.caf */,
@@ -372,6 +376,8 @@
 				CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */,
 				CD8711ED2C89A6E50090608A /* CDPairingViewController.swift */,
 				CD1AB3112C903108008A46FA /* CDPartnerCodeViewController.swift */,
+				CDB2E8DC2C967540000FE1D5 /* ListViewController.swift */,
+				CDB2E8E02C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -562,6 +568,7 @@
 				CD8711F22C8A45CB0090608A /* CDUserRegistrationViewController.swift in Sources */,
 				CDDC3ECF2C9368DF00B2CB4A /* CDTabbarController.swift in Sources */,
 				CDDC3EED2C939CFE00B2CB4A /* CardTabBarController.swift in Sources */,
+				CDB2E8DD2C967540000FE1D5 /* ListViewController.swift in Sources */,
 				CD8711EA2C897DBA0090608A /* CDDataProvider.swift in Sources */,
 				CD8711EE2C89A6E50090608A /* CDPairingViewController.swift in Sources */,
 				CDDC3ECB2C92387400B2CB4A /* StreakViewController.swift in Sources */,
@@ -579,6 +586,7 @@
 				CD3F83142C915CA800126D8D /* CDNotificationManager.swift in Sources */,
 				CDDC3EEB2C939CFE00B2CB4A /* CardTabBarView.swift in Sources */,
 				CD8711F42C8A465C0090608A /* CDButton.swift in Sources */,
+				CDB2E8E12C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift in Sources */,
 				CD240D832C89084F00DA034C /* CoupleLoginViewController.swift in Sources */,
 				CD18B28A2C853C8E00AC858B /* PartnerActivityViewController.swift in Sources */,
 				CD1AB3102C902DD7008A46FA /* PinCodeTextField.swift in Sources */,
@@ -742,7 +750,7 @@
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -777,7 +785,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;

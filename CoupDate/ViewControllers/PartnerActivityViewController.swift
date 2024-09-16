@@ -57,8 +57,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     
     var collectionView: UICollectionView!
     
-    public var viewModel : PartnerViewModel!
-    private var cancellables = Set<AnyCancellable>()
+//    public var viewModel : PartnerViewModel!
     
     let messageListener = MessageListener()
     
@@ -94,9 +93,9 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         super.viewDidLoad()
         
         // Now, the viewModel should be available here as it's passed from the LoadingViewController
-        if viewModel == nil {
-            fatalError("ViewModel is not initialized")
-        }
+//        if viewModel == nil {
+//            fatalError("ViewModel is not initialized")
+//        }
         
         view.backgroundColor = .systemBackground
         
@@ -114,18 +113,39 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { notificatio in
             print("Foreground")
             
-            self.fetchPartnerData()
+            self.fetchAndDisplayPartnerData()
         }
         
         // Long press gesture setup
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         longPressGesture.minimumPressDuration = 3.0
         self.view.addGestureRecognizer(longPressGesture)
+        
+        
+        if CDDataProvider.shared.partnerID == nil {
+            
+            
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: .main)
+                let pairingVC = storyboard.instantiateViewController(withIdentifier: "PartnerCodeViewController") as! PartnerCodeViewController
+                
+                pairingVC.shouldShowCloseButton = true
+                pairingVC.modalPresentationStyle = .fullScreen
+                // Set the UITabBarController as the root view controller
+                self.present(pairingVC, animated: true, completion: nil)
+            })
+            
+
+            
+        }
+        
     }
     
     @objc func handlePairingDismissed() {
         print("Pairing View Controller was dismissed")
-        fetchPartnerData() // Call the method to update data or perform actions
+        fetchAndDisplayPartnerData() // Call the method to update data or perform actions
     }
     
     deinit {
@@ -136,120 +156,32 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         super.viewWillAppear(animated)
         
         if ((self.poopData == nil || self.sleepData == nil) && CDDataProvider.shared.partnerID != nil) {
-            fetchPartnerData()
+            fetchAndDisplayPartnerData()
         }
+        
+
+        
+        
+
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.becomeFirstResponder()
-        
+//        self.becomeFirstResponder()
         messageListener.listenForMessages()
+        
+        
     }
     
-//    func fetchPartnerData() {
-//        // Bind to the ViewModel's isLoading and errorMessage
-//        self.viewModel.$isLoading
-//            .receive(on: DispatchQueue.main)
-//            .sink { isLoading in
-//                if isLoading {
-//                    // Show loading indicator
-//                } else {
-//                    // Hide loading indicator
-//                }
-//            }
-//            .store(in: &self.cancellables)
-//
-//        self.viewModel.$errorMessage
-//            .receive(on: DispatchQueue.main)
-//            .sink { errorMessage in
-//                if let errorMessage = errorMessage {
-//                    print(errorMessage)
-//                }
-//            }
-//            .store(in: &self.cancellables)
-//
-//        self.viewModel.$poopData
-//            .combineLatest(self.viewModel.$sleepData, self.viewModel.$moodData)
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] poopData, sleepData, moodData in
-//                guard let self = self else { return }
-//
-//                self.poopData = poopData
-//                self.sleepData = sleepData
-//                self.moodData = moodData
-//
-//                self.cardData[0].data = poopData
-//                self.cardData[1].data = sleepData
-//                self.cardData[2].data = moodData
-//
-//                self.collectionView.reloadData()
-//                self.displayPartnerData() // Ensure that data gets displayed
-//            }
-//            .store(in: &self.cancellables)
-//
-//        if let partnerID = CDDataProvider.shared.partnerID {
-//            self.viewModel.loadPartnerData(partnerID: partnerID)
-//        }
-//    }
-    
-    
-    
-    func fetchPartnerData() {
-        // Bind to the ViewModel's isLoading and errorMessage
-        self.viewModel.$isLoading
-            .receive(on: DispatchQueue.main)
-            .sink { isLoading in
-                if isLoading {
-                    // Show loading indicator
-                    print("Loading data...")
-                } else {
-                    // Hide loading indicator
-                    print("Data loaded.")
-                }
-            }
-            .store(in: &self.cancellables)
+    func fetchAndDisplayPartnerData() {
+        
+        self.poopData = CDDataProvider.shared.poopData
+        self.sleepData = CDDataProvider.shared.sleepData
+        self.moodData = CDDataProvider.shared.moodData
 
-        // Handle error messages
-        self.viewModel.$errorMessage
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] errorMessage in
-                if let errorMessage = errorMessage {
-                    print("Error loading data: \(errorMessage)")
-                }
-            }
-            .store(in: &self.cancellables)
-
-        // Bind to poopData, sleepData, and moodData
-        self.viewModel.$poopData
-            .combineLatest(self.viewModel.$sleepData, self.viewModel.$moodData)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] poopData, sleepData, moodData in
-                guard let self = self else { return }
-                
-                // Update your data and reload collection view
-                self.poopData = poopData
-                self.sleepData = sleepData
-                self.moodData = moodData
-                
-                self.cardData[0].data = poopData
-                self.cardData[1].data = sleepData
-                self.cardData[2].data = moodData
-                
-                self.collectionView.reloadData()
-                self.displayPartnerData()
-            }
-            .store(in: &self.cancellables)
-
-        // Fetch the data from Firebase
-        if let partnerID = CDDataProvider.shared.partnerID {
-            // Call your ViewModel's method to load partner data
-            self.viewModel.loadPartnerData(partnerID: partnerID)
-        } else {
-            print("Partner ID is nil. Cannot fetch data.")
-        }
+        self.displayPartnerData() // Ensure that data gets displayed
     }
-
     
     
     func displayPartnerData() {
@@ -279,7 +211,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
         greetingLabel.adjustsFontForContentSizeCategory = false
         greetingLabel.lineBreakMode = .byClipping
-        greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
+        greetingLabel.font = UIFont(name: "Poppins-Bold", size: 16)
         greetingLabel.textColor = .accent
         
         let currentHour = Calendar.current.component(.hour, from: Date())

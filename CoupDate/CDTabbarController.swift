@@ -54,9 +54,47 @@ class CDTabbarController: CardTabBarController {
         guard let streakVC = storyboard.instantiateViewController(withIdentifier: "StreakViewController") as? StreakViewController else {
             print("Could not find StreakViewController with identifier 'MainTabbar'")
             return
-        }        
-//        streakVC.viewModel = self.viewModel
-        viewControllers = [partnerVC, streakVC,dataEntryVC]
+        }
+        
+        guard let streakVC = storyboard.instantiateViewController(withIdentifier: "StreakViewController") as? StreakViewController else {
+            print("Could not find StreakViewController with identifier 'MainTabbar'")
+            return
+        }
+        
+        if let dailyRecords = CDDataProvider.shared.dailyRecords {
+            
+            let chartVC = CDCareViewController()
+            chartVC.moodCounts = self.collectMoodDataForPieChart()
+            let chartVCItem = UITabBarItem(title: "Insight", image: UIImage(named: "self_care"), selectedImage: nil)
+            chartVC.tabBarItem = chartVCItem
+            
+            let nav = UINavigationController(rootViewController: chartVC)
+            viewControllers = [partnerVC, streakVC,nav,dataEntryVC]
+
+        } else {
+            viewControllers = [partnerVC, streakVC,dataEntryVC]
+
+        }
+        
+    }
+    
+    func collectMoodDataForPieChart() -> [String: Int] {
+        // Assume `dailyRecords` contains the moods of the user
+        var moodCounts: [String: Int] = [:]
+        
+        for (_, moods) in CDDataProvider.shared.dailyRecords! {
+            for mood in moods.userMoods { // Assuming dailyRecords is of the form [Date: (userMoods: [String], partnerMoods: [String])]
+                moodCounts[mood, default: 0] += 1
+            }
+            // Uncomment the following lines if you want to include partner moods as well
+            /*
+            for mood in moods.partnerMoods {
+                moodCounts[mood, default: 0] += 1
+            }
+            */
+        }
+        
+        return moodCounts
     }
 }
 

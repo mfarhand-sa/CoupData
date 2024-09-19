@@ -171,6 +171,15 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
 //        self.becomeFirstResponder()
         messageListener.listenForMessages()
         
+//        FirebaseManager.shared.generateInsightsForAllUsers { result in
+//            switch result {
+//            case .success(let message):
+//                print("Insights generated successfully: \(message)")
+//            case .failure(let error):
+//                print("Error generating insights: \(error.localizedDescription)")
+//            }
+//        }
+        
         
     }
     
@@ -181,6 +190,21 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         self.moodData = CDDataProvider.shared.moodData
 
         self.displayPartnerData() // Ensure that data gets displayed
+        
+        
+        CDDataProvider.shared.loadMyDataAndThenPartnerData { success, userNeedMoreData, userData, partnerData, errorInfo in
+            if success {
+                
+                DispatchQueue.main.async {
+                    self.poopData = CDDataProvider.shared.poopData
+                    self.sleepData = CDDataProvider.shared.sleepData
+                    self.moodData = CDDataProvider.shared.moodData
+                    self.displayPartnerData() // Ensure that data gets displayed
+                }
+            }
+        }
+        
+        
     }
     
     
@@ -211,13 +235,14 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
         greetingLabel.adjustsFontForContentSizeCategory = false
         greetingLabel.lineBreakMode = .byClipping
-        greetingLabel.font = UIFont(name: "Poppins-Bold", size: 16)
+        greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
         greetingLabel.textColor = .accent
         
         let currentHour = Calendar.current.component(.hour, from: Date())
         var greetingText = "Hello"
         if let userName = CDDataProvider.shared.name {
-            greetingText = currentHour < 12 ? "Good Morning, \(userName)" : currentHour < 18 ? "Good Afternoon, \(userName)" : "Good Evening, \(userName)"
+            let capitalizedUserName = userName.capitalizeFirstLetters()
+            greetingText = currentHour < 12 ? "Good Morning, \(capitalizedUserName)" : currentHour < 18 ? "Good Afternoon, \(userName)" : "Good Evening, \(userName)"
         } else {
             greetingText = "Hello!"
         }
@@ -341,8 +366,8 @@ class PartnerActivityCardCell: UICollectionViewCell {
                     smallAnimationView.contentMode = .scaleAspectFit
                     smallAnimationView.loopMode = .loop
                     smallAnimationView.translatesAutoresizingMaskIntoConstraints = false
-                    smallAnimationView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-                    smallAnimationView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+                    smallAnimationView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+                    smallAnimationView.heightAnchor.constraint(equalToConstant: 60).isActive = true
                     smallAnimationView.play()
 
                     let statusItemLabel = UILabel()

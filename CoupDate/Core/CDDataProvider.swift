@@ -20,6 +20,15 @@ class CDDataProvider {
     public var birthday: Date?
     public var gender: String?
     public var phoneNumber, countryCode: String?
+    var dailyRecords: [Date: (userMoods: [String], partnerMoods: [String])]?
+    var streak : Int?
+    var startDate : Date?
+    var endDate : Date?
+    var insights: String?
+
+    
+
+
 
     
     
@@ -107,6 +116,11 @@ class CDDataProvider {
                 if let partnerID = data["partnerUserId"] as? String {
                     self.partnerID = partnerID
                     UserManager.shared.partnerUserID = partnerID
+                    
+                    if let insight = data["insight"] as? String {
+                        CDDataProvider.shared.insights = insight
+                    }
+                    
                     self.loadPartnerData(partnerID: partnerID) { result in
                         switch result {
                         case .success(let partnerData):
@@ -152,6 +166,115 @@ class CDDataProvider {
             }
         }
     }
+    
+    
+    
+    
+    
+    func loadAllUserAndPartnerData(userID: String, partnerID: String, daysToCheck: Int = 30, completion: @escaping (Int?, Date?, Date?, [Date: (userMoods: [String], partnerMoods: [String])], Error?) -> Void) {
+        let endDate = Date() // Fixed typo
+        let startDate = Calendar.current.date(byAdding: .day, value: -daysToCheck, to: endDate)!
+
+        FirebaseManager.shared.streakRecords(for: userID, from: startDate, to: endDate) { userResult in
+            switch userResult {
+            case .success(let userRecords):
+                FirebaseManager.shared.streakRecords(for: partnerID, from: startDate, to: endDate) { partnerResult in
+                    switch partnerResult {
+                    case .success(let partnerRecords):
+                        var combinedRecords: [Date: (userMoods: [String], partnerMoods: [String])] = [:]
+
+                        // Combine user and partner records into a single dictionary
+                        let allDates = Array(Set(userRecords.keys).union(Set(partnerRecords.keys)))
+                        for date in allDates {
+                            let userMoods = userRecords[date] ?? []
+                            let partnerMoods = partnerRecords[date] ?? []
+                            combinedRecords[date] = (userMoods: userMoods, partnerMoods: partnerMoods)
+                        }
+
+                        // Calculate the streak count using the updated calculateStreak method
+                        let streakCount = self.calculateStreak(userRecords: userRecords, partnerRecords: partnerRecords)
+                        
+                        // Find the actual start and end dates
+                        let actualStartDate = self.getActualStartDate(from: userRecords, partnerRecords: partnerRecords)
+                        let actualEndDate = self.getActualEndDate(from: userRecords, partnerRecords: partnerRecords)
+                        
+                        completion(streakCount, actualStartDate, actualEndDate, combinedRecords, nil)
+                    case .failure(let partnerError):
+                        completion(nil, nil, nil, [:], partnerError)
+                    }
+                }
+            case .failure(let userError):
+                completion(nil, nil, nil, [:], userError)
+            }
+        }
+    }
+    
+    
+    
+    func getActualStartDate(from userRecords: [Date: [String]], partnerRecords: [Date: [String]]) -> Date? {
+        let validDates = userRecords.keys.filter {
+            (userRecords[$0]?.count ?? 0 > 0) && (partnerRecords[$0]?.count ?? 0 > 0)
+        }
+        return validDates.min() // The earliest date in the streak
+    }
+
+    func getActualEndDate(from userRecords: [Date: [String]], partnerRecords: [Date: [String]]) -> Date? {
+        let validDates = userRecords.keys.filter {
+            (userRecords[$0]?.count ?? 0 > 0) && (partnerRecords[$0]?.count ?? 0 > 0)
+        }
+        return validDates.max() // The latest date in the streak
+    }
+
+
+
+    func calculateStreak(userRecords: [Date: [String]], partnerRecords: [Date: [String]]) -> Int {
+        // Create a set of all dates that are present in either user's records
+        let allDates = Array(Set(userRecords.keys).union(Set(partnerRecords.keys))).sorted()
+
+        var streakCount = 0
+        var currentStreak = 0
+        var lastDate: Date?
+
+        // Iterate through dates, checking for consecutive days with records for both users
+        for date in allDates {
+            // Check if both users have a record for the current date
+            let userHasRecord = userRecords[date] != nil
+            let partnerHasRecord = partnerRecords[date] != nil
+
+            if userHasRecord && partnerHasRecord {
+                // Both users have records for this date
+                if let lastDate = lastDate {
+                    // Check if the current date is consecutive to the last date
+                    if Calendar.current.isDate(date, inSameDayAs: Calendar.current.date(byAdding: .day, value: 1, to: lastDate)!) {
+                        // Continue the streak
+                        currentStreak += 1
+                    } else {
+                        // Not consecutive, reset streak
+                        currentStreak = 1
+                    }
+                } else {
+                    // Start a new streak
+                    currentStreak = 1
+                }
+
+                // Update the last valid date to the current date
+                lastDate = date
+            } else {
+                // Break the streak if either user is missing a record for this date
+                currentStreak = 0
+            }
+
+            // Update the maximum streak count
+            streakCount = max(streakCount, currentStreak)
+        }
+
+        return streakCount
+    }
+    
+    
+    
+    
+    
     
 
     

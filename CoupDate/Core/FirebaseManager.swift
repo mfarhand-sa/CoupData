@@ -350,6 +350,60 @@ class FirebaseManager {
 
 
 
+
+    func getInsightsFromOpenRouter(formattedMoodData: String, completion: @escaping (String?) -> Void) {
+        // Call the Firebase function
+        let function = Functions.functions().httpsCallable("getInsightsFromOpenRouter")
+        function.call(["formattedMoodData": formattedMoodData]) { result, error in
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    let code = FunctionsErrorCode(rawValue: error.code)
+                    let message = error.localizedDescription
+                    print("Error: \(String(describing: code)) - \(message)")
+                }
+                completion(nil)
+                return
+            }
+            
+            // Handle the result
+            if let data = result?.data as? [String: Any], let insights = data["insights"] as? String {
+                print("Insights: \(insights)")
+                completion(insights)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
+
+
+
+    
+    func generateInsightsForAllUsers(completion: @escaping (Result<String, Error>) -> Void) {
+        // Initialize the callable Firebase function
+        let functions = Functions.functions()
+
+        // Call the generateInsightsForAllUsers function
+        functions.httpsCallable("generateInsightsForAllUsers").call { result, error in
+            if let error = error {
+                // Handle the error
+                completion(.failure(error))
+                return
+            }
+            
+            // Check for the result and process it
+            if let data = result?.data as? [String: Any], let message = data["message"] as? String {
+                // Successful result
+                completion(.success(message))
+            } else {
+                // Unexpected result format
+                completion(.failure(NSError(domain: "Unexpected result format", code: 0, userInfo: nil)))
+            }
+        }
+    }
+
+
+
     
     
     

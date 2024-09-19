@@ -135,12 +135,12 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
             vibeCheckVC.descriptionText = "How are you feeling today?"
             if CDDataProvider.shared.gender == "Female" {
                 
-                vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious","Period","Sick"]
-                vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious","Period","Sick"] // Matching the options count
+                vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious","Period","Sick","Lazy","Meh"]
+                vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious","Period","Sick","Lazy","Meh"] // Matching the options count
             } else {
                 
-                vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious","Sick"]
-                vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious","Sick"]
+                vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious","Sick","Lazy","Meh"]
+                vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious","Sick","Lazy","Meh"]
 
             }
             vibeCheckVC.category = "mood"

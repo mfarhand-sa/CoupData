@@ -222,6 +222,7 @@ class CoupleLoginViewController: UIViewController {
     
     private func checkAuthenticationAndLoadPartnerData() {
         
+        print(UserManager.shared.currentUserID ?? "")
         CDDataProvider.shared.loadMyDataAndThenPartnerData { success, userNeedMoreData, userData, partnerData, errorInfo in
             
             guard success else {

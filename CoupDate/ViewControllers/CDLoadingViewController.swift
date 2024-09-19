@@ -49,10 +49,37 @@ class CDLoadingViewController : UIViewController {
                 self.showRegistrationScreen()
             } else if userData || partnerData {
                 
+             
+                if let partnerID = CDDataProvider.shared.partnerID, !partnerID.isEmpty {
+                    
+                    CDDataProvider.shared.loadAllUserAndPartnerData(userID: UserManager.shared.currentUserID!, partnerID: UserManager.shared.partnerUserID!) { streakCount, startDate, endDate, dailyRecords, error in
+                        if let streakCount = streakCount, let startDate = startDate, let endDate = endDate {
+                            
+                            CDDataProvider.shared.dailyRecords = dailyRecords
+                            CDDataProvider.shared.streak = streakCount
+                            CDDataProvider.shared.startDate = startDate
+                            CDDataProvider.shared.endDate = endDate
+
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                                self.navigateToMainScreen()
+                            })
+                            
+                        } else {
+                            self.navigateToMainScreen()
+                            
+                        }
+                        
+                        
+                    }
+
+                    
+                } else {
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                        self.navigateToMainScreen()
+                    })
+                }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-                    self.navigateToMainScreen()
-                })
                 
             } else {
                 // Show the pairing screen if needed

@@ -176,11 +176,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             print("Notification Body: \(notificationBody)")
             
             if let rootVCView = UIApplication.shared.keyWindow?.rootViewController?.view {
-                CustomAlerts.displayNotification(title: notificationTitle, message: notificationBody, view:rootVCView ,fromBottom: true)
-            }
-            
-            NotificationCenter.default.post(name: NSNotification.Name("Partner_Joined"), object: nil)
+                
+                if notificationTitle == "Partner Joined" {
+                    CustomAlerts.displayNotification(title: "", message:"👩‍❤️‍👨 Your partner has been joined 👩‍❤️‍👨", view: rootVCView)
 
+                    NotificationCenter.default.post(name: NSNotification.Name("Partner_Joined"), object: nil)
+
+                } else {
+                    CustomAlerts.displayNotification(title: notificationTitle, message: notificationBody, view:rootVCView ,fromBottom: true)
+                }
+            }
         }
         
         // Update UI or perform actions based on the notification content

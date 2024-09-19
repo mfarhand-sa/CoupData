@@ -48,7 +48,26 @@ class StreakViewController: UIViewController {
         longPressGesture.minimumPressDuration = 0.3
         
         animationView.addGestureRecognizer(longPressGesture)
+        
+        
+        
+        // Check if cached data exists
+         if let cachedStreak = CDDataProvider.shared.streak,
+            let cachedStartDate = CDDataProvider.shared.startDate,
+            let cachedEndDate = CDDataProvider.shared.endDate,
+            let cachedDailyRecords = CDDataProvider.shared.dailyRecords {
+             
+             // Use cached data to set up the calendar and label
+             self.setupCalendarAndLabel(streakCount: cachedStreak, startDate: cachedStartDate, endDate: cachedEndDate, dailyRecords: cachedDailyRecords)
+             
+             
 
+             
+
+
+
+
+         }
 
     }
     
@@ -84,7 +103,7 @@ class StreakViewController: UIViewController {
                     
                     
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                            // self.showCategorySelectionAlert()
                         self.showMSGOptions()
                             // Cancel the gesture by setting its state to .ended
@@ -119,7 +138,7 @@ class StreakViewController: UIViewController {
            if let randomMessage = CDMessageHelper.getRandomMessage(from: category) {
                print(randomMessage) // For now, we're just printing the message
                
-               FirebaseManager.shared.sendMessageToPartner(partnerUid: UserManager.shared.partnerUserID!, message:randomMessage , messageType: "normal")
+               FirebaseManager.shared.sendMessageToPartner(partnerUid: UserManager.shared.partnerUserID!, message:randomMessage , messageType: category.rawValue)
                
                CustomAlerts.displayNotification(title: "Sent 🚀", message:randomMessage, view: self.view,fromBottom: true)
 
@@ -172,66 +191,80 @@ class StreakViewController: UIViewController {
         
         guard CDDataProvider.shared.partnerID != nil else { return }
         
-
+        
+        streakCalendarView.backgroundColor = .white
+        
+        // Fetch the latest data and update the calendar
         loadUserAndPartnerData(userID: UserManager.shared.currentUserID!, partnerID: UserManager.shared.partnerUserID!) { streakCount, startDate, endDate, dailyRecords, error in
             if let streakCount = streakCount, let startDate = startDate, let endDate = endDate {
-                // Update the label with the streak count
-                self.dailyRecords = dailyRecords
-                let fullText = "\(streakCount) days and counting—your bond with your partner keeps growing!"
-                let attributedString = NSMutableAttributedString(string: fullText)
-                let boldRange = (fullText as NSString).range(of: "\(streakCount) days")
-                attributedString.addAttribute(.font, value: UIFont(name: "Poppins-Bold", size: 24)!, range: boldRange)
-                self.label.attributedText = attributedString
-
-                // Update or create the calendar view
-                if self.calendarView != nil {
-                    // Update the content of the existing calendar view
-                    self.calendarView.setContent(self.makeContent(startDate: startDate, endDate: endDate, dailyRecords: dailyRecords))
-                } else {
-                    // Initialize and add the calendar view if it doesn't exist yet
-                    self.calendarView = CalendarView(initialContent: self.makeContent(startDate: startDate, endDate: endDate, dailyRecords: dailyRecords))
-                    self.streakCalendarView.addSubview(self.calendarView)
-                    self.calendarView.translatesAutoresizingMaskIntoConstraints = false
-
-                    NSLayoutConstraint.activate([
-                        self.calendarView.leadingAnchor.constraint(equalTo: self.streakCalendarView.leadingAnchor, constant: 10),
-                        self.calendarView.trailingAnchor.constraint(equalTo: self.streakCalendarView.trailingAnchor, constant: -10),
-                        self.calendarView.topAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.topAnchor),
-                        self.calendarView.bottomAnchor.constraint(equalTo: self.streakCalendarView.layoutMarginsGuide.bottomAnchor),
-                    ])
-                }
+                // Cache the data
+                CDDataProvider.shared.dailyRecords = dailyRecords
+                CDDataProvider.shared.streak = streakCount
+                CDDataProvider.shared.startDate = startDate
+                CDDataProvider.shared.endDate = endDate
                 
-                self.calendarView.daySelectionHandler = { [weak self] day in
-                    guard let self = self else { return }
-
-                    // Convert the selected day to a Date object
-                    let calendar = Calendar.current
-                    let selectedDate = calendar.date(from: day.components)!
-
-                    // Check if there are any records for the selected date
-                    if let moods = self.dailyRecords[selectedDate], (!moods.userMoods.isEmpty || !moods.partnerMoods.isEmpty) {
-                        // The selected date has mood data, show mood information
-                        self.showSelectedDateInfo(date: selectedDate, moods: moods)
-                    } else {
-                        // No records found for the selected date, ignore selection
-                        return
-                    }
-                }
-
-
-                // Scroll to the specific month
-                self.calendarView.scroll(
-                    toMonthContaining: endDate,
-                    scrollPosition: .centered,
-                    animated: false // Set to true if you want animation
-                )
+                // Update the calendar and label
+                self.setupCalendarAndLabel(streakCount: streakCount, startDate: startDate, endDate: endDate, dailyRecords: dailyRecords)
             } else if let error = error {
                 print("Error: \(error)")
             }
         }
 
-
     }
+    
+    
+    private func setupCalendarAndLabel(streakCount: Int, startDate: Date, endDate: Date, dailyRecords: [Date: (userMoods: [String], partnerMoods: [String])]) {
+        // Update the label with the streak count
+        self.dailyRecords = dailyRecords
+        let fullText = "\(streakCount) days and counting—your bond with your partner keeps growing!"
+        let attributedString = NSMutableAttributedString(string: fullText)
+        let boldRange = (fullText as NSString).range(of: "\(streakCount) days")
+        attributedString.addAttribute(.font, value: UIFont(name: "Poppins-Bold", size: 24)!, range: boldRange)
+        self.label.attributedText = attributedString
+
+        // Update or create the calendar view
+        if self.calendarView != nil {
+            // Update the content of the existing calendar view
+            self.calendarView.setContent(self.makeContent(startDate: startDate, endDate: endDate, dailyRecords: dailyRecords))
+        } else {
+            // Initialize and add the calendar view if it doesn't exist yet
+            self.calendarView = CalendarView(initialContent: self.makeContent(startDate: startDate, endDate: endDate, dailyRecords: dailyRecords))
+            self.streakCalendarView.addSubview(self.calendarView)
+            self.calendarView.translatesAutoresizingMaskIntoConstraints = false
+
+            NSLayoutConstraint.activate([
+                self.calendarView.leadingAnchor.constraint(equalTo: self.streakCalendarView.leadingAnchor, constant: 10),
+                self.calendarView.trailingAnchor.constraint(equalTo: self.streakCalendarView.trailingAnchor, constant: -10),
+                self.calendarView.topAnchor.constraint(equalTo: self.streakCalendarView.safeAreaLayoutGuide.topAnchor),
+                self.calendarView.bottomAnchor.constraint(equalTo: self.streakCalendarView.safeAreaLayoutGuide.bottomAnchor),
+            ])
+        }
+
+        self.calendarView.daySelectionHandler = { [weak self] day in
+            guard let self = self else { return }
+
+            // Convert the selected day to a Date object
+            let calendar = Calendar.current
+            let selectedDate = calendar.date(from: day.components)!
+
+            // Check if there are any records for the selected date
+            if let moods = self.dailyRecords[selectedDate], (!moods.userMoods.isEmpty || !moods.partnerMoods.isEmpty) {
+                // The selected date has mood data, show mood information
+                self.showSelectedDateInfo(date: selectedDate, moods: moods)
+            } else {
+                // No records found for the selected date, ignore selection
+                return
+            }
+        }
+
+        // Scroll to the specific month
+        self.calendarView.scroll(
+            toMonthContaining: endDate,
+            scrollPosition: .centered,
+            animated: false // Set to true if you want animation
+        )
+    }
+
     
     
     // Update `showSelectedDateInfo` to properly display mood data
@@ -256,7 +289,42 @@ class StreakViewController: UIViewController {
             preferredStyle: .alert
         )
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
-        self.present(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true) {
+        }
+    }
+
+    
+    // In StreakViewController
+    func collectMoodDataForPieChart() -> [String: Int] {
+        // Assume `dailyRecords` contains the moods of the user
+        var moodCounts: [String: Int] = [:]
+        
+        for (_, moods) in dailyRecords {
+            for mood in moods.userMoods { // Assuming dailyRecords is of the form [Date: (userMoods: [String], partnerMoods: [String])]
+                moodCounts[mood, default: 0] += 1
+            }
+            // Uncomment the following lines if you want to include partner moods as well
+            /*
+            for mood in moods.partnerMoods {
+                moodCounts[mood, default: 0] += 1
+            }
+            */
+        }
+        
+        return moodCounts
+    }
+
+    func showPieChart() {
+        let moodCounts = collectMoodDataForPieChart()
+        
+        // Initialize PieChartViewController
+        let pieChartVC = PieChartViewController()
+        
+        // Pass moodCounts to PieChartViewController
+        pieChartVC.moodCounts = moodCounts
+        
+        // Present or push the PieChartViewController
+        self.present(pieChartVC, animated: true, completion: nil)
     }
 
 
@@ -266,9 +334,43 @@ class StreakViewController: UIViewController {
 
 
     
+//    private func makeContent(startDate: Date, endDate: Date, dailyRecords: [Date: (userMoods: [String], partnerMoods: [String])]) -> CalendarViewContent {
+//        let calendar = Calendar.current
+//        let highlightDates = dailyRecords.keys // Only these dates should be selectable and highlighted
+//
+//        let visibleStartDate = calendar.date(from: DateComponents(year: 2024, month: 01, day: 01))!
+//        let visibleEndDate = calendar.date(from: DateComponents(year: 2026, month: 12, day: 31))!
+//
+//        return CalendarViewContent(
+//            calendar: calendar,
+//            visibleDateRange: visibleStartDate...visibleEndDate,
+//            monthsLayout: .vertical(options: VerticalMonthsLayoutOptions())
+//        )
+//        .interMonthSpacing(24)
+//        .verticalDayMargin(8)
+//        .horizontalDayMargin(8)
+//        .dayItemProvider { day in
+//            let dayDate = calendar.date(from: day.components)!
+//            let isInHighlightedRange = highlightDates.contains(dayDate)
+//
+//            return CalendarItemModel<CustomDayView>(
+//                invariantViewProperties: CustomDayView.InvariantViewProperties(isHighlighted: isInHighlightedRange),
+//                viewModel: CustomDayView.ViewModel(dayText: "\(day.day)")
+//            )
+//        }
+//    }
+    
+    
     private func makeContent(startDate: Date, endDate: Date, dailyRecords: [Date: (userMoods: [String], partnerMoods: [String])]) -> CalendarViewContent {
         let calendar = Calendar.current
-        let highlightDates = dailyRecords.keys // Only these dates should be selectable and highlighted
+        
+        // Filter highlight dates to include only dates where both user and partner have records (ignoring whether they contain moods)
+        let highlightDates = dailyRecords.keys.filter { date in
+            if let records = dailyRecords[date] {
+                return records.userMoods != nil && records.partnerMoods != nil
+            }
+            return false
+        }
 
         let visibleStartDate = calendar.date(from: DateComponents(year: 2024, month: 01, day: 01))!
         let visibleEndDate = calendar.date(from: DateComponents(year: 2026, month: 12, day: 31))!
@@ -291,6 +393,7 @@ class StreakViewController: UIViewController {
             )
         }
     }
+
 
 
 
@@ -380,9 +483,6 @@ class StreakViewController: UIViewController {
     }
 
 
-
-    
-    
 
     func calculateStreak(userRecords: [Date: [String]], partnerRecords: [Date: [String]]) -> Int {
         // Create a set of all dates that are present in either user's records

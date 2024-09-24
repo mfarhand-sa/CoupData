@@ -20,7 +20,7 @@ class StreakViewController: UIViewController {
         animationView!.loopMode = .loop
         animationView!.animationSpeed = 1.0
         animationView!.play()
-        self.label.font = UIFont(name: "Poppins-Regular", size: 20)
+        self.label.font = UIFont(name: "Poppins-Regular", size: 18)
         if CDDataProvider.shared.partnerID == nil {
             self.label.text = "You'll be able to track your streak with your partner once they join you."
             
@@ -219,7 +219,7 @@ class StreakViewController: UIViewController {
         let fullText = "\(streakCount) days and counting—your bond with your partner keeps growing!"
         let attributedString = NSMutableAttributedString(string: fullText)
         let boldRange = (fullText as NSString).range(of: "\(streakCount) days")
-        attributedString.addAttribute(.font, value: UIFont(name: "Poppins-Bold", size: 24)!, range: boldRange)
+        attributedString.addAttribute(.font, value: UIFont(name: "Poppins-Bold", size: 22)!, range: boldRange)
         self.label.attributedText = attributedString
 
         // Update or create the calendar view

@@ -7,25 +7,12 @@
 		<key>CoupDate.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>69</integer>
+			<integer>70</integer>
 		</dict>
 		<key>CoupDateExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>69</integer>
-		</dict>
-	</dict>
-	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>CD261CBD2C850CD800E4D5F2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CDD99F0D2C9D057100AA3020</key>
-		<dict>
-			<key>primary</key>
-			<true/>
 		</dict>
 	</dict>
 </dict>

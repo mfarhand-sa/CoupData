@@ -51,7 +51,6 @@ class MessageListener {
 class PartnerActivityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     // UI Components
-    let scrollView = UIScrollView()
     let contentView = UIView()
     let greetingLabel = UILabel()
     
@@ -80,7 +79,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .CDBackground
         
         setupUI()
         setupCollectionView()
@@ -265,6 +264,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         collectionView.register(PartnerActivityCardCell.self, forCellWithReuseIdentifier: "PartnerActivityCardCell")
         
         view.addSubview(collectionView)
+        collectionView.backgroundColor = .CDBackground
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 16),
@@ -407,11 +407,11 @@ class PartnerActivityCardCell: UICollectionViewCell {
 
     // Adjust layout in `setupCardUI`
     func setupCardUI() {
-        contentView.backgroundColor = .secondarySystemBackground
+        contentView.backgroundColor = .CDBackground
         contentView.layer.cornerRadius = 12
         contentView.layer.borderWidth = 1
         contentView.layer.borderColor = UIColor.separator.cgColor
-        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowColor = UIColor.white.cgColor
         contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
         contentView.layer.shadowOpacity = 0.2
         contentView.layer.shadowRadius = 8

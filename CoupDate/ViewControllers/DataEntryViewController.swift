@@ -21,7 +21,7 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground //UIColor(named: "CDBackground")
+        view.backgroundColor = .CDBackground //UIColor(named: "CDBackground")
         
         setupUI()
         setupCollectionView()
@@ -34,8 +34,8 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         greetingLabel.lineBreakMode = .byClipping
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
         greetingLabel.textColor = .accent
-        self.view.backgroundColor = .systemBackground //UIColor(named: "CDBackground")
-        self.scrollView.backgroundColor = .systemBackground  //UIColor(named: "CDBackground")
+        self.view.backgroundColor = .CDBackground //UIColor(named: "CDBackground")
+        self.scrollView.backgroundColor = .CDBackground  //UIColor(named: "CDBackground")
         
         
         let currentHour = Calendar.current.component(.hour, from: Date())
@@ -73,7 +73,7 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(DataEntryCardCell.self, forCellWithReuseIdentifier: "DataEntryCardCell")
-        collectionView.backgroundColor = .systemBackground //UIColor(named: "CDBackground")
+        collectionView.backgroundColor = .CDBackground //UIColor(named: "CDBackground")
         collectionView.showsVerticalScrollIndicator = false
         // Add contentInset to ensure enough space for scrolling past the last cell
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
@@ -182,11 +182,11 @@ class DataEntryCardCell: UICollectionViewCell {
     }
     
     func setupCardUI() {
-        contentView.backgroundColor = .secondarySystemBackground
+        contentView.backgroundColor = .CDBackground
         contentView.layer.cornerRadius = 12
         contentView.layer.borderWidth = 1
         contentView.layer.borderColor = UIColor.separator.cgColor
-        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowColor = UIColor.white.cgColor
         contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
         contentView.layer.shadowOpacity = 0.2
         contentView.layer.shadowRadius = 8

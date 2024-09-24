@@ -53,6 +53,7 @@
 		CD53300F2C85359400541112 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD53300E2C85359400541112 /* GoogleService-Info.plist */; };
 		CD571CC82C949FA8005E96AD /* Sick.json in Resources */ = {isa = PBXBuildFile; fileRef = CD571CC72C949FA8005E96AD /* Sick.json */; };
 		CD571CCA2C949FB2005E96AD /* Period.json in Resources */ = {isa = PBXBuildFile; fileRef = CD571CC92C949FB2005E96AD /* Period.json */; };
+		CD64E5822CA29CF30069F6F6 /* Energy.json in Resources */ = {isa = PBXBuildFile; fileRef = CD64E5812CA29CF30069F6F6 /* Energy.json */; };
 		CD6E71112C86E61B00AE02ED /* CDLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */; };
 		CD6E71152C86EA6100AE02ED /* PartnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */; };
 		CD6E71172C86F07000AE02ED /* Poop.json in Resources */ = {isa = PBXBuildFile; fileRef = CD6E71162C86F07000AE02ED /* Poop.json */; };
@@ -178,6 +179,7 @@
 		CD53300E2C85359400541112 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CD571CC72C949FA8005E96AD /* Sick.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Sick.json; sourceTree = "<group>"; };
 		CD571CC92C949FB2005E96AD /* Period.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Period.json; sourceTree = "<group>"; };
+		CD64E5812CA29CF30069F6F6 /* Energy.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Energy.json; sourceTree = "<group>"; };
 		CD6E71102C86E61B00AE02ED /* CDLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CDLoadingViewController.swift; path = CoupDate/ViewControllers/CDLoadingViewController.swift; sourceTree = SOURCE_ROOT; };
 		CD6E71142C86EA6100AE02ED /* PartnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerViewModel.swift; sourceTree = "<group>"; };
 		CD6E71162C86F07000AE02ED /* Poop.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Poop.json; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 		CDDC3EE62C939C6500B2CB4A /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				CD64E5812CA29CF30069F6F6 /* Energy.json */,
 				CD240D842C8916DE00DA034C /* LoginAnimtation.json */,
 				CD6E71162C86F07000AE02ED /* Poop.json */,
 				CD6E71182C86F1DD00AE02ED /* Sleeping.json */,
@@ -543,6 +546,8 @@
 				Base,
 			);
 			mainGroup = CD261CB52C850CD800E4D5F2;
+			packageReferences = (
+			);
 			productRefGroup = CD261CBF2C850CD800E4D5F2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -603,6 +608,7 @@
 				CDDC3EDF2C939C1D00B2CB4A /* Anxious.json in Resources */,
 				CD240DAB2C89359400DA034C /* Poppins-Black.ttf in Resources */,
 				CD240DAC2C89359400DA034C /* Poppins-ExtraBold.ttf in Resources */,
+				CD64E5822CA29CF30069F6F6 /* Energy.json in Resources */,
 				CD240DAD2C89359400DA034C /* Poppins-MediumItalic.ttf in Resources */,
 				CD240DAE2C89359400DA034C /* Poppins-BlackItalic.ttf in Resources */,
 				CD261CCE2C850CD900E4D5F2 /* Base in Resources */,

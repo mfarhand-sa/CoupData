@@ -43,6 +43,8 @@ class CDDataProvider {
     var poopData: [String: Any]?
     var sleepData: [String: Any]?
     var moodData: [String: Any]?
+    var energyData: [String: Any]?
+
 
     
     private init() {
@@ -289,6 +291,8 @@ class CDDataProvider {
         self.poopData = partnerData["poop"] as? [String: Any] ?? [:]
         self.sleepData = partnerData["sleep"] as? [String: Any] ?? [:]
         self.moodData = partnerData["mood"] as? [String: Any] ?? [:]
+        self.energyData = partnerData["energy"] as? [String: Any] ?? [:]
+
     }
 }
 

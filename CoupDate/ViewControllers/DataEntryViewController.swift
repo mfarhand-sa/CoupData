@@ -14,7 +14,8 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
     let cardData: [(title: String, animationName: String)] = [
         ("Poop Status", "Poop"),
         ("Sleep Status", "Sleeping"),
-        ("Mood Check", "Mood")
+        ("Mood Check", "Mood"),
+        ("Energy Level Check", "Energy")
     ]
     
     override func viewDidLoad() {
@@ -73,6 +74,12 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         collectionView.dataSource = self
         collectionView.register(DataEntryCardCell.self, forCellWithReuseIdentifier: "DataEntryCardCell")
         collectionView.backgroundColor = .systemBackground //UIColor(named: "CDBackground")
+        collectionView.showsVerticalScrollIndicator = false
+        // Add contentInset to ensure enough space for scrolling past the last cell
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        
+        // Also adjust the scroll indicators to match the content inset
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
 
         view.addSubview(collectionView)
 
@@ -133,19 +140,16 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
             
             vibeCheckVC.categoryTitle = "Vibe Check"
             vibeCheckVC.descriptionText = "How are you feeling today?"
-//            if CDDataProvider.shared.gender == "Female" {
-                
-//                vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious","Period","Sick","Lazy","Meh"]
-//                vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious","Period","Sick","Lazy","Meh"] // Matching the options count
-//            } else {
-//                
-//                vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious","Sick","Lazy","Meh"]
-//                vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious","Sick","Lazy","Meh"]
-//
-//            }
-                
             vibeCheckVC.options = CDDataProvider.shared.moods ?? []
             vibeCheckVC.category = "mood"
+            break
+            
+        case 3:
+            
+            vibeCheckVC.categoryTitle = "Energy Level Check"
+            vibeCheckVC.descriptionText = "How's your energy level today?"
+            vibeCheckVC.options = ["Drained 🪫", "Tired 😓", "Fine 😌", "Energized 💥", "Hyper 🔥"]
+            vibeCheckVC.category = "energy"
             break
             
             

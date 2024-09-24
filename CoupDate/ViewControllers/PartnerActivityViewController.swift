@@ -65,38 +65,21 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     var cardData: [(title: String, animationName: String, data: [String: Any]?)] = [
         ("Poop Status", "Poop", nil),
         ("Sleep Status", "Sleeping", nil),
-        ("Mood Check", "Mood", nil)
+        ("Mood Check", "Mood", nil),
+        ("Energy Level Status", "Energy", nil)
     ]
     
     var poopData: [String: Any]?
     var sleepData: [String: Any]?
     var moodData: [String: Any]?
+    var energyData: [String: Any]?
+
     
-    
-    
-    func updateWithData(poopData: [String: Any]?, sleepData: [String: Any]?, moodData: [String: Any]?) {
-        self.poopData = poopData
-        self.sleepData = sleepData
-        self.moodData = moodData
-        
-        // Update the cardData array with the new data
-        self.cardData[0].data = poopData
-        self.cardData[1].data = sleepData
-        self.cardData[2].data = moodData
-        
-        // Refresh the collection view
-        self.collectionView.reloadData()
-        displayPartnerData() // Ensure data is displayed correctly
-    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Now, the viewModel should be available here as it's passed from the LoadingViewController
-//        if viewModel == nil {
-//            fatalError("ViewModel is not initialized")
-//        }
-        
+
         view.backgroundColor = .systemBackground
         
         setupUI()
@@ -188,6 +171,8 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         self.poopData = CDDataProvider.shared.poopData
         self.sleepData = CDDataProvider.shared.sleepData
         self.moodData = CDDataProvider.shared.moodData
+        self.energyData = CDDataProvider.shared.energyData
+
 
         self.displayPartnerData() // Ensure that data gets displayed
         
@@ -225,6 +210,13 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
             cardData[2].data = moodData
         } else {
             cardData[2].data = ["status": "No mood data yet"]
+        }
+        
+        
+        if let energyData = energyData {
+            cardData[3].data = moodData
+        } else {
+            cardData[3].data = ["status": "No energy data yet"]
         }
         
         self.collectionView.reloadData()
@@ -350,6 +342,7 @@ class PartnerActivityCardCell: UICollectionViewCell {
     func configure(withTitle title: String, animationName: String, recordData: [String: Any]?) {
         titleLabel.text = title
         mainAnimationView.animation = LottieAnimation.named(animationName)
+        mainAnimationView.backgroundColor = .CDBackground
         mainAnimationView.play()
 
         // Clear the stack before adding new items

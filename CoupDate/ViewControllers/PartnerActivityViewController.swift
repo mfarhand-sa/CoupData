@@ -137,7 +137,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if ((self.poopData == nil || self.sleepData == nil) && CDDataProvider.shared.partnerID != nil) {
+        if ((self.poopData == nil || self.sleepData == nil || self.energyData == nil || self.moodData == nil) && CDDataProvider.shared.partnerID != nil) {
             fetchAndDisplayPartnerData()
         }
         
@@ -183,6 +183,8 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
                     self.poopData = CDDataProvider.shared.poopData
                     self.sleepData = CDDataProvider.shared.sleepData
                     self.moodData = CDDataProvider.shared.moodData
+                    self.energyData = CDDataProvider.shared.energyData
+
                     self.displayPartnerData() // Ensure that data gets displayed
                 }
             }
@@ -213,7 +215,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         
         
         if let energyData = energyData {
-            cardData[3].data = moodData
+            cardData[3].data = energyData
         } else {
             cardData[3].data = ["status": "No energy data yet"]
         }

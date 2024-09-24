@@ -135,7 +135,7 @@ class StreakViewController: UIViewController {
     
     func displayRandomMessage(from category: CDMessageHelper.CDMessageCategory) {
            // Get a random message from the selected category
-           if let randomMessage = CDMessageHelper.getRandomMessage(from: category) {
+        if let randomMessage = CDMessageHelper.sendRandomMessageBasedOnGender(category: category, userGender: CDDataProvider.shared.gender ?? "") {
                print(randomMessage) // For now, we're just printing the message
                
                FirebaseManager.shared.sendMessageToPartner(partnerUid: UserManager.shared.partnerUserID!, message:randomMessage , messageType: category.rawValue)
@@ -367,7 +367,7 @@ class StreakViewController: UIViewController {
         // Filter highlight dates to include only dates where both user and partner have records (ignoring whether they contain moods)
         let highlightDates = dailyRecords.keys.filter { date in
             if let records = dailyRecords[date] {
-                return records.userMoods != nil && records.partnerMoods != nil
+                return !records.userMoods.isEmpty && !records.partnerMoods.isEmpty
             }
             return false
         }

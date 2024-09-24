@@ -15,7 +15,6 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
     var categoryTitle: String = "Vibe Check"
     var descriptionText: String = "How are you feeling today?"
     var options: [String] = [] // Dynamic list of options
-    var lottieAnimations: [String?] = [] // Optional Lottie animation names (or nil for just text)
     var selectedOptions: [String] = [] // Track selected options
     var category: String = ""
 
@@ -128,9 +127,7 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptionCell", for: indexPath) as! OptionCell
         let optionText = options[indexPath.row]
-        let lottieName = lottieAnimations[indexPath.row]
-        
-        cell.configure(with: optionText, lottieAnimation: lottieName)
+        cell.configure(with: optionText) // No need to pass the Lottie animation separately
         return cell
     }
     
@@ -143,13 +140,8 @@ class DynamicOptionsCollectionViewController: UICollectionViewController, UIColl
         let availableWidth = collectionView.frame.width - totalPadding
         let widthPerItem = availableWidth / itemsPerRow
 
-        // Check if there is a Lottie animation for the current item
-        let lottieName = lottieAnimations[indexPath.row]
-
-        // If no animation, reduce the height of the cell
-        let heightPerItem = lottieName == nil ? widthPerItem * 0.6 : widthPerItem // Adjust the height accordingly
-
-        return CGSize(width: widthPerItem, height: heightPerItem)
+        // Return the same size for each item (height will be based on content)
+        return CGSize(width: widthPerItem, height: widthPerItem)
     }
     
     
@@ -214,7 +206,7 @@ class OptionCell: UICollectionViewCell {
         layer.borderWidth = 0.6
         layer.cornerRadius = 10
         layer.borderColor = UIColor.CDText.cgColor // Default border color
-        
+
         // Configure the stack view for vertical alignment of Lottie and label
         stackView.axis = .vertical
         stackView.alignment = .center
@@ -224,7 +216,7 @@ class OptionCell: UICollectionViewCell {
 
         // Add Lottie animation view and label to the stack view
         label.textAlignment = .center
-        stackView.addArrangedSubview(lottieView ?? UIView()) // Add a placeholder if Lottie view is nil
+        stackView.addArrangedSubview(UIView()) // Add a placeholder initially
         stackView.addArrangedSubview(label)
 
         // Set constraints for the stack view to center it vertically and horizontally
@@ -236,7 +228,7 @@ class OptionCell: UICollectionViewCell {
         ])
     }
 
-    func configure(with text: String, lottieAnimation: String?) {
+    func configure(with text: String) {
         label.text = text
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -247,9 +239,9 @@ class OptionCell: UICollectionViewCell {
             lottieView.removeFromSuperview()
         }
 
-        // If a Lottie animation is provided, configure the animation view
-        if let animationName = lottieAnimation {
-            lottieView = LottieAnimationView(name: animationName)
+        // Try to load the Lottie animation with the same name as the text
+        if let animation = LottieAnimation.named(text) {
+            lottieView = LottieAnimationView(animation: animation)
             lottieView?.loopMode = .loop
             lottieView?.contentMode = .scaleAspectFit
             lottieView?.translatesAutoresizingMaskIntoConstraints = false
@@ -274,3 +266,6 @@ class OptionCell: UICollectionViewCell {
         }
     }
 }
+
+
+

@@ -117,14 +117,14 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
             vibeCheckVC.categoryTitle = "Poop Check"
             vibeCheckVC.descriptionText = "Did you poop today?"
             vibeCheckVC.options = ["Yes 😁", "No, I couldn't 😫", "Almost"]
-            vibeCheckVC.lottieAnimations = [nil, nil, nil] // No animations
+//            vibeCheckVC.lottieAnimations = [nil, nil, nil] // No animations
             vibeCheckVC.category = "poop"
         case 1:
             
             vibeCheckVC.categoryTitle = "Sleep Check"
             vibeCheckVC.descriptionText = "How was your sleep last night?"
             vibeCheckVC.options = ["Rested", "Tired", "Woke Up Often", "Deep Sleep", "Insomnia", "Overslept"]
-            vibeCheckVC.lottieAnimations = [nil, nil, nil, nil, nil, nil] // No animations
+//            vibeCheckVC.lottieAnimations = [nil, nil, nil, nil, nil, nil] // No animations
             vibeCheckVC.category = "sleep"
 
             break
@@ -133,16 +133,18 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
             
             vibeCheckVC.categoryTitle = "Vibe Check"
             vibeCheckVC.descriptionText = "How are you feeling today?"
-            if CDDataProvider.shared.gender == "Female" {
+//            if CDDataProvider.shared.gender == "Female" {
                 
-                vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious","Period","Sick","Lazy","Meh"]
-                vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious","Period","Sick","Lazy","Meh"] // Matching the options count
-            } else {
+//                vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious","Period","Sick","Lazy","Meh"]
+//                vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious","Period","Sick","Lazy","Meh"] // Matching the options count
+//            } else {
+//                
+//                vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious","Sick","Lazy","Meh"]
+//                vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious","Sick","Lazy","Meh"]
+//
+//            }
                 
-                vibeCheckVC.options = ["Happy", "Excited","Loved", "Calm", "Stressed", "Anxious","Sick","Lazy","Meh"]
-                vibeCheckVC.lottieAnimations = ["Happy", "Excited","Loved", "Calm","Stressed","Anxious","Sick","Lazy","Meh"]
-
-            }
+            vibeCheckVC.options = CDDataProvider.shared.moods ?? []
             vibeCheckVC.category = "mood"
             break
             

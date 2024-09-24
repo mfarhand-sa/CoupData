@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -70,9 +70,14 @@
 		CD8711F22C8A45CB0090608A /* CDUserRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */; };
 		CD8711F42C8A465C0090608A /* CDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711F32C8A465C0090608A /* CDButton.swift */; };
 		CDA935622C9A322E005C6183 /* Lazy.json in Resources */ = {isa = PBXBuildFile; fileRef = CDA935612C9A322E005C6183 /* Lazy.json */; };
-		CDA935642C9A3243005C6183 /* Meh.json in Resources */ = {isa = PBXBuildFile; fileRef = CDA935632C9A3243005C6183 /* Meh.json */; };
 		CDB2E8DD2C967540000FE1D5 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2E8DC2C967540000FE1D5 /* ListViewController.swift */; };
 		CDB2E8E12C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2E8E02C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift */; };
+		CDD99F012C9CEB7300AA3020 /* Horny.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F002C9CEB7300AA3020 /* Horny.json */; };
+		CDD99F032C9CEC1600AA3020 /* Grateful.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F022C9CEC1600AA3020 /* Grateful.json */; };
+		CDD99F052C9CECE600AA3020 /* Vulnerable.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F042C9CECE600AA3020 /* Vulnerable.json */; };
+		CDD99F072C9CED7A00AA3020 /* Balanced.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F062C9CED7A00AA3020 /* Balanced.json */; };
+		CDD99F092C9CEE2600AA3020 /* Meh.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F082C9CEE2600AA3020 /* Meh.json */; };
+		CDD99F152C9D057100AA3020 /* CoupDateExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CDD99F0E2C9D057100AA3020 /* CoupDateExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CDDC3EC92C92362800B2CB4A /* Streak.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3EC82C92362800B2CB4A /* Streak.json */; };
 		CDDC3ECB2C92387400B2CB4A /* StreakViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3ECA2C92387400B2CB4A /* StreakViewController.swift */; };
 		CDDC3ECD2C9243A200B2CB4A /* CDModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */; };
@@ -91,11 +96,22 @@
 		CDDC3EF32C939D0D00B2CB4A /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3EEF2C939D0D00B2CB4A /* UIImage+.swift */; };
 		CDDC3EF42C939D0D00B2CB4A /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3EF02C939D0D00B2CB4A /* UIStackView+.swift */; };
 		CDDC3EF52C939D0D00B2CB4A /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3EF12C939D0D00B2CB4A /* UIView+.swift */; };
+		CDEABBF72CA228800029F603 /* sound1.caf in Resources */ = {isa = PBXBuildFile; fileRef = CD18B29F2C85A72900AC858B /* sound1.caf */; };
 		CDEC4A372C9901B700FE6BAB /* PieChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEC4A362C9901B700FE6BAB /* PieChartViewController.swift */; };
 		CDEC4A392C9901E600FE6BAB /* PieChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDEC4A382C9901E600FE6BAB /* PieChartViewController.xib */; };
 		CDEC4A3B2C9902CA00FE6BAB /* DemoBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEC4A3A2C9902CA00FE6BAB /* DemoBaseViewController.swift */; };
 		CDEC4A3D2C99688200FE6BAB /* CDCareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEC4A3C2C99687F00FE6BAB /* CDCareViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CDD99F132C9D057100AA3020 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD261CB62C850CD800E4D5F2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CDD99F0D2C9D057100AA3020;
+			remoteInfo = CoupDateExtension;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		CD18B29E2C85A69E00AC858B /* Embed Foundation Extensions */ = {
@@ -104,6 +120,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				CDD99F152C9D057100AA3020 /* CoupDateExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -178,9 +195,14 @@
 		CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDUserRegistrationViewController.swift; sourceTree = "<group>"; };
 		CD8711F32C8A465C0090608A /* CDButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDButton.swift; sourceTree = "<group>"; };
 		CDA935612C9A322E005C6183 /* Lazy.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Lazy.json; sourceTree = "<group>"; };
-		CDA935632C9A3243005C6183 /* Meh.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Meh.json; sourceTree = "<group>"; };
 		CDB2E8DC2C967540000FE1D5 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		CDB2E8E02C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPhoneRegistrationViewController.swift; sourceTree = "<group>"; };
+		CDD99F002C9CEB7300AA3020 /* Horny.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Horny.json; sourceTree = "<group>"; };
+		CDD99F022C9CEC1600AA3020 /* Grateful.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Grateful.json; sourceTree = "<group>"; };
+		CDD99F042C9CECE600AA3020 /* Vulnerable.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Vulnerable.json; sourceTree = "<group>"; };
+		CDD99F062C9CED7A00AA3020 /* Balanced.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Balanced.json; sourceTree = "<group>"; };
+		CDD99F082C9CEE2600AA3020 /* Meh.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Meh.json; sourceTree = "<group>"; };
+		CDD99F0E2C9D057100AA3020 /* CoupDateExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CoupDateExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDDC3EC82C92362800B2CB4A /* Streak.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Streak.json; sourceTree = "<group>"; };
 		CDDC3ECA2C92387400B2CB4A /* StreakViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakViewController.swift; sourceTree = "<group>"; };
 		CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDModels.swift; sourceTree = "<group>"; };
@@ -206,12 +228,33 @@
 		D9988D54073533D8B824BD6D /* Pods-CoupDate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDate.release.xcconfig"; path = "Target Support Files/Pods-CoupDate/Pods-CoupDate.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CDD99F162C9D057100AA3020 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CDD99F0D2C9D057100AA3020 /* CoupDateExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CDD99F0F2C9D057100AA3020 /* CoupDateExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CDD99F162C9D057100AA3020 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = CoupDateExtension; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		CD261CBB2C850CD800E4D5F2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				3A2766FA7C7A2BDFD8A16961 /* Pods_CoupDate.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CDD99F0B2C9D057100AA3020 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +307,7 @@
 			isa = PBXGroup;
 			children = (
 				CD261CC02C850CD800E4D5F2 /* CoupDate */,
+				CDD99F0F2C9D057100AA3020 /* CoupDateExtension */,
 				CD261CBF2C850CD800E4D5F2 /* Products */,
 				4D0A580A8FCB74FF9BD919DF /* Frameworks */,
 				AD0F1F6FCA23AF07B6EF0FE7 /* Pods */,
@@ -274,6 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				CD261CBE2C850CD800E4D5F2 /* CoupDate.app */,
+				CDD99F0E2C9D057100AA3020 /* CoupDateExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -332,6 +377,10 @@
 		CDDC3EDA2C939C1D00B2CB4A /* MoodAnimation */ = {
 			isa = PBXGroup;
 			children = (
+				CDD99F062C9CED7A00AA3020 /* Balanced.json */,
+				CDD99F042C9CECE600AA3020 /* Vulnerable.json */,
+				CDD99F022C9CEC1600AA3020 /* Grateful.json */,
+				CDD99F002C9CEB7300AA3020 /* Horny.json */,
 				CDDC3ED32C939C1D00B2CB4A /* Anxious.json */,
 				CDDC3ED42C939C1D00B2CB4A /* Calm.json */,
 				CDDC3ED52C939C1D00B2CB4A /* Excited.json */,
@@ -342,7 +391,7 @@
 				CD571CC72C949FA8005E96AD /* Sick.json */,
 				CD571CC92C949FB2005E96AD /* Period.json */,
 				CDA935612C9A322E005C6183 /* Lazy.json */,
-				CDA935632C9A3243005C6183 /* Meh.json */,
+				CDD99F082C9CEE2600AA3020 /* Meh.json */,
 				CD245BA92C94B4560087EA92 /* reaction1.json */,
 			);
 			path = MoodAnimation;
@@ -438,11 +487,34 @@
 			buildRules = (
 			);
 			dependencies = (
+				CDD99F142C9D057100AA3020 /* PBXTargetDependency */,
 			);
 			name = CoupDate;
 			productName = CoupDate;
 			productReference = CD261CBE2C850CD800E4D5F2 /* CoupDate.app */;
 			productType = "com.apple.product-type.application";
+		};
+		CDD99F0D2C9D057100AA3020 /* CoupDateExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CDD99F172C9D057100AA3020 /* Build configuration list for PBXNativeTarget "CoupDateExtension" */;
+			buildPhases = (
+				CDD99F0A2C9D057100AA3020 /* Sources */,
+				CDD99F0B2C9D057100AA3020 /* Frameworks */,
+				CDD99F0C2C9D057100AA3020 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CDD99F0F2C9D057100AA3020 /* CoupDateExtension */,
+			);
+			name = CoupDateExtension;
+			packageProductDependencies = (
+			);
+			productName = CoupDateExtension;
+			productReference = CDD99F0E2C9D057100AA3020 /* CoupDateExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -456,6 +528,9 @@
 				TargetAttributes = {
 					CD261CBD2C850CD800E4D5F2 = {
 						CreatedOnToolsVersion = 15.4;
+					};
+					CDD99F0D2C9D057100AA3020 = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -473,6 +548,7 @@
 			projectRoot = "";
 			targets = (
 				CD261CBD2C850CD800E4D5F2 /* CoupDate */,
+				CDD99F0D2C9D057100AA3020 /* CoupDateExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -482,6 +558,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDD99F052C9CECE600AA3020 /* Vulnerable.json in Resources */,
 				CD787D792C8D312600B419D1 /* Excited.json in Resources */,
 				CD6E71172C86F07000AE02ED /* Poop.json in Resources */,
 				CD6E71192C86F1DD00AE02ED /* Sleeping.json in Resources */,
@@ -496,7 +573,6 @@
 				CD240D9E2C89359400DA034C /* Poppins-Thin.ttf in Resources */,
 				CD240D9F2C89359400DA034C /* Poppins-ThinItalic.ttf in Resources */,
 				CD240DA02C89359400DA034C /* Poppins-LightItalic.ttf in Resources */,
-				CDA935642C9A3243005C6183 /* Meh.json in Resources */,
 				CD1C3E152C893F7C009B30B8 /* Colours.xcassets in Resources */,
 				CD240DA12C89359400DA034C /* Poppins-ExtraLight.ttf in Resources */,
 				CD571CC82C949FA8005E96AD /* Sick.json in Resources */,
@@ -506,6 +582,7 @@
 				CD240DA32C89359400DA034C /* Poppins-BoldItalic.ttf in Resources */,
 				CDDC3EE12C939C1D00B2CB4A /* Excited.json in Resources */,
 				CD240DA42C89359400DA034C /* Poppins-Regular.ttf in Resources */,
+				CDD99F032C9CEC1600AA3020 /* Grateful.json in Resources */,
 				CD787D722C8D2A9000B419D1 /* Loved.json in Resources */,
 				CD787D732C8D2A9000B419D1 /* Stressed.json in Resources */,
 				CD787D752C8D2A9000B419D1 /* Calm.json in Resources */,
@@ -513,6 +590,7 @@
 				CDEC4A392C9901E600FE6BAB /* PieChartViewController.xib in Resources */,
 				CDDC3EE42C939C1D00B2CB4A /* Mood.json in Resources */,
 				CD240DA52C89359400DA034C /* Poppins-Italic.ttf in Resources */,
+				CDD99F012C9CEB7300AA3020 /* Horny.json in Resources */,
 				CD787D772C8D30E200B419D1 /* Happy.json in Resources */,
 				CD240DA62C89359400DA034C /* Poppins-Bold.ttf in Resources */,
 				CD240DA72C89359400DA034C /* Poppins-SemiBoldItalic.ttf in Resources */,
@@ -531,7 +609,17 @@
 				CD3F830E2C9104A900126D8D /* Woman.json in Resources */,
 				CD261CC92C850CD800E4D5F2 /* Base in Resources */,
 				CDDC3EE32C939C1D00B2CB4A /* Loved.json in Resources */,
+				CDD99F072C9CED7A00AA3020 /* Balanced.json in Resources */,
+				CDD99F092C9CEE2600AA3020 /* Meh.json in Resources */,
 				CD3F830C2C91049900126D8D /* Man.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CDD99F0C2C9D057100AA3020 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDEABBF72CA228800029F603 /* sound1.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,7 +712,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDD99F0A2C9D057100AA3020 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CDD99F142C9D057100AA3020 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CDD99F0D2C9D057100AA3020 /* CoupDateExtension */;
+			targetProxy = CDD99F132C9D057100AA3020 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		CD261CC72C850CD800E4D5F2 /* Main.storyboard */ = {
@@ -774,7 +877,7 @@
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -809,7 +912,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -835,6 +938,59 @@
 			};
 			name = Release;
 		};
+		CDD99F182C9D057100AA3020 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 887FRY5FJ3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CoupDateExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CoupDateExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leoio.CoupDate.CoupDateExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CDD99F192C9D057100AA3020 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 887FRY5FJ3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CoupDateExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CoupDateExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leoio.CoupDate.CoupDateExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -852,6 +1008,15 @@
 			buildConfigurations = (
 				CD261CD32C850CD900E4D5F2 /* Debug */,
 				CD261CD42C850CD900E4D5F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CDD99F172C9D057100AA3020 /* Build configuration list for PBXNativeTarget "CoupDateExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CDD99F182C9D057100AA3020 /* Debug */,
+				CDD99F192C9D057100AA3020 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

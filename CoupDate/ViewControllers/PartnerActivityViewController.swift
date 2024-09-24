@@ -366,8 +366,8 @@ class PartnerActivityCardCell: UICollectionViewCell {
                     smallAnimationView.contentMode = .scaleAspectFit
                     smallAnimationView.loopMode = .loop
                     smallAnimationView.translatesAutoresizingMaskIntoConstraints = false
-                    smallAnimationView.widthAnchor.constraint(equalToConstant: 60).isActive = true
-                    smallAnimationView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+                    smallAnimationView.widthAnchor.constraint(equalToConstant: 35).isActive = true
+                    smallAnimationView.heightAnchor.constraint(equalToConstant: 35).isActive = true
                     smallAnimationView.play()
 
                     let statusItemLabel = UILabel()

@@ -404,8 +404,69 @@ class FirebaseManager {
 
 
 
+        
+        // Function to fetch moods based on gender
+    func fetchMoods(for gender: String, completion: @escaping ([String]) -> Void) {
+        
+        let db = Firestore.firestore()
+        
+        var finalGender: String!
+        if gender == "Male" {
+            finalGender = "Man"
+        } else {
+            finalGender = "Woman"
+
+        }
+        
+        var allMoods: [String] = []
+                let group = DispatchGroup() // DispatchGroup to manage the asynchronous calls
+                
+                // Fetch general moods
+                group.enter()
+                db.collection("moods").document("general").getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        if let generalMoods = document.data()?["items"] as? [String] {
+                            allMoods.append(contentsOf: generalMoods)
+                        }
+                    } else {
+                        print("General document not found")
+                    }
+                    group.leave()
+                }
+                
+                // Fetch gender-specific moods
+                group.enter()
+        db.collection("moods").document(finalGender).getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        if let genderMoods = document.data()?["Items"] as? [String] {
+                            allMoods.append(contentsOf: genderMoods)
+                        }
+                    } else {
+                        print("\(gender) document not found")
+                    }
+                    group.leave()
+                }
+                // Notify when both fetches are done
+                group.notify(queue: .main) {
+                    // Returning combined mood data (general + gender-specific)
+                    completion(allMoods)
+                }
+    }
     
     
     
     
+    func sendADummyMSG() {
+        let functions = Functions.functions()
+        functions.httpsCallable("sendDummyNotification").call() { result, error in
+            if let error = error as NSError? {
+                print("Error sending message: \(error.localizedDescription)")
+            } else {
+                print("Message sent successfully.")
+            }
+        }
+    }
+    
+    
+
 }

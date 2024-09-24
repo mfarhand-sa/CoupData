@@ -123,20 +123,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
             let pairingVC = sb.instantiateViewController(withIdentifier: "CDPairingViewController") as! CDPairingViewController
             pairingVC.partnerUserId = partnerUserId
             UIApplication.shared.keyWindow?.rootViewController?.present(pairingVC, animated: true)
-
+            
         }
     }
-
-
+    
+    
     func handleIncomingLink(url: URL) {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
               let queryItems = components.queryItems,
               let partnerUserId = queryItems.first(where: { $0.name == "partnerUserId" })?.value else { return }
         
         // Call your function to save the partner userId to Firebase
-       // FirebaseManager.shared.savePartnerUserId(partnerUserId)
+        // FirebaseManager.shared.savePartnerUserId(partnerUserId)
     }
-
+    
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
@@ -168,10 +168,18 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     private func handleNotification(userInfo: [AnyHashable: Any]) {
         // Log the entire userInfo dictionary to see its content
         print("Received push notification with userInfo: \(userInfo)")
-
+        
         // Extract specific data if available
-        if let notificationTitle = userInfo["title"] as? String,
-           let notificationBody = userInfo["body"] as? String {
+        
+        
+        if let aps = userInfo["aps"] as? [String: Any],
+           let alert = aps["alert"] as? [String: Any],
+           let notificationTitle = alert["title"] as? String,
+           let notificationBody = alert["body"] as? String {
+            print("Notification Title: \(notificationTitle)")
+            print("Notification Body: \(notificationBody)")
+            
+            
             print("Notification Title: \(notificationTitle)")
             print("Notification Body: \(notificationBody)")
             
@@ -179,18 +187,18 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 
                 if notificationTitle == "Partner Joined" {
                     CustomAlerts.displayNotification(title: "", message:"👩‍❤️‍👨 Your partner has been joined 👩‍❤️‍👨", view: rootVCView)
-
+                    
                     NotificationCenter.default.post(name: NSNotification.Name("Partner_Joined"), object: nil)
-
+                    
                 } else {
                     CustomAlerts.displayNotification(title: notificationTitle, message: notificationBody, view:rootVCView ,fromBottom: true)
                 }
             }
         }
-        
-        // Update UI or perform actions based on the notification content
-    
-        
+        else {
+            print("Failed to extract notification title and body")
+        }
     }
+    
 }
 

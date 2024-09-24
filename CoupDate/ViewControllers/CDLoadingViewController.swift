@@ -50,6 +50,10 @@ class CDLoadingViewController : UIViewController {
             } else if userData || partnerData {
                 
              
+                FirebaseManager.shared.fetchMoods(for: CDDataProvider.shared.gender!) { Result in
+                    print(Result);
+                    CDDataProvider.shared.moods = Result
+                }
                 if let partnerID = CDDataProvider.shared.partnerID, !partnerID.isEmpty {
                     
                     CDDataProvider.shared.loadAllUserAndPartnerData(userID: UserManager.shared.currentUserID!, partnerID: UserManager.shared.partnerUserID!) { streakCount, startDate, endDate, dailyRecords, error in
@@ -59,13 +63,18 @@ class CDLoadingViewController : UIViewController {
                             CDDataProvider.shared.streak = streakCount
                             CDDataProvider.shared.startDate = startDate
                             CDDataProvider.shared.endDate = endDate
+                            
 
+                            
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                                 self.navigateToMainScreen()
                             })
                             
                         } else {
-                            self.navigateToMainScreen()
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                                self.navigateToMainScreen()
+                            })
                             
                         }
                         
@@ -75,7 +84,7 @@ class CDLoadingViewController : UIViewController {
                     
                 } else {
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                         self.navigateToMainScreen()
                     })
                 }

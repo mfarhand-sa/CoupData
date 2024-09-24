@@ -167,15 +167,30 @@ class CDCareViewController: DemoBaseViewController {
         let attributedText = NSMutableAttributedString(string: insights, attributes: attributes)
         
         // Keywords to highlight (e.g., moods)
-        let moodKeywords = ["Anxiety", "Stress", "Love", "Calm", "Anxious", "Loved"]
-        let moodColors: [String: UIColor] = [
-            "Anxiety": .orange,
-            "Stress": .orange,
-            "Love": .systemPink,
-            "Calm": .cyan,
-            "Anxious": .orange,
-            "Loved": .systemPink
+        let moodKeywords = [
+            "Happy", "Excited", "Loved", "Calm", "Stressed", "Anxious",
+            "Sick", "Lazy", "Meh", "Grateful", "Horny", "Period",
+            "Vulnerable", "Balanced"
         ]
+        
+
+        let moodColors: [String: UIColor] = [
+            "Happy": UIColor(red: 1.0, green: 0.75, blue: 0.0, alpha: 1.0),      // Sharp yellow-orange
+            "Excited": UIColor(red: 1.0, green: 0.75, blue: 0.0, alpha: 1.0),    // Sharp yellow-orange
+            "Loved": UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0),       // Bright pink
+            "Calm": UIColor(red: 0.0, green: 0.75, blue: 1.0, alpha: 1.0),       // Cool blue
+            "Stressed": UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0),    // Bright pink
+            "Anxious": UIColor(red: 1.0, green: 0.75, blue: 0.0, alpha: 1.0),    // Sharp yellow-orange
+            "Sick": UIColor(red: 0.6, green: 0.4, blue: 0.8, alpha: 1.0),        // Soft purple
+            "Lazy": UIColor(red: 0.6, green: 0.4, blue: 0.8, alpha: 1.0),        // Soft purple
+            "Meh": UIColor(red: 0.6, green: 0.4, blue: 0.8, alpha: 1.0),         // Soft purple
+            "Grateful": UIColor(red: 0.0, green: 0.75, blue: 1.0, alpha: 1.0),   // Cool blue
+            "Horny": UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0),       // Bright pink
+            "Period": UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0),      // Bright pink
+            "Vulnerable": UIColor(red: 1.0, green: 0.75, blue: 0.0, alpha: 1.0), // Sharp yellow-orange
+            "Balanced": UIColor(red: 0.0, green: 0.75, blue: 1.0, alpha: 1.0)    // Cool blue
+        ]
+
         
         for mood in moodKeywords {
             // Case-insensitive search and whole word matching

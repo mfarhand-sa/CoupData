@@ -25,6 +25,9 @@ class CDDataProvider {
     var startDate : Date?
     var endDate : Date?
     var insights: String?
+    
+    var moods: [String]?
+
 
     
 

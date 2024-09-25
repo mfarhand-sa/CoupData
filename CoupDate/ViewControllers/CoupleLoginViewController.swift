@@ -23,8 +23,40 @@ class CoupleLoginViewController: UIViewController {
         setupLottieAnimation()
         setupSignInButtons()
         setupLayout()
+        resetKeychain()
+        firebaseSessionCleanup()
+
+    }
+    
+    
+    func firebaseSessionCleanup() {
         
+        do {
+            // Sign out the user
+            try Auth.auth().signOut()
+            print("User signed out successfully.")
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+
+        // Set Firebase Auth to use the app’s default language (does not need try)
+        Auth.auth().useAppLanguage()
+        print("App language set for Firebase Auth.")
         
+    }
+    
+    func resetKeychain() {
+        let secItemClasses = [
+            kSecClassGenericPassword,
+            kSecClassInternetPassword,
+            kSecClassCertificate,
+            kSecClassKey,
+            kSecClassIdentity
+        ]
+        for itemClass in secItemClasses {
+            let dictionary = [kSecClass as String: itemClass]
+            SecItemDelete(dictionary as CFDictionary)
+        }
     }
     
     // Setup Lottie animation
@@ -126,6 +158,7 @@ class CoupleLoginViewController: UIViewController {
                     CustomAlerts.displayNotification(title: "", message: "Firebase sign in with Google error: \(error.localizedDescription)", view: self.view)
                 } else {
                     print("User signed in with Google successfully")
+                    print("Signed in with user ID: \(authResult?.user.uid ?? "")")
                     
                     // Handle successful sign-in
                     if let user = authResult?.user {

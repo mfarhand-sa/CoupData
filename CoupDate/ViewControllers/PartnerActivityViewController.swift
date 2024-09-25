@@ -125,6 +125,18 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         
     }
     
+    
+    func requestNotification() {
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            print("Permission granted: \(granted)")
+            if let error = error {
+                print("Error requesting permission: \(error.localizedDescription)")
+            }
+        }
+        UIApplication.shared.registerForRemoteNotifications()
+    }
+    
     @objc func handlePairingDismissed() {
         print("Pairing View Controller was dismissed")
         fetchAndDisplayPartnerData() // Call the method to update data or perform actions
@@ -163,6 +175,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
 //        }
         
         
+        requestNotification()
     }
     
     func fetchAndDisplayPartnerData() {

@@ -27,15 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
         WatchSessionManager.shared.startSession()
         
         // Request notification permissions
-        UNUserNotificationCenter.current().delegate = self // Set the notification delegate
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-            print("Permission granted: \(granted)")
-            if let error = error {
-                print("Error requesting permission: \(error.localizedDescription)")
-            }
-        }
-        application.registerForRemoteNotifications()
-        
+        UNUserNotificationCenter.current().delegate = self // Set the notification delegate        
         return true
     }
     
@@ -49,9 +41,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("Firebase registration token: \(fcmToken ?? "No token")")
-        // Send the token to your server or handle as needed
+        
+        // Ensure the token is available
         guard let token = fcmToken else { return }
-        sendTokenToServer(token: token)
+        
+        guard let signedIn = UserDefaults.standard.value(forKey: "loggedIn") else { return }
+        
+        // Check if the user is signed in
+        if let user = Auth.auth().currentUser {
+            // User is signed in, send the token to the server
+            sendTokenToServer(token: token)
+            
+        } else {
+            // Optionally: Listen for user sign-in if needed
+           // NotificationCenter.default.addObserver(self, selector: #selector(handleUserSignedIn), name: .AuthStateDidChange, object: nil)
+        }
+    }
+    
+    
+    @objc func handleUserSignedIn() {
+        guard let token = Messaging.messaging().fcmToken else { return }
+        if let userId = Auth.auth().currentUser?.uid {
+            sendTokenToServer(token: token)
+        }
     }
     
     

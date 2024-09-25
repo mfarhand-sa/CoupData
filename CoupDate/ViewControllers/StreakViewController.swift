@@ -21,8 +21,8 @@ class StreakViewController: UIViewController {
         animationView!.animationSpeed = 1.0
         animationView!.play()
         self.label.font = UIFont(name: "Poppins-Regular", size: 18)
-        if CDDataProvider.shared.partnerID == nil {
-            self.label.text = "You'll be able to track your streak with your partner once they join you."
+        if CDDataProvider.shared.partnerID == nil || CDDataProvider.shared.streak == nil {
+            self.label.text = "Your streak data will appear once both you and your partner start checking in."
             
             let smallAnimationView = LottieAnimationView(name: "LoginAnimtation")
             self.streakCalendarView.addSubview(smallAnimationView)

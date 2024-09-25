@@ -142,7 +142,12 @@ class PartnerCodeViewController: UIViewController,UIGestureRecognizerDelegate,Pi
         if self.partnerCodeTextField.text?.count == 6 {
             navigateToInvitePartner()
         } else {
-            self.navigateToMainScreen()
+            
+            if self.shouldShowCloseButton == true {
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                self.navigateToMainScreen()
+            }
         }
     }
     

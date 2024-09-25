@@ -7,12 +7,17 @@
 		<key>CoupDate.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>70</integer>
+			<integer>71</integer>
 		</dict>
 		<key>CoupDateExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>69</integer>
+			<integer>0</integer>
+		</dict>
+		<key>CoupDateWatch Watch App.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>72</integer>
 		</dict>
 	</dict>
 </dict>

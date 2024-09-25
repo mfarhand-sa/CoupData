@@ -25,6 +25,14 @@ target 'CoupDate' do
 
 end
 
+target 'CoupDateWatch Watch App' do
+  # Specify the platform for watchOS
+  platform :watchos, '7.0'
+
+  # Pods for CoupDateWatch (watchOS app)
+
+end
+
 post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'

@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0471400347D95D7D7D105097 /* libPods-CoupDateWatch Watch App.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC133F64F3A1373853817A8E /* libPods-CoupDateWatch Watch App.a */; };
 		3A2766FA7C7A2BDFD8A16961 /* Pods_CoupDate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28091D22DCAFBD37CBBFB79F /* Pods_CoupDate.framework */; };
 		CD18B2842C853BD400AC858B /* DataEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD18B2832C853BD400AC858B /* DataEntryViewController.swift */; };
 		CD18B2882C853C5800AC858B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD18B2872C853C5800AC858B /* FirebaseManager.swift */; };
@@ -71,6 +72,18 @@
 		CD8711F22C8A45CB0090608A /* CDUserRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */; };
 		CD8711F42C8A465C0090608A /* CDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8711F32C8A465C0090608A /* CDButton.swift */; };
 		CDA935622C9A322E005C6183 /* Lazy.json in Resources */ = {isa = PBXBuildFile; fileRef = CDA935612C9A322E005C6183 /* Lazy.json */; };
+		CDAD7D1C2CA37CC200AA0A8C /* CoupDateWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = CDAD7D0F2CA37CC100AA0A8C /* CoupDateWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CDAD7D272CA37CEB00AA0A8C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDAD7D212CA37CEB00AA0A8C /* Preview Assets.xcassets */; };
+		CDAD7D282CA37CEB00AA0A8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDAD7D232CA37CEB00AA0A8C /* Assets.xcassets */; };
+		CDAD7D292CA37CEB00AA0A8C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD7D242CA37CEB00AA0A8C /* ContentView.swift */; };
+		CDAD7D2A2CA37CEB00AA0A8C /* CoupDateWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD7D252CA37CEB00AA0A8C /* CoupDateWatchApp.swift */; };
+		CDAD7D2D2CA37EC900AA0A8C /* SDWebImageLottieCoder in Frameworks */ = {isa = PBXBuildFile; productRef = CDAD7D2C2CA37EC900AA0A8C /* SDWebImageLottieCoder */; };
+		CDAD7D2F2CA37EE600AA0A8C /* LottieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD7D2E2CA37EE600AA0A8C /* LottieViewModel.swift */; };
+		CDAD7D302CA3804900AA0A8C /* Streak.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3EC82C92362800B2CB4A /* Streak.json */; };
+		CDAD7D322CA380D500AA0A8C /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD7D312CA380D500AA0A8C /* StreakView.swift */; };
+		CDAD7D352CA3844200AA0A8C /* StreakInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD7D342CA3844200AA0A8C /* StreakInterfaceController.swift */; };
+		CDAD7D372CA3851C00AA0A8C /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD7D362CA3851C00AA0A8C /* WatchSessionManager.swift */; };
+		CDAD7D382CA38A5800AA0A8C /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD7D362CA3851C00AA0A8C /* WatchSessionManager.swift */; };
 		CDB2E8DD2C967540000FE1D5 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2E8DC2C967540000FE1D5 /* ListViewController.swift */; };
 		CDB2E8E12C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2E8E02C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift */; };
 		CDD99F012C9CEB7300AA3020 /* Horny.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F002C9CEB7300AA3020 /* Horny.json */; };
@@ -79,6 +92,7 @@
 		CDD99F072C9CED7A00AA3020 /* Balanced.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F062C9CED7A00AA3020 /* Balanced.json */; };
 		CDD99F092C9CEE2600AA3020 /* Meh.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F082C9CEE2600AA3020 /* Meh.json */; };
 		CDD99F152C9D057100AA3020 /* CoupDateExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CDD99F0E2C9D057100AA3020 /* CoupDateExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CDDA3E5B2CA37A070040D0DF /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDA3E592CA37A070040D0DF /* NotificationService.swift */; };
 		CDDC3EC92C92362800B2CB4A /* Streak.json in Resources */ = {isa = PBXBuildFile; fileRef = CDDC3EC82C92362800B2CB4A /* Streak.json */; };
 		CDDC3ECB2C92387400B2CB4A /* StreakViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3ECA2C92387400B2CB4A /* StreakViewController.swift */; };
 		CDDC3ECD2C9243A200B2CB4A /* CDModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */; };
@@ -105,6 +119,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		CDAD7D1A2CA37CC200AA0A8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD261CB62C850CD800E4D5F2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CDAD7D0E2CA37CC100AA0A8C;
+			remoteInfo = "CoupDateWatch Watch App";
+		};
 		CDD99F132C9D057100AA3020 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CD261CB62C850CD800E4D5F2 /* Project object */;
@@ -126,11 +147,24 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDAD7D1D2CA37CC200AA0A8C /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				CDAD7D1C2CA37CC200AA0A8C /* CoupDateWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		28091D22DCAFBD37CBBFB79F /* Pods_CoupDate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoupDate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		736707C6E58A33D43DCA280C /* Pods-CoupDate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDate.debug.xcconfig"; path = "Target Support Files/Pods-CoupDate/Pods-CoupDate.debug.xcconfig"; sourceTree = "<group>"; };
+		B91B94DD7E5E5AEE74AE4B0F /* Pods-CoupDateWatch Watch App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDateWatch Watch App.debug.xcconfig"; path = "Target Support Files/Pods-CoupDateWatch Watch App/Pods-CoupDateWatch Watch App.debug.xcconfig"; sourceTree = "<group>"; };
+		CC133F64F3A1373853817A8E /* libPods-CoupDateWatch Watch App.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CoupDateWatch Watch App.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD18B2832C853BD400AC858B /* DataEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataEntryViewController.swift; sourceTree = "<group>"; };
 		CD18B2872C853C5800AC858B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		CD18B2892C853C8E00AC858B /* PartnerActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerActivityViewController.swift; sourceTree = "<group>"; };
@@ -197,6 +231,15 @@
 		CD8711F12C8A45CB0090608A /* CDUserRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDUserRegistrationViewController.swift; sourceTree = "<group>"; };
 		CD8711F32C8A465C0090608A /* CDButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDButton.swift; sourceTree = "<group>"; };
 		CDA935612C9A322E005C6183 /* Lazy.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Lazy.json; sourceTree = "<group>"; };
+		CDAD7D0F2CA37CC100AA0A8C /* CoupDateWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CoupDateWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDAD7D212CA37CEB00AA0A8C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		CDAD7D232CA37CEB00AA0A8C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CDAD7D242CA37CEB00AA0A8C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CDAD7D252CA37CEB00AA0A8C /* CoupDateWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoupDateWatchApp.swift; sourceTree = "<group>"; };
+		CDAD7D2E2CA37EE600AA0A8C /* LottieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieViewModel.swift; sourceTree = "<group>"; };
+		CDAD7D312CA380D500AA0A8C /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
+		CDAD7D342CA3844200AA0A8C /* StreakInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakInterfaceController.swift; sourceTree = "<group>"; };
+		CDAD7D362CA3851C00AA0A8C /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		CDB2E8DC2C967540000FE1D5 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		CDB2E8E02C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPhoneRegistrationViewController.swift; sourceTree = "<group>"; };
 		CDD99F002C9CEB7300AA3020 /* Horny.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Horny.json; sourceTree = "<group>"; };
@@ -205,6 +248,8 @@
 		CDD99F062C9CED7A00AA3020 /* Balanced.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Balanced.json; sourceTree = "<group>"; };
 		CDD99F082C9CEE2600AA3020 /* Meh.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Meh.json; sourceTree = "<group>"; };
 		CDD99F0E2C9D057100AA3020 /* CoupDateExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CoupDateExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDDA3E582CA37A070040D0DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CDDA3E592CA37A070040D0DF /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		CDDC3EC82C92362800B2CB4A /* Streak.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Streak.json; sourceTree = "<group>"; };
 		CDDC3ECA2C92387400B2CB4A /* StreakViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakViewController.swift; sourceTree = "<group>"; };
 		CDDC3ECC2C9243A200B2CB4A /* CDModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDModels.swift; sourceTree = "<group>"; };
@@ -228,21 +273,8 @@
 		CDEC4A3A2C9902CA00FE6BAB /* DemoBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoBaseViewController.swift; sourceTree = "<group>"; };
 		CDEC4A3C2C99687F00FE6BAB /* CDCareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCareViewController.swift; sourceTree = "<group>"; };
 		D9988D54073533D8B824BD6D /* Pods-CoupDate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDate.release.xcconfig"; path = "Target Support Files/Pods-CoupDate/Pods-CoupDate.release.xcconfig"; sourceTree = "<group>"; };
+		EA538A54604B3DE4A8F91513 /* Pods-CoupDateWatch Watch App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDateWatch Watch App.release.xcconfig"; path = "Target Support Files/Pods-CoupDateWatch Watch App/Pods-CoupDateWatch Watch App.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		CDD99F162C9D057100AA3020 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = CDD99F0D2C9D057100AA3020 /* CoupDateExtension */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		CDD99F0F2C9D057100AA3020 /* CoupDateExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CDD99F162C9D057100AA3020 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = CoupDateExtension; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		CD261CBB2C850CD800E4D5F2 /* Frameworks */ = {
@@ -250,6 +282,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A2766FA7C7A2BDFD8A16961 /* Pods_CoupDate.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CDAD7D0C2CA37CC100AA0A8C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0471400347D95D7D7D105097 /* libPods-CoupDateWatch Watch App.a in Frameworks */,
+				CDAD7D2D2CA37EC900AA0A8C /* SDWebImageLottieCoder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				28091D22DCAFBD37CBBFB79F /* Pods_CoupDate.framework */,
+				CC133F64F3A1373853817A8E /* libPods-CoupDateWatch Watch App.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -276,6 +318,8 @@
 			children = (
 				736707C6E58A33D43DCA280C /* Pods-CoupDate.debug.xcconfig */,
 				D9988D54073533D8B824BD6D /* Pods-CoupDate.release.xcconfig */,
+				B91B94DD7E5E5AEE74AE4B0F /* Pods-CoupDateWatch Watch App.debug.xcconfig */,
+				EA538A54604B3DE4A8F91513 /* Pods-CoupDateWatch Watch App.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -309,7 +353,8 @@
 			isa = PBXGroup;
 			children = (
 				CD261CC02C850CD800E4D5F2 /* CoupDate */,
-				CDD99F0F2C9D057100AA3020 /* CoupDateExtension */,
+				CDDA3E5A2CA37A070040D0DF /* CoupDateExtension */,
+				CDAD7D262CA37CEB00AA0A8C /* CoupDateWatch Watch App */,
 				CD261CBF2C850CD800E4D5F2 /* Products */,
 				4D0A580A8FCB74FF9BD919DF /* Frameworks */,
 				AD0F1F6FCA23AF07B6EF0FE7 /* Pods */,
@@ -321,6 +366,7 @@
 			children = (
 				CD261CBE2C850CD800E4D5F2 /* CoupDate.app */,
 				CDD99F0E2C9D057100AA3020 /* CoupDateExtension.appex */,
+				CDAD7D0F2CA37CC100AA0A8C /* CoupDateWatch Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -365,6 +411,37 @@
 				CD787D7E2C8D3E7500B419D1 /* Mood.json */,
 			);
 			path = MoodAnimation;
+			sourceTree = "<group>";
+		};
+		CDAD7D222CA37CEB00AA0A8C /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				CDAD7D212CA37CEB00AA0A8C /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		CDAD7D262CA37CEB00AA0A8C /* CoupDateWatch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				CDAD7D222CA37CEB00AA0A8C /* Preview Content */,
+				CDAD7D232CA37CEB00AA0A8C /* Assets.xcassets */,
+				CDAD7D242CA37CEB00AA0A8C /* ContentView.swift */,
+				CDAD7D252CA37CEB00AA0A8C /* CoupDateWatchApp.swift */,
+				CDAD7D2E2CA37EE600AA0A8C /* LottieViewModel.swift */,
+				CDAD7D312CA380D500AA0A8C /* StreakView.swift */,
+				CDAD7D342CA3844200AA0A8C /* StreakInterfaceController.swift */,
+			);
+			path = "CoupDateWatch Watch App";
+			sourceTree = "<group>";
+		};
+		CDDA3E5A2CA37A070040D0DF /* CoupDateExtension */ = {
+			isa = PBXGroup;
+			children = (
+				CDDA3E582CA37A070040D0DF /* Info.plist */,
+				CDDA3E592CA37A070040D0DF /* NotificationService.swift */,
+			);
+			path = CoupDateExtension;
 			sourceTree = "<group>";
 		};
 		CDDC3ED22C939C1C00B2CB4A /* ViewModels */ = {
@@ -425,6 +502,7 @@
 				CD18B28B2C853F4B00AC858B /* UserManager.swift */,
 				CD18B2872C853C5800AC858B /* FirebaseManager.swift */,
 				CD3F83132C915CA800126D8D /* CDNotificationManager.swift */,
+				CDAD7D362CA3851C00AA0A8C /* WatchSessionManager.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -486,15 +564,35 @@
 				CD261CBC2C850CD800E4D5F2 /* Resources */,
 				8CF57BF46E185D75CECA68AD /* [CP] Embed Pods Frameworks */,
 				CD18B29E2C85A69E00AC858B /* Embed Foundation Extensions */,
+				CDAD7D1D2CA37CC200AA0A8C /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				CDD99F142C9D057100AA3020 /* PBXTargetDependency */,
+				CDAD7D1B2CA37CC200AA0A8C /* PBXTargetDependency */,
 			);
 			name = CoupDate;
 			productName = CoupDate;
 			productReference = CD261CBE2C850CD800E4D5F2 /* CoupDate.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CDAD7D0E2CA37CC100AA0A8C /* CoupDateWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CDAD7D202CA37CC200AA0A8C /* Build configuration list for PBXNativeTarget "CoupDateWatch Watch App" */;
+			buildPhases = (
+				437FA0E06E85025ED96E84CF /* [CP] Check Pods Manifest.lock */,
+				CDAD7D0B2CA37CC100AA0A8C /* Sources */,
+				CDAD7D0C2CA37CC100AA0A8C /* Frameworks */,
+				CDAD7D0D2CA37CC100AA0A8C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CoupDateWatch Watch App";
+			productName = "CoupDateWatch Watch App";
+			productReference = CDAD7D0F2CA37CC100AA0A8C /* CoupDateWatch Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
 		CDD99F0D2C9D057100AA3020 /* CoupDateExtension */ = {
@@ -509,12 +607,7 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				CDD99F0F2C9D057100AA3020 /* CoupDateExtension */,
-			);
 			name = CoupDateExtension;
-			packageProductDependencies = (
-			);
 			productName = CoupDateExtension;
 			productReference = CDD99F0E2C9D057100AA3020 /* CoupDateExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -532,6 +625,9 @@
 					CD261CBD2C850CD800E4D5F2 = {
 						CreatedOnToolsVersion = 15.4;
 					};
+					CDAD7D0E2CA37CC100AA0A8C = {
+						CreatedOnToolsVersion = 16.0;
+					};
 					CDD99F0D2C9D057100AA3020 = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -547,6 +643,7 @@
 			);
 			mainGroup = CD261CB52C850CD800E4D5F2;
 			packageReferences = (
+				CDAD7D2B2CA37EC900AA0A8C /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */,
 			);
 			productRefGroup = CD261CBF2C850CD800E4D5F2 /* Products */;
 			projectDirPath = "";
@@ -554,6 +651,7 @@
 			targets = (
 				CD261CBD2C850CD800E4D5F2 /* CoupDate */,
 				CDD99F0D2C9D057100AA3020 /* CoupDateExtension */,
+				CDAD7D0E2CA37CC100AA0A8C /* CoupDateWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -621,6 +719,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDAD7D0D2CA37CC100AA0A8C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDAD7D302CA3804900AA0A8C /* Streak.json in Resources */,
+				CDAD7D272CA37CEB00AA0A8C /* Preview Assets.xcassets in Resources */,
+				CDAD7D282CA37CEB00AA0A8C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CDD99F0C2C9D057100AA3020 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -632,6 +740,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		437FA0E06E85025ED96E84CF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CoupDateWatch Watch App-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8CF57BF46E185D75CECA68AD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -700,6 +830,7 @@
 				CD240D872C891EFE00DA034C /* GoogleSiginButton.swift in Sources */,
 				CD6E71112C86E61B00AE02ED /* CDLoadingViewController.swift in Sources */,
 				CDDC3EEC2C939CFE00B2CB4A /* BarItemView.swift in Sources */,
+				CDAD7D372CA3851C00AA0A8C /* WatchSessionManager.swift in Sources */,
 				CD3F83142C915CA800126D8D /* CDNotificationManager.swift in Sources */,
 				CDDC3EEB2C939CFE00B2CB4A /* CardTabBarView.swift in Sources */,
 				CD8711F42C8A465C0090608A /* CDButton.swift in Sources */,
@@ -718,16 +849,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDAD7D0B2CA37CC100AA0A8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDAD7D382CA38A5800AA0A8C /* WatchSessionManager.swift in Sources */,
+				CDAD7D352CA3844200AA0A8C /* StreakInterfaceController.swift in Sources */,
+				CDAD7D322CA380D500AA0A8C /* StreakView.swift in Sources */,
+				CDAD7D2F2CA37EE600AA0A8C /* LottieViewModel.swift in Sources */,
+				CDAD7D292CA37CEB00AA0A8C /* ContentView.swift in Sources */,
+				CDAD7D2A2CA37CEB00AA0A8C /* CoupDateWatchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CDD99F0A2C9D057100AA3020 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDDA3E5B2CA37A070040D0DF /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		CDAD7D1B2CA37CC200AA0A8C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CDAD7D0E2CA37CC100AA0A8C /* CoupDateWatch Watch App */;
+			targetProxy = CDAD7D1A2CA37CC200AA0A8C /* PBXContainerItemProxy */;
+		};
 		CDD99F142C9D057100AA3020 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CDD99F0D2C9D057100AA3020 /* CoupDateExtension */;
@@ -944,6 +1094,69 @@
 			};
 			name = Release;
 		};
+		CDAD7D1E2CA37CC200AA0A8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B91B94DD7E5E5AEE74AE4B0F /* Pods-CoupDateWatch Watch App.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CoupDateWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 887FRY5FJ3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = CoupDateWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.leoio.CoupDate;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leoio.CoupDate.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		CDAD7D1F2CA37CC200AA0A8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA538A54604B3DE4A8F91513 /* Pods-CoupDateWatch Watch App.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CoupDateWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 887FRY5FJ3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = CoupDateWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.leoio.CoupDate;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leoio.CoupDate.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
 		CDD99F182C9D057100AA3020 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1018,6 +1231,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		CDAD7D202CA37CC200AA0A8C /* Build configuration list for PBXNativeTarget "CoupDateWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CDAD7D1E2CA37CC200AA0A8C /* Debug */,
+				CDAD7D1F2CA37CC200AA0A8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		CDD99F172C9D057100AA3020 /* Build configuration list for PBXNativeTarget "CoupDateExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1028,6 +1250,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CDAD7D2B2CA37EC900AA0A8C /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageLottieCoder";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CDAD7D2C2CA37EC900AA0A8C /* SDWebImageLottieCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDAD7D2B2CA37EC900AA0A8C /* XCRemoteSwiftPackageReference "SDWebImageLottieCoder" */;
+			productName = SDWebImageLottieCoder;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CD261CB62C850CD800E4D5F2 /* Project object */;
 }

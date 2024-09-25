@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         
+        WatchSessionManager.shared.startSession()
+        
         // Request notification permissions
         UNUserNotificationCenter.current().delegate = self // Set the notification delegate
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in

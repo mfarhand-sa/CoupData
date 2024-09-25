@@ -367,7 +367,7 @@ class StreakViewController: UIViewController {
         // Filter highlight dates to include only dates where both user and partner have records (ignoring whether they contain moods)
         let highlightDates = dailyRecords.keys.filter { date in
             if let records = dailyRecords[date] {
-                return !records.userMoods.isEmpty && !records.partnerMoods.isEmpty
+                return records.userMoods != nil && records.partnerMoods != nil
             }
             return false
         }

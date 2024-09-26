@@ -12,10 +12,10 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
     
     // Example Data for Cards (This can be dynamic)
     let cardData: [(title: String, animationName: String)] = [
-        ("Poop Status", "Poop"),
-        ("Sleep Status", "Sleeping"),
-        ("Mood Check", "Mood"),
-        ("Energy Level Check", "Energy")
+        ("Number Two News", "Poop"),
+        ("Sleep Tracker", "Sleeping"),
+        ("Vibe Check", "Mood"),
+        ("Energy Meter", "Energy")
     ]
     
     override func viewDidLoad() {
@@ -30,7 +30,8 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
     private func setupUI() {
         // Configure the greetingLabel (same as in PartnerActivityViewController)
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
-        greetingLabel.adjustsFontForContentSizeCategory = false
+        greetingLabel.adjustsFontSizeToFitWidth = true
+        greetingLabel.minimumScaleFactor = 0.5
         greetingLabel.lineBreakMode = .byClipping
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
         greetingLabel.textColor = .accent

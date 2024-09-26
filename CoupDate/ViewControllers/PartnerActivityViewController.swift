@@ -62,10 +62,10 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     
     // Example Data for Cards (This can be dynamic or fetched from a server)
     var cardData: [(title: String, animationName: String, data: [String: Any]?)] = [
-        ("Poop Status", "Poop", nil),
-        ("Sleep Status", "Sleeping", nil),
-        ("Mood Check", "Mood", nil),
-        ("Energy Level Status", "Energy", nil)
+        ("Number Two News", "Poop", nil),
+        ("Sleep Tracker", "Sleeping", nil),
+        ("Vibe Check", "Mood", nil),
+        ("Energy Meter", "Energy", nil)
     ]
     
     var poopData: [String: Any]?
@@ -239,7 +239,8 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     private func setupUI() {
         // Configure greetingLabel (same logic as before)
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
-        greetingLabel.adjustsFontForContentSizeCategory = false
+        greetingLabel.adjustsFontSizeToFitWidth = true
+        greetingLabel.minimumScaleFactor = 0.5
         greetingLabel.lineBreakMode = .byClipping
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
         greetingLabel.textColor = .accent
@@ -411,7 +412,7 @@ class PartnerActivityCardCell: UICollectionViewCell {
                 // Single status or no data
                 statusStackView.isHidden = true
                 statusLabel.isHidden = false
-                statusLabel.text = data["status"] as? String ?? "Nothing shared yet!"
+                statusLabel.text = data["status"] as? String ?? "Nothing shared so far!"
             }
         } else {
             statusLabel.isHidden = false

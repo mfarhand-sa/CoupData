@@ -1,7 +1,7 @@
 import UIKit
 import DGCharts
 
-class CDCareViewController: DemoBaseViewController {
+class CDCareViewController: UIViewController, ChartViewDelegate {
     
     // Scroll view to enable scrolling
     private var scrollView: UIScrollView!
@@ -20,41 +20,30 @@ class CDCareViewController: DemoBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Insight"
+        self.view.backgroundColor = .white
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.isTranslucent = false
         
-//        
-//        let formattedMoodData = dailyRecords.map { (date, records) -> String in
-//            let formattedDate = DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none)
-//            
-//            // Clean the userMoods and partnerMoods by joining and trimming spaces
-//            let userMoods = records.userMoods.joined(separator: ", ").trimmingCharacters(in: .whitespacesAndNewlines)
-//            let partnerMoods = records.partnerMoods.joined(separator: ", ").trimmingCharacters(in: .whitespacesAndNewlines)
-//            
-//            return "Date: \(formattedDate), Your Moods: \(userMoods), Partner's Moods: \(partnerMoods)"
-//        }.joined(separator: "\n")
-//        
-//        FirebaseManager.shared.getInsightsFromOpenRouter(formattedMoodData: formattedMoodData) { insightResult in
-//            if let insights = insightResult {
-//                // Handle the insights received
-//                print("Insights: \(insights)")
-//                CDDataProvider.shared.insights = insights
-//                
-//                DispatchQueue.main.async {
-//                    // Example insights data
-//                    let insights = CDDataProvider.shared.insights!
-//                    self.displayInsights(insights: insights)
-//
-//                }
-//                
-//            } else {
-//                print("Failed to receive insights.")
-//            }
-//        }
         
+        if #available(iOS 15.0, *) {
+            let scrollEdgeAppearance = UINavigationBarAppearance()
+            scrollEdgeAppearance.configureWithTransparentBackground() // Transparent when scrolled to top
+            scrollEdgeAppearance.backgroundColor = UIColor.white  // Red at the top
+
+            let standardAppearance = UINavigationBarAppearance()
+            standardAppearance.configureWithOpaqueBackground()  // Solid when scrolling
+            standardAppearance.backgroundColor = .white  // Blue when scrolling stops
+
+            navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+            navigationController?.navigationBar.standardAppearance = standardAppearance
+        }
+
+
         
         // Set up the UI components
         setupScrollView()
         setupChartView()
-        self.setup(pieChartView: chartView)
+        
         
         chartView.delegate = self
         let l = chartView.legend
@@ -64,23 +53,11 @@ class CDCareViewController: DemoBaseViewController {
         l.xEntrySpace = 7
         l.yEntrySpace = 0
         l.yOffset = 0
-        //        chartView.legend = l
-        
-        // entry label styling
         chartView.entryLabelColor = .white
         chartView.entryLabelFont = .systemFont(ofSize: 12, weight: .light)
-        
-        
         self.updateChartData()
-        
-        
         setupTextView()
-        
-        
-        
-        
-        
-        
+
 //        // Example insights data
         if let insights = CDDataProvider.shared.insights {
             displayInsights(insights: insights)
@@ -91,6 +68,7 @@ class CDCareViewController: DemoBaseViewController {
     private func setupScrollView() {
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.backgroundColor = .white
         view.addSubview(scrollView)
         
         contentView = UIView()
@@ -125,8 +103,8 @@ class CDCareViewController: DemoBaseViewController {
         // Constraints for the pie chart view
         NSLayoutConstraint.activate([
             chartView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -40),
-            chartView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            chartView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            chartView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
+            chartView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 25),
             chartView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.2)
             //chartView.heightAnchor.constraint(equalToConstant: 500)
         ])
@@ -264,12 +242,7 @@ class CDCareViewController: DemoBaseViewController {
     }
     
     
-    override func updateChartData() {
-        if self.shouldHideData {
-            chartView.data = nil
-            return
-        }
-        
+     func updateChartData() {
         self.setDataCount(Int(4), range: UInt32(100))
     }
     

@@ -21,6 +21,16 @@ class StreakViewController: UIViewController {
         animationView!.animationSpeed = 1.0
         animationView!.play()
         self.label.font = UIFont(name: "Poppins-Regular", size: 18)
+        
+        if CDDataProvider.shared.partnerID != nil {
+            animationView.isUserInteractionEnabled = true
+            
+            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+            longPressGesture.minimumPressDuration = 0.3
+            
+            animationView.addGestureRecognizer(longPressGesture)
+        }
+        
         if CDDataProvider.shared.partnerID == nil || CDDataProvider.shared.streak == nil {
             self.label.text = "Your streak data will appear once both you and your partner start checking in."
             
@@ -41,13 +51,6 @@ class StreakViewController: UIViewController {
 
         }
         
-        
-        animationView.isUserInteractionEnabled = true
-        
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        longPressGesture.minimumPressDuration = 0.3
-        
-        animationView.addGestureRecognizer(longPressGesture)
         
         
         

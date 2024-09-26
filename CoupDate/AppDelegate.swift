@@ -214,5 +214,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
     }
     
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        UNUserNotificationCenter.current().setBadgeCount(0)
+    }
+    
 }
 

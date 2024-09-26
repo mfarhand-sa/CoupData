@@ -333,14 +333,21 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
                     if isSaved {
                         print("Partner user ID saved successfully.")
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            sender.isEnabled = true
-                          //  CustomAlerts.displayNotification(title: "", message: "Porfile has been updated", view: self.view,fromBottom: false)
-                            if let partnerId = CDDataProvider.shared.partnerID {
-                                self.navigateToMainScreen()
+                        FirebaseManager.shared.fetchMoods(for: CDDataProvider.shared.gender!) { Result in
+                            print(Result);
+                            CDDataProvider.shared.moods = Result
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                
+                                
+                                sender.isEnabled = true
+                              //  CustomAlerts.displayNotification(title: "", message: "Porfile has been updated", view: self.view,fromBottom: false)
+                                if let partnerId = CDDataProvider.shared.partnerID {
+                                    self.navigateToMainScreen()
 
-                            } else {
-                                self.navigateToInvitePartner()
+                                } else {
+                                    self.navigateToInvitePartner()
+                                }
                             }
                         }
                         

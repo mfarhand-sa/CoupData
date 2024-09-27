@@ -243,7 +243,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         greetingLabel.minimumScaleFactor = 0.5
         greetingLabel.lineBreakMode = .byClipping
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
-        greetingLabel.textColor = .accent
+        greetingLabel.textColor = .black
         
         let currentHour = Calendar.current.component(.hour, from: Date())
         var greetingText = "Hello"

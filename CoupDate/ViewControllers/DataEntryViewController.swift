@@ -34,7 +34,7 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         greetingLabel.minimumScaleFactor = 0.5
         greetingLabel.lineBreakMode = .byClipping
         greetingLabel.font = UIFont(name: "Poppins-Bold", size: 20)
-        greetingLabel.textColor = .accent
+        greetingLabel.textColor = .black
         self.view.backgroundColor = .CDBackground //UIColor(named: "CDBackground")
         self.scrollView.backgroundColor = .CDBackground  //UIColor(named: "CDBackground")
         

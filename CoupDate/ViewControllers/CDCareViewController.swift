@@ -17,7 +17,6 @@ class CDCareViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Insight"
         self.view.backgroundColor = .white
         setupNavigationBarAppearance()
         setupCollectionView()
@@ -44,8 +43,8 @@ class CDCareViewController: UIViewController {
     
     private func loadCardData() {
         cardItems = [CardModel(title: "Your Insight", text: CDDataProvider.shared.insights!, backgroundColor: .cdInsightBackground1, animationName: "Woman"),
-                     CardModel(title: "Your Partner Insight", text: CDDataProvider.shared.insights!, backgroundColor: .cdInsightBackground2, animationName: "Sleeping"),
-                     CardModel(title: "Relationship Insightt", text: CDDataProvider.shared.insights!, backgroundColor: .cdInsightBackground3, animationName: "Woman")]
+                     CardModel(title: "Your Partner", text: CDDataProvider.shared.insights!, backgroundColor: .cdInsightBackground2, animationName: "Sleeping"),
+                     CardModel(title: "Relationship", text: CDDataProvider.shared.insights!, backgroundColor: .cdInsightBackground3, animationName: "Woman")]
         collectionView.reloadData()
     }
     

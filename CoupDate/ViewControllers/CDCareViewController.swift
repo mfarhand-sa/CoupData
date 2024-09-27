@@ -43,9 +43,9 @@ class CDCareViewController: UIViewController {
     }
     
     private func loadCardData() {
-        cardItems = [CardModel(title: "Mood Insight", text: CDDataProvider.shared.insights!, backgroundColor: .cdAccent, animationName: "Woman"),
-                     CardModel(title: "Sleep Insight", text: CDDataProvider.shared.insights!, backgroundColor: .cdAccent, animationName: "Sleeping"),
-                     CardModel(title: "Exercise Insight", text: CDDataProvider.shared.insights!, backgroundColor: .cdAccent, animationName: "Woman")]
+        cardItems = [CardModel(title: "Your Insight", text: CDDataProvider.shared.insights!, backgroundColor: .cdInsightBackground1, animationName: "Woman"),
+                     CardModel(title: "Your Partner Insight", text: CDDataProvider.shared.insights!, backgroundColor: .cdInsightBackground2, animationName: "Sleeping"),
+                     CardModel(title: "Relationship Insightt", text: CDDataProvider.shared.insights!, backgroundColor: .cdInsightBackground3, animationName: "Woman")]
         collectionView.reloadData()
     }
     

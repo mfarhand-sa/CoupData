@@ -43,15 +43,16 @@ class CDCareViewController: UIViewController {
     }
     
     private func loadCardData() {
-        cardItems = [CardModel(title: "Mood Insight", text: "You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today! QWERTY", backgroundColor: .systemPink, animationName: "Woman"),
-                     CardModel(title: "Sleep Insight", text: "You had a good night's sleep You had a good night's sleep You had a good night's sleepYou had a good night's sleep  You had a good night's sleep You had a good night's sleep You had a good night's sleep... JESUS!!!", backgroundColor: .cdAccent, animationName: "Sleeping"),
-             CardModel(title: "Exercise Insight", text: "You completed your workout routine today. Keep going!... You completed your workout routine today. Keep going! You completed your workout routine today. Keep going! You completed your workout routine today. Keep going! You completed your workout routine today. Keep going! MONICA!!!!!! ", backgroundColor: .green, animationName: "Woman")]
+        cardItems = [CardModel(title: "Mood Insight", text: CDDataProvider.shared.insights!, backgroundColor: .cdAccent, animationName: "Woman"),
+                     CardModel(title: "Sleep Insight", text: CDDataProvider.shared.insights!, backgroundColor: .cdAccent, animationName: "Sleeping"),
+                     CardModel(title: "Exercise Insight", text: CDDataProvider.shared.insights!, backgroundColor: .cdAccent, animationName: "Woman")]
         collectionView.reloadData()
     }
     
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize  = CGSize(width: 350, height: 300) // Enable dynamic cell sizing
+        layout.estimatedItemSize  = UICollectionViewFlowLayout.automaticSize
+        layout.itemSize = UICollectionViewFlowLayout.automaticSize
         layout.minimumLineSpacing = 16
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -94,83 +95,90 @@ extension CDCareViewController: UICollectionViewDataSource,UICollectionViewDeleg
 }
 
 
-import UIKit
-import Lottie
+
+
 
 class CardCollectionViewCell: UICollectionViewCell {
-    
+
     private let titleLabel = UILabel()
     private let textLabel = UILabel()
-    private var animationView: LottieAnimationView? // Lottie animation view
-    
-    private let horizontalPadding: CGFloat = 16
-    private let verticalPadding: CGFloat = 8
-    private let lottieSize: CGFloat = 100 // Size for the Lottie animation view
-    
+    private var animationView: LottieAnimationView?
+    private let bgView = UIView() // Add a background view
+
+    private let horizontalPadding: CGFloat = 25
+    private let verticalPadding: CGFloat = 20
+    private let lottieSize: CGFloat = 100
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func setupViews() {
-        
-        // Apply corner radius to contentView
-        contentView.layer.cornerRadius = 12 // Adjust the corner radius as needed
-        contentView.layer.masksToBounds = true
+        // Configure the bgView
+        bgView.layer.cornerRadius = 18
+        bgView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(bgView)
+
         // Title label setup
         titleLabel.font = UIFont(name: "Poppins-Bold", size: 20)
-        titleLabel.textColor = .black
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(titleLabel)
-        
+        bgView.addSubview(titleLabel)
+
         // Text label setup for dynamic height
-        textLabel.font = UIFont(name: "Poppins-Regular", size: 16)
-        textLabel.numberOfLines = 0 // Allows the label to expand vertically
+        textLabel.font = UIFont(name: "Poppins-Regular", size: 18)
+        textLabel.numberOfLines = 0
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(textLabel)
-        
+        bgView.addSubview(textLabel)
+
         // Lottie animation view setup
         animationView = LottieAnimationView()
         animationView?.contentMode = .scaleAspectFit
         animationView?.loopMode = .loop
         animationView?.translatesAutoresizingMaskIntoConstraints = false
-        animationView?.isHidden = true // Initially hidden, only shown if animation is provided
+        animationView?.isHidden = true
         if let animationView = animationView {
-            contentView.addSubview(animationView)
+            bgView.addSubview(animationView)
         }
-        
-        // Apply constraints to titleLabel, textLabel, and animationView
+
+        // Add bgView constraints to enforce a fixed width
         NSLayoutConstraint.activate([
-            // Title label constraints
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: verticalPadding),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalPadding),
+            // Set bgView to have a fixed width with screen size minus insets
+            bgView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.size.width - 30), // Adjust for insets
+            bgView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            bgView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bgView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bgView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+
+        // Apply constraints to titleLabel, textLabel, and animationView within bgView
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: bgView.topAnchor, constant: verticalPadding),
+            titleLabel.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: horizontalPadding),
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: animationView!.leadingAnchor, constant: -horizontalPadding),
-            
-            // Text label constraints
-            textLabel.topAnchor.constraint(equalTo: animationView!.bottomAnchor, constant: verticalPadding),
-            textLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalPadding),
-            textLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalPadding),
-            textLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -verticalPadding),
-            
-            // Lottie animation view constraints (Top-right corner of the title)
-            animationView!.topAnchor.constraint(equalTo: contentView.topAnchor, constant: verticalPadding),
-            animationView!.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+
+            animationView!.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: verticalPadding),
+            animationView!.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -horizontalPadding),
             animationView!.widthAnchor.constraint(equalToConstant: lottieSize),
-            animationView!.heightAnchor.constraint(equalToConstant: lottieSize)
+            animationView!.heightAnchor.constraint(equalToConstant: lottieSize),
+
+            textLabel.topAnchor.constraint(equalTo: animationView!.bottomAnchor, constant: 16),
+            textLabel.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: horizontalPadding),
+            textLabel.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -horizontalPadding),
+            textLabel.bottomAnchor.constraint(equalTo: bgView.bottomAnchor, constant: -verticalPadding)
         ])
     }
-    
+
     // Configure the cell with dynamic content and optional animation
     func configure(with model: CardModel) {
         titleLabel.text = model.title
-        contentView.backgroundColor = model.backgroundColor
+        bgView.backgroundColor = model.backgroundColor
         displayText(model.text)
-        
-        // Configure the Lottie animation if present
+
         if let animationName = model.animationName {
             animationView?.animation = LottieAnimation.named(animationName)
             animationView?.isHidden = false
@@ -179,31 +187,23 @@ class CardCollectionViewCell: UICollectionViewCell {
             animationView?.isHidden = true
         }
     }
-    
+
     // Set attributed text for the textLabel
     private func displayText(_ text: String) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
-        
+
         let mainFont = UIFont(name: "Poppins-Regular", size: 16)
         let attributes: [NSAttributedString.Key: Any] = [
             .font: mainFont!,
             .paragraphStyle: paragraphStyle
         ]
-        
+
         let attributedString = NSMutableAttributedString(string: text, attributes: attributes)
         textLabel.attributedText = attributedString
-        
-        // Set preferredMaxLayoutWidth to ensure wrapping
-        textLabel.preferredMaxLayoutWidth = contentView.frame.width - (horizontalPadding)
-    }
-    
-    // Override layoutSubviews to make sure preferredMaxLayoutWidth is updated when layout changes
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        textLabel.preferredMaxLayoutWidth = contentView.frame.width - (horizontalPadding)
     }
 }
+
 
 
 

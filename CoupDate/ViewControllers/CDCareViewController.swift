@@ -1,252 +1,212 @@
 import UIKit
-import DGCharts
+import Lottie
 
-class CDCareViewController: UIViewController, ChartViewDelegate {
-    
-    // Scroll view to enable scrolling
-    private var scrollView: UIScrollView!
-    private var contentView: UIView!
-    var moodCounts: [String: Int] = [:] // Add this property to accept the mood data
-    private var dailyRecords = CDDataProvider.shared.dailyRecords!
+// Model to represent each card/item
+struct CardModel {
+    let title: String
+    let text: String
+    let backgroundColor: UIColor
+    let animationName: String?
+}
 
+
+class CDCareViewController: UIViewController {
     
-    
-    // Pie chart view
-    var chartView: PieChartView!
-    
-    // Text view for insights
-    private var insightsTextView: UITextView!
+    private var collectionView: UICollectionView!
+    private var cardItems: [CardModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Insight"
         self.view.backgroundColor = .white
+        setupNavigationBarAppearance()
+        setupCollectionView()
+        loadCardData() // Load data and reload collection view
+    }
+    
+    private func setupNavigationBarAppearance() {
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = false
         
-        
         if #available(iOS 15.0, *) {
             let scrollEdgeAppearance = UINavigationBarAppearance()
-            scrollEdgeAppearance.configureWithTransparentBackground() // Transparent when scrolled to top
-            scrollEdgeAppearance.backgroundColor = UIColor.white  // Red at the top
-
+            scrollEdgeAppearance.configureWithTransparentBackground()
+            scrollEdgeAppearance.backgroundColor = UIColor.white
+            
             let standardAppearance = UINavigationBarAppearance()
-            standardAppearance.configureWithOpaqueBackground()  // Solid when scrolling
-            standardAppearance.backgroundColor = .white  // Blue when scrolling stops
-
+            standardAppearance.configureWithOpaqueBackground()
+            standardAppearance.backgroundColor = .white
+            
             navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
             navigationController?.navigationBar.standardAppearance = standardAppearance
         }
+    }
+    
+    private func loadCardData() {
+        cardItems = [CardModel(title: "Mood Insight", text: "You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today!You're feeling Happy and Grateful today! QWERTY", backgroundColor: .systemPink, animationName: "Woman"),
+                     CardModel(title: "Sleep Insight", text: "You had a good night's sleep You had a good night's sleep You had a good night's sleepYou had a good night's sleep  You had a good night's sleep You had a good night's sleep You had a good night's sleep... JESUS!!!", backgroundColor: .cdAccent, animationName: "Sleeping"),
+             CardModel(title: "Exercise Insight", text: "You completed your workout routine today. Keep going!... You completed your workout routine today. Keep going! You completed your workout routine today. Keep going! You completed your workout routine today. Keep going! You completed your workout routine today. Keep going! MONICA!!!!!! ", backgroundColor: .green, animationName: "Woman")]
+        collectionView.reloadData()
+    }
+    
+    private func setupCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize  = CGSize(width: 350, height: 300) // Enable dynamic cell sizing
+        layout.minimumLineSpacing = 16
+        
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .white
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: "CardCell")
+        view.addSubview(collectionView)
+        
+        // Apply Auto Layout constraints for the collection view
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
+            
+        ])
+    }
+}
 
 
-        
-        // Set up the UI components
-        setupScrollView()
-        setupChartView()
-        
-        
-        chartView.delegate = self
-        let l = chartView.legend
-        l.horizontalAlignment = .right
-        l.verticalAlignment = .top
-        l.orientation = .vertical
-        l.xEntrySpace = 7
-        l.yEntrySpace = 0
-        l.yOffset = 0
-        chartView.entryLabelColor = .white
-        chartView.entryLabelFont = .systemFont(ofSize: 12, weight: .light)
-        self.updateChartData()
-        setupTextView()
 
-//        // Example insights data
-        if let insights = CDDataProvider.shared.insights {
-            displayInsights(insights: insights)
+extension CDCareViewController: UICollectionViewDataSource,UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return cardItems.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CardCell", for: indexPath) as? CardCollectionViewCell else {
+            fatalError("Unable to dequeue CardCollectionViewCell")
+        }
+        
+        let model = cardItems[indexPath.item]
+        cell.configure(with: model)
+        return cell
+    }
+}
+
+
+import UIKit
+import Lottie
+
+class CardCollectionViewCell: UICollectionViewCell {
+    
+    private let titleLabel = UILabel()
+    private let textLabel = UILabel()
+    private var animationView: LottieAnimationView? // Lottie animation view
+    
+    private let horizontalPadding: CGFloat = 16
+    private let verticalPadding: CGFloat = 8
+    private let lottieSize: CGFloat = 100 // Size for the Lottie animation view
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupViews() {
+        
+        // Apply corner radius to contentView
+        contentView.layer.cornerRadius = 12 // Adjust the corner radius as needed
+        contentView.layer.masksToBounds = true
+        // Title label setup
+        titleLabel.font = UIFont(name: "Poppins-Bold", size: 20)
+        titleLabel.textColor = .black
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabel)
+        
+        // Text label setup for dynamic height
+        textLabel.font = UIFont(name: "Poppins-Regular", size: 16)
+        textLabel.numberOfLines = 0 // Allows the label to expand vertically
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(textLabel)
+        
+        // Lottie animation view setup
+        animationView = LottieAnimationView()
+        animationView?.contentMode = .scaleAspectFit
+        animationView?.loopMode = .loop
+        animationView?.translatesAutoresizingMaskIntoConstraints = false
+        animationView?.isHidden = true // Initially hidden, only shown if animation is provided
+        if let animationView = animationView {
+            contentView.addSubview(animationView)
+        }
+        
+        // Apply constraints to titleLabel, textLabel, and animationView
+        NSLayoutConstraint.activate([
+            // Title label constraints
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: verticalPadding),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalPadding),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: animationView!.leadingAnchor, constant: -horizontalPadding),
+            
+            // Text label constraints
+            textLabel.topAnchor.constraint(equalTo: animationView!.bottomAnchor, constant: verticalPadding),
+            textLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalPadding),
+            textLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalPadding),
+            textLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -verticalPadding),
+            
+            // Lottie animation view constraints (Top-right corner of the title)
+            animationView!.topAnchor.constraint(equalTo: contentView.topAnchor, constant: verticalPadding),
+            animationView!.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            animationView!.widthAnchor.constraint(equalToConstant: lottieSize),
+            animationView!.heightAnchor.constraint(equalToConstant: lottieSize)
+        ])
+    }
+    
+    // Configure the cell with dynamic content and optional animation
+    func configure(with model: CardModel) {
+        titleLabel.text = model.title
+        contentView.backgroundColor = model.backgroundColor
+        displayText(model.text)
+        
+        // Configure the Lottie animation if present
+        if let animationName = model.animationName {
+            animationView?.animation = LottieAnimation.named(animationName)
+            animationView?.isHidden = false
+            animationView?.play()
+        } else {
+            animationView?.isHidden = true
         }
     }
     
-    // Set up the scroll view and content view
-    private func setupScrollView() {
-        scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.backgroundColor = .white
-        view.addSubview(scrollView)
-        
-        contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(contentView)
-        
-        // Constraints for the scroll view
-        NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor) // Important for scrolling
-        ])
-    }
-    
-    // Set up the pie chart view
-    private func setupChartView() {
-        chartView = PieChartView()
-        chartView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(chartView)
-        chartView.backgroundColor = .white
-        contentView.backgroundColor = .white
-        chartView.drawEntryLabelsEnabled = true
-
-        
-        // Constraints for the pie chart view
-        NSLayoutConstraint.activate([
-            chartView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -40),
-            chartView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 25),
-            chartView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 25),
-            chartView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.2)
-            //chartView.heightAnchor.constraint(equalToConstant: 500)
-        ])
-    }
-    
-    // Set up the text view
-    private func setupTextView() {
-        insightsTextView = UITextView()
-        insightsTextView.isEditable = false
-        insightsTextView.isScrollEnabled = false // Set to false to avoid conflict with scrollView
-        insightsTextView.font = UIFont(name: "Poppins-Regular", size: 16)
-        insightsTextView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(insightsTextView)
-        
-        // Constraints for the text view
-        NSLayoutConstraint.activate([
-            insightsTextView.topAnchor.constraint(equalTo: chartView.bottomAnchor, constant: -40),
-            insightsTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            insightsTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            insightsTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
-        ])
-    }
-    
-    
-    // Display formatted insights in the text view
-    
-    private func displayInsights(insights: String) {
+    // Set attributed text for the textLabel
+    private func displayText(_ text: String) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         
-        // Attributes for the main text
-        let mainFont = UIFont(name: "Poppins-Regular", size: 16)!
+        let mainFont = UIFont(name: "Poppins-Regular", size: 16)
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: mainFont,
+            .font: mainFont!,
             .paragraphStyle: paragraphStyle
         ]
         
-        let attributedText = NSMutableAttributedString(string: insights, attributes: attributes)
+        let attributedString = NSMutableAttributedString(string: text, attributes: attributes)
+        textLabel.attributedText = attributedString
         
-        // Keywords to highlight (e.g., moods)
-        let moodKeywords = [
-            "Happy", "Excited", "Loved", "Calm", "Stressed", "Anxious",
-            "Sick", "Lazy", "Meh", "Grateful", "Horny", "Period",
-            "Vulnerable", "Balanced"
-        ]
-        
-
-        let moodColors: [String: UIColor] = [
-            "Happy": UIColor(red: 1.0, green: 0.75, blue: 0.0, alpha: 1.0),      // Sharp yellow-orange
-            "Excited": UIColor(red: 1.0, green: 0.75, blue: 0.0, alpha: 1.0),    // Sharp yellow-orange
-            "Loved": UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0),       // Bright pink
-            "Calm": UIColor(red: 0.0, green: 0.75, blue: 1.0, alpha: 1.0),       // Cool blue
-            "Stressed": UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0),    // Bright pink
-            "Anxious": UIColor(red: 1.0, green: 0.75, blue: 0.0, alpha: 1.0),    // Sharp yellow-orange
-            "Sick": UIColor(red: 0.6, green: 0.4, blue: 0.8, alpha: 1.0),        // Soft purple
-            "Lazy": UIColor(red: 0.6, green: 0.4, blue: 0.8, alpha: 1.0),        // Soft purple
-            "Meh": UIColor(red: 0.6, green: 0.4, blue: 0.8, alpha: 1.0),         // Soft purple
-            "Grateful": UIColor(red: 0.0, green: 0.75, blue: 1.0, alpha: 1.0),   // Cool blue
-            "Horny": UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0),       // Bright pink
-            "Period": UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0),      // Bright pink
-            "Vulnerable": UIColor(red: 1.0, green: 0.75, blue: 0.0, alpha: 1.0), // Sharp yellow-orange
-            "Balanced": UIColor(red: 0.0, green: 0.75, blue: 1.0, alpha: 1.0)    // Cool blue
-        ]
-
-        
-        for mood in moodKeywords {
-            // Case-insensitive search and whole word matching
-            let regex = try! NSRegularExpression(pattern: "\\b\(mood)\\b", options: [.caseInsensitive])
-            let matches = regex.matches(in: attributedText.string, options: [], range: NSRange(location: 0, length: attributedText.length))
-            
-            for match in matches {
-                // Apply bold font
-                attributedText.addAttribute(.font, value: UIFont(name: "Poppins-Bold", size: 16)!, range: match.range)
-                // Apply color
-                if let color = moodColors[mood] {
-                    attributedText.addAttribute(.foregroundColor, value: color, range: match.range)
-                }
-            }
-        }
-        
-        // Highlight dates (in format: MM/dd/yy or other patterns)
-        let datePattern = "\\b\\d{1,2}/\\d{1,2}/\\d{2}\\b"
-        let dateRegex = try! NSRegularExpression(pattern: datePattern)
-        let dateMatches = dateRegex.matches(in: attributedText.string, options: [], range: NSRange(location: 0, length: attributedText.length))
-        
-        for match in dateMatches {
-            // Apply color and bold formatting to dates
-            attributedText.addAttribute(.font, value: UIFont(name: "Poppins-Bold", size: 16)!, range: match.range)
-            attributedText.addAttribute(.foregroundColor, value: UIColor.purple, range: match.range)
-        }
-        
-        insightsTextView.attributedText = attributedText
-    }
-
-    
-    
-    
-    func setDataCount(_ count: Int, range: UInt32) {
-        
-        let totalCount = moodCounts.values.reduce(0, +)
-        let entries = moodCounts.map { (mood, count) -> PieChartDataEntry in
-            let percentage = Double(count) / Double(totalCount) * 100
-            return PieChartDataEntry(value: percentage, label: mood)
-        }
-        
-        // Create the PieChartDataSet
-        let set = PieChartDataSet(entries: entries, label: "Mood Distribution")
-        set.drawIconsEnabled = false
-        set.sliceSpace = 2
-        
-        // Set colors for the pie chart
-        set.colors = ChartColorTemplates.vordiplom()
-        + ChartColorTemplates.joyful()
-        + ChartColorTemplates.colorful()
-        + ChartColorTemplates.liberty()
-        + ChartColorTemplates.pastel()
-        + [UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1)]
-        
-        // Create the PieChartData
-        let data = PieChartData(dataSet: set)
-        
-        // Format the data values
-        let pFormatter = NumberFormatter()
-        pFormatter.numberStyle = .percent
-        pFormatter.maximumFractionDigits = 1
-        pFormatter.multiplier = 1
-        pFormatter.percentSymbol = " %"
-        data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
-        
-        data.setValueFont(.systemFont(ofSize: 11, weight: .light))
-        data.setValueTextColor(.black)
-        
-        chartView.data = data
-        chartView.highlightValues(nil)
+        // Set preferredMaxLayoutWidth to ensure wrapping
+        textLabel.preferredMaxLayoutWidth = contentView.frame.width - (horizontalPadding)
     }
     
-    
-     func updateChartData() {
-        self.setDataCount(Int(4), range: UInt32(100))
+    // Override layoutSubviews to make sure preferredMaxLayoutWidth is updated when layout changes
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        textLabel.preferredMaxLayoutWidth = contentView.frame.width - (horizontalPadding)
     }
-    
-    
-    
 }
+
+
+
+
+
 

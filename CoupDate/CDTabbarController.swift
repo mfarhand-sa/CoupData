@@ -64,7 +64,7 @@ class CDTabbarController: CardTabBarController {
         if let dailyRecords = CDDataProvider.shared.dailyRecords {
             
             let chartVC = CDCareViewController()
-            chartVC.moodCounts = self.collectMoodDataForPieChart()
+//            chartVC.moodCounts = self.collectMoodDataForPieChart()
             let chartVCItem = UITabBarItem(title: "Insight", image: UIImage(named: "self_care"), selectedImage: nil)
             chartVC.tabBarItem = chartVCItem
             

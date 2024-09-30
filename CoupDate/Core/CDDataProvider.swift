@@ -25,6 +25,8 @@ class CDDataProvider {
     var startDate : Date?
     var endDate : Date?
     var insights: String?
+    var smart_Insight: [String: String]?
+
     
     var moods: [String]?
 
@@ -124,6 +126,14 @@ class CDDataProvider {
                     
                     if let insight = data["insight"] as? String {
                         CDDataProvider.shared.insights = insight
+                    }
+                    
+                    if let smartInsight = data["Smart_Insight"] as? [String: String] {
+                        // Return the insights (My_Insight, Partner_Insight, Relationship_Insight)
+                        CDDataProvider.shared.smart_Insight = smartInsight
+                        
+                    } else {
+                        print("Smart_Insight field is missing.")
                     }
                     
                     self.loadPartnerData(partnerID: partnerID) { result in

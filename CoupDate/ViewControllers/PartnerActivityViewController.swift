@@ -48,7 +48,7 @@ class MessageListener {
 }
 
 
-class PartnerActivityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class PartnerActivityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // UI Components
     let contentView = UIView()
@@ -61,11 +61,11 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     let messageListener = MessageListener()
     
     // Example Data for Cards (This can be dynamic or fetched from a server)
-    var cardData: [(title: String, animationName: String, data: [String: Any]?)] = [
-        ("Number Two News", "Poop", nil),
-        ("Sleep Tracker", "Sleeping", nil),
-        ("Vibe Check", "Mood", nil),
-        ("Energy Meter", "Energy", nil)
+    var cardData: [(title: String, animationName: String, data: [String: Any]?, BackgroundColour: UIColor)] = [
+        ("Number Two News", "Poop", nil, .cdInsightBackground1),
+        ("Sleep Tracker", "Sleeping", nil,.cdInsightBackground2),
+        ("Vibe Check", "Mood", nil,.cdInsightBackground4),
+        ("Energy Meter", "Energy", nil,.cdInsightBackground3)
     ]
     
     var poopData: [String: Any]?
@@ -83,6 +83,10 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         
         setupUI()
         setupCollectionView()
+        self.poopData = CDDataProvider.shared.poopData
+        self.sleepData = CDDataProvider.shared.sleepData
+        self.moodData = CDDataProvider.shared.moodData
+        self.energyData = CDDataProvider.shared.energyData
         displayPartnerData()
         
         CDNotificationManager.shared.requestNotificationAuthorization()
@@ -99,11 +103,6 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         }
         
         // Long press gesture setup
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        longPressGesture.minimumPressDuration = 3.0
-        self.view.addGestureRecognizer(longPressGesture)
-        
-        
         if CDDataProvider.shared.partnerID == nil {
             
             
@@ -152,29 +151,13 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
         if ((self.poopData == nil || self.sleepData == nil || self.energyData == nil || self.moodData == nil) && CDDataProvider.shared.partnerID != nil) {
             fetchAndDisplayPartnerData()
         }
-        
 
-        
-        
-
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        self.becomeFirstResponder()
         messageListener.listenForMessages()
-        
-//        FirebaseManager.shared.generateInsightsForAllUsers { result in
-//            switch result {
-//            case .success(let message):
-//                print("Insights generated successfully: \(message)")
-//            case .failure(let error):
-//                print("Error generating insights: \(error.localizedDescription)")
-//            }
-//        }
-        
-        
         requestNotification()
     }
     
@@ -267,12 +250,13 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         
-        // Set consistent padding (insets) for the entire section
-        layout.sectionInset = UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 20)  // Padding for all sides (left, right, top, bottom)
+        // Set estimated item size to automatic size to allow dynamic height
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.minimumLineSpacing = 16 // Add vertical spacing between cells
         
-        // Set minimum line spacing between cards
-        layout.minimumLineSpacing = 16
-        
+        // Set the layout to only allow one cell per row (full width)
+        layout.sectionInset = UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 20)
+
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
@@ -295,6 +279,7 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
 
 
 
+
     // MARK: - UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -304,35 +289,9 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PartnerActivityCardCell", for: indexPath) as! PartnerActivityCardCell
         let data = cardData[indexPath.item]
-        cell.configure(withTitle: data.title, animationName: data.animationName, recordData: data.data)
+        cell.configure(withTitle: data.title, animationName: data.animationName, recordData: data.data,backgroundColour: data.BackgroundColour)
         return cell
     }
-    
-    // Handle Long Press Gesture
-    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
-        if gesture.state == .began {
-            print("Long press began")
-            let sb = UIStoryboard(name: "Main", bundle: .main)
-            let pairingVC = sb.instantiateViewController(withIdentifier: "CDPairingViewController") as! CDPairingViewController
-            pairingVC.mode = .invitation
-            UIApplication.shared.keyWindow?.rootViewController?.present(pairingVC, animated: true)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // Calculate the width of each card to ensure consistent width
-        let totalWidth = collectionView.bounds.width
-        let padding: CGFloat = 40 // 20 on each side
-        let availableWidth = totalWidth - padding
-        
-        // Dynamic height based on content but enforce a minimum height to prevent compactness
-        let minHeight: CGFloat = 180 // Minimum height to avoid overly compact cards
-        return CGSize(width: availableWidth, height: minHeight)
-    }
-
-
-
-
 }
 
 
@@ -341,10 +300,15 @@ class PartnerActivityViewController: UIViewController, UICollectionViewDelegate,
 
 class PartnerActivityCardCell: UICollectionViewCell {
     
-    let mainAnimationView = LottieAnimationView()
-    let titleLabel = UILabel()
-    let statusLabel = UILabel()
-    let statusStackView = UIStackView() // Stack for multiple small animations and status labels
+    private let titleLabel = UILabel()
+    private let statusLabel = UILabel()
+    private var animationView: LottieAnimationView?
+    private let statusStackView = UIStackView()
+    private let bgView = UIView() // Same background view as CDCareViewController
+    
+    private let horizontalPadding: CGFloat = 25
+    private let verticalPadding: CGFloat = 20
+    private let lottieSize: CGFloat = 100
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -354,136 +318,163 @@ class PartnerActivityCardCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func configure(withTitle title: String, animationName: String, recordData: [String: Any]?) {
+
+    // Configure the cell for each specific case
+    func configure(withTitle title: String, animationName: String?, recordData: [String: Any]?,backgroundColour : UIColor =  UIColor.white) {
         titleLabel.text = title
-        mainAnimationView.animation = LottieAnimation.named(animationName)
-        mainAnimationView.backgroundColor = .CDBackground
-        mainAnimationView.play()
-
-        // Clear the stack before adding new items
-        statusStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-
-        if let data = recordData {
-            if let statuses = data["status"] as? [String], !statuses.isEmpty {
-                statusLabel.isHidden = true
-                statusStackView.isHidden = false
-
-                // Add small animations and status labels for each status
-                for status in statuses {
-                    let smallAnimationView = LottieAnimationView(name: status)
-                    smallAnimationView.contentMode = .scaleAspectFit
-                    smallAnimationView.loopMode = .loop
-                    smallAnimationView.translatesAutoresizingMaskIntoConstraints = false
-                    smallAnimationView.widthAnchor.constraint(equalToConstant: 35).isActive = true
-                    smallAnimationView.heightAnchor.constraint(equalToConstant: 35).isActive = true
-                    smallAnimationView.play()
-
-                    let statusItemLabel = UILabel()
-                    statusItemLabel.text = status
-                    statusItemLabel.font = UIFont(name: "Poppins-Light", size: 16)
-                    statusItemLabel.textColor = .CDText
-                    statusItemLabel.numberOfLines = 1
-                    statusItemLabel.lineBreakMode = .byTruncatingTail
-                    statusItemLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
-                    let stackView: UIStackView
-                    
-                    if title != "Mood Check" {
-                        // Vertical stack for titles other than "Mood Check"
-                        stackView = UIStackView(arrangedSubviews: [statusItemLabel])
-                        stackView.axis = .vertical // Set to vertical to stack items on top of each other
-                        stackView.spacing = 1 // Adjust spacing between the elements
-                        stackView.alignment = .leading // Align both items to the left
-                    } else {
-                        // Horizontal stack for "Mood Check"
-                        stackView = UIStackView(arrangedSubviews: [smallAnimationView, statusItemLabel])
-                        stackView.axis = .horizontal // Horizontal layout for Mood Check
-                        stackView.spacing = 8
-                        stackView.alignment = .center
-
-                    }
-                    
-
-
-                    statusStackView.addArrangedSubview(stackView)
-                }
-            } else {
-                // Single status or no data
-                statusStackView.isHidden = true
-                statusLabel.isHidden = false
-                statusLabel.text = data["status"] as? String ?? "Nothing shared so far!"
-            }
+        
+        // Background color and corner radius
+        bgView.backgroundColor = backgroundColour // Adjust the background color based on your design
+        bgView.layer.cornerRadius = 18
+        
+        if title == "Vibe Check", let animationName = animationName {
+            // Display multiple animations for Vibe Check
+            displayAnimations(animationName: animationName, recordData: recordData)
         } else {
+            // Display single status for other cards
+            displayStatus(recordData)
+        }
+
+        // Set up the main animation view for all cells
+        if let animationName = animationName {
+            animationView?.animation = LottieAnimation.named(animationName)
+            animationView?.isHidden = false
+            animationView?.play()
+        } else {
+            animationView?.isHidden = true
+        }
+    }
+    
+    // Setup views and layout (same as CDCareViewController)
+    private func setupCardUI() {
+        // Configure the background view (bgView)
+        bgView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(bgView)
+        
+        // Configure titleLabel
+        titleLabel.font = UIFont(name: "Poppins-Bold", size: 16)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        bgView.addSubview(titleLabel)
+        
+        // Configure statusLabel
+        statusLabel.font = UIFont(name: "Poppins-Regular", size: 18)
+        statusLabel.numberOfLines = 0
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        bgView.addSubview(statusLabel)
+
+        // Configure statusStackView for multiple items
+        statusStackView.axis = .vertical
+        statusStackView.spacing = 8
+        statusStackView.translatesAutoresizingMaskIntoConstraints = false
+        bgView.addSubview(statusStackView)
+        
+        // Configure animationView (for cards with animations)
+        animationView = LottieAnimationView()
+        animationView?.contentMode = .scaleAspectFit
+        animationView?.loopMode = .loop
+        animationView?.translatesAutoresizingMaskIntoConstraints = false
+        animationView?.isHidden = true
+        bgView.addSubview(animationView!)
+
+        // Add constraints to bgView to enforce width and layout
+        NSLayoutConstraint.activate([
+            bgView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.size.width - 40), // Adjust for insets
+            bgView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            bgView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bgView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bgView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        
+        // Constraints for titleLabel, statusLabel, animationView, and statusStackView
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: bgView.topAnchor, constant: verticalPadding),
+            titleLabel.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: horizontalPadding),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: bgView.trailingAnchor, constant: -horizontalPadding),
+            
+            animationView!.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -20),
+            animationView!.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -horizontalPadding),
+            animationView!.widthAnchor.constraint(equalToConstant: lottieSize),
+            animationView!.heightAnchor.constraint(equalToConstant: lottieSize),
+            
+            statusLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 50),
+            statusLabel.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: horizontalPadding),
+            statusLabel.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -horizontalPadding),
+            
+            statusStackView.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 16),
+            statusStackView.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: horizontalPadding),
+            statusStackView.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -horizontalPadding),
+            statusStackView.bottomAnchor.constraint(equalTo: bgView.bottomAnchor, constant: -verticalPadding)
+        ])
+    }
+    
+    // Function to display single status (for Number Two News, Sleep, Energy)
+    private func displayStatus(_ recordData: [String: Any]?) {
+        // Reset stack view for new data
+        statusStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        // Get status from the array (show the first item or default)
+        if let statuses = recordData?["status"] as? [String], let firstStatus = statuses.first {
             statusLabel.isHidden = false
-            statusLabel.text = "Nothing shared yet!"
-            statusStackView.isHidden = true
+            statusLabel.text = firstStatus
+           // statusStackView.isHidden = true
+        } else {
+            statusLabel.text = "No Update"
+            statusLabel.isHidden = false
+
+           // statusStackView.isHidden = true
+        }
+    }
+    
+    // Function to display animations for Vibe Check (with mood-specific animations)
+    private func displayAnimations(animationName: String, recordData: [String: Any]?) {
+        // Reset stack view for new data
+        statusStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        statusLabel.isHidden = true
+        statusStackView.isHidden = false
+        
+        // Display multiple small animations based on mood statuses (e.g., [Sad, Happy])
+        if let statuses = recordData?["status"] as? [String], !statuses.isEmpty {
+            for mood in statuses {
+                // Create a Lottie animation view using the mood name as the animation
+                let smallAnimationView = LottieAnimationView(name: mood)
+                smallAnimationView.contentMode = .scaleAspectFit
+                smallAnimationView.loopMode = .loop
+                smallAnimationView.translatesAutoresizingMaskIntoConstraints = false
+                smallAnimationView.widthAnchor.constraint(equalToConstant: 35).isActive = true
+                smallAnimationView.heightAnchor.constraint(equalToConstant: 35).isActive = true
+                smallAnimationView.play()
+                
+                // Create a label for the mood
+                let statusItemLabel = UILabel()
+                statusItemLabel.text = mood
+                statusItemLabel.font = UIFont(name: "Poppins-Light", size: 16)
+                statusItemLabel.textColor = .CDText
+                
+                // Combine animation and label in a stack view
+                let stackView = UIStackView(arrangedSubviews: [smallAnimationView, statusItemLabel])
+                stackView.axis = .horizontal
+                stackView.spacing = 8
+                stackView.alignment = .center
+                
+                statusStackView.addArrangedSubview(stackView)
+            }
         }
     }
 
-    // Adjust layout in `setupCardUI`
-    func setupCardUI() {
-        contentView.backgroundColor = .CDBackground
-        contentView.layer.cornerRadius = 12
-        contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = UIColor.separator.cgColor
-        contentView.layer.shadowColor = UIColor.white.cgColor
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        contentView.layer.shadowOpacity = 0.2
-        contentView.layer.shadowRadius = 8
-        contentView.layer.masksToBounds = false
-
-        // Setup titleLabel
-        titleLabel.font = UIFont(name: "Poppins-Bold", size: 16)
-        titleLabel.textColor = .label
-        titleLabel.textAlignment = .left
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(titleLabel)
-
-        // Setup main animation view
-        mainAnimationView.contentMode = .scaleAspectFit
-        mainAnimationView.loopMode = .loop
-        mainAnimationView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(mainAnimationView)
-
-        // Setup status label and stack view
-        statusLabel.font = UIFont(name: "Poppins-Light", size: 16)
-        statusLabel.textColor = .CDText
-        statusLabel.numberOfLines = 0 // Allow label to wrap
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(statusLabel)
-
-        statusStackView.axis = .vertical // Display multiple statuses vertically
-        statusStackView.spacing = 8
-        statusStackView.alignment = .leading
-        statusStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(statusStackView)
-
-        // Set consistent padding and constraints inside each card (contentView)
-        NSLayoutConstraint.activate([
-            // Title label
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: mainAnimationView.leadingAnchor, constant: -10),
-            titleLabel.heightAnchor.constraint(equalToConstant: 40),
-
-
-            // Main animation view
-            mainAnimationView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            mainAnimationView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            mainAnimationView.widthAnchor.constraint(equalToConstant: 120),
-            mainAnimationView.heightAnchor.constraint(equalToConstant: 120),
-
-            // Status label
-            statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            statusLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-
-            // Status stack view (used for multiple items)
-            statusStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            statusStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            statusStackView.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 8),
-            statusStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
-        ])
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        animationView?.stop()
+        animationView?.isHidden = true
+        statusStackView.arrangedSubviews.forEach { $0.removeFromSuperview() } // Clear views
     }
+    
+    
 }
+
+
+
+
+
+
+

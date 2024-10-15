@@ -1,5 +1,6 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '14.0'
+source 'https://github.com/CocoaPods/Specs.git'
 
 target 'CoupDate' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -16,7 +17,7 @@ target 'CoupDate' do
   pod 'SwiftMessages'
   pod 'NotificationBannerSwift'
   pod 'Typist'
-  pod 'BugfenderSDK', '~> 1.10'
+  pod 'BugfenderSDK'
   pod 'HorizonCalendar', '~> 1.16.0'
   pod 'FittedSheets'
   pod 'CountryPickerView'

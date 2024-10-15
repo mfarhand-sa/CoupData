@@ -333,7 +333,7 @@ class CDUserRegistrationViewController: UIViewController,UITextFieldDelegate {
                     if isSaved {
                         print("Partner user ID saved successfully.")
                         
-                        FirebaseManager.shared.fetchMoods(for: CDDataProvider.shared.gender!) { Result in
+                        FirebaseManager.shared.fetchMoods(for: self.gender!) { Result in
                             print(Result);
                             CDDataProvider.shared.moods = Result
                             

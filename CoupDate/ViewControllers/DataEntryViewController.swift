@@ -11,11 +11,12 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
     var collectionView: UICollectionView!
     
     // Example Data for Cards (This can be dynamic)
-    let cardData: [(title: String, animationName: String)] = [
-        ("Number Two News", "Poop"),
-        ("Sleep Tracker", "Sleeping"),
-        ("Vibe Check", "Mood"),
-        ("Energy Meter", "Energy")
+    
+    var cardData: [(title: String, animationName: String, BackgroundColour: UIColor)] = [
+        ("Number Two News", "Poop", .cdInsightBackground1),
+        ("Sleep Tracker", "Sleeping",.cdInsightBackground2),
+        ("Vibe Check", "Mood",.cdInsightBackground4),
+        ("Energy Meter", "Energy",.cdInsightBackground3)
     ]
     
     override func viewDidLoad() {
@@ -102,7 +103,7 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DataEntryCardCell", for: indexPath) as! DataEntryCardCell
         let data = cardData[indexPath.item]
-        cell.configure(withTitle: data.title, animationName: data.animationName)
+        cell.configure(withTitle: data.title, animationName: data.animationName,backgrounColour:data.BackgroundColour)
         return cell
     }
     
@@ -131,7 +132,15 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
             
             vibeCheckVC.categoryTitle = "Sleep Check"
             vibeCheckVC.descriptionText = "How was your sleep last night?"
-            vibeCheckVC.options = ["Rested", "Tired", "Woke Up Often", "Deep Sleep", "Insomnia", "Overslept"]
+            vibeCheckVC.options = [
+                "Rested 😌",         // Feeling refreshed after sleep
+                "Tired 😴",          // Feeling tired even after sleep
+                "Woke Up Often 😟",  // Frequent waking during the night (same as Interrupted)
+                "Deep Sleep 🛏️",    // Experienced restorative deep sleep
+                "Short Sleep 💤",    // Mostly light, non-restorative sleep
+                "Insomnia 💤",       // Difficulty falling or staying asleep
+                "Overslept 😫"       // Slept longer than planned or needed
+            ]
 //            vibeCheckVC.lottieAnimations = [nil, nil, nil, nil, nil, nil] // No animations
             vibeCheckVC.category = "sleep"
 
@@ -217,9 +226,10 @@ class DataEntryCardCell: UICollectionViewCell {
         ])
     }
     
-    func configure(withTitle title: String, animationName: String) {
+    func configure(withTitle title: String, animationName: String,backgrounColour: UIColor) {
         titleLabel.text = title
         animationView.animation = LottieAnimation.named(animationName)
+        self.contentView.backgroundColor = backgrounColour
         animationView.play()
     }
 }

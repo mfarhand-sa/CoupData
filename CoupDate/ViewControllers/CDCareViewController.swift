@@ -42,9 +42,14 @@ class CDCareViewController: UIViewController {
     }
     
     private func loadCardData() {
-        cardItems = [CardModel(title: "Your Insight", text: CDDataProvider.shared.smart_Insight?["My_Insight"]! ?? "No data for your mood, energy, or sleep today. Check back later.", backgroundColor: .cdInsightBackground1, animationName: "Woman"),
-                     CardModel(title: "Your Partner", text: CDDataProvider.shared.smart_Insight?["Partner_Insight"]! ?? "No data for your partner today. Encourage tracking", backgroundColor: .cdInsightBackground2, animationName: "Sleeping"),
-                     CardModel(title: "Relationship", text: CDDataProvider.shared.smart_Insight?["Relationship_Insight"]! ?? "Not enough data to provide relationship insights today.", backgroundColor: .cdInsightBackground3, animationName: "Woman")]
+        
+        let myAnimationName = (CDDataProvider.shared.gender == "Male") ? "Man" : "Woman"
+        let myPartnerAnimationName = (CDDataProvider.shared.gender == "Female") ? "Man" : "Woman"
+
+        
+        cardItems = [CardModel(title: "Your Insight", text: CDDataProvider.shared.smart_Insight?["My_Insight"]! ?? "No data for your mood, energy, or sleep today. Check back later.", backgroundColor: .cdInsightBackground1, animationName: myAnimationName),
+                     CardModel(title: "Your Partner", text: CDDataProvider.shared.smart_Insight?["Partner_Insight"]! ?? "No data for your partner today. Encourage tracking", backgroundColor: .cdInsightBackground2, animationName: myPartnerAnimationName),
+                     CardModel(title: "Relationship", text: CDDataProvider.shared.smart_Insight?["Relationship_Insight"]! ?? "Not enough data to provide relationship insights today.", backgroundColor: .cdInsightBackground4, animationName: "Relationship")]
         collectionView.reloadData()
     }
     

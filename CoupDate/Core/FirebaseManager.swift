@@ -467,6 +467,50 @@ class FirebaseManager {
         }
     }
     
+
+    func addNewMoodsToGeneralSubcollection() {
+        let newMoodsWithEmojis: [String] = [
+            "Content 😊",
+            "Peaceful 🧘‍♂️",
+            "Amazed 😲",
+            "Amused 😂",
+            "Angry 😠",
+            "Annoyed 😒",
+            "Ashamed 😳",
+            "Appreciative 🙏",
+            "Bored 😐",
+            "Confused 😕",
+            "Curious 🤔",
+            "Determined 💪",
+            "Embarrassed 😅",
+            "Frustrated 😤",
+            "Relaxed 😎",
+            "Relieved 😅",
+            "Sad 😢",
+            "Surprised 😮",
+            "Tense 😬",
+            "Tired 😴",
+            "Worried 😟"
+        ]
+
+        let db = Firestore.firestore()
+
+        // Reference the existing "general" document in the "moods" collection
+        let generalDocRef = db.collection("moods").document("general")
+
+        // Use Firestore's arrayUnion to append new items to the existing array
+        generalDocRef.updateData([
+            "items": FieldValue.arrayUnion(newMoodsWithEmojis) // Replace "arrayFieldName" with the actual field name of your array
+        ]) { error in
+            if let error = error {
+                print("Error updating document: \(error)")
+            } else {
+                print("Successfully appended new moods to the array in the 'general' document.")
+            }
+        }
+    }
+
+    
     
 
 }

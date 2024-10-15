@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0471400347D95D7D7D105097 /* libPods-CoupDateWatch Watch App.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC133F64F3A1373853817A8E /* libPods-CoupDateWatch Watch App.a */; };
-		3A2766FA7C7A2BDFD8A16961 /* Pods_CoupDate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28091D22DCAFBD37CBBFB79F /* Pods_CoupDate.framework */; };
+		39B4B2EE5DBF0C1E1EE610A6 /* Pods_CoupDate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430FC676CE78ACC7615645A3 /* Pods_CoupDate.framework */; };
+		4A7AFF1FB90C860895D72BA6 /* libPods-CoupDateWatch Watch App.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58BC45B690FF44BC5364CE71 /* libPods-CoupDateWatch Watch App.a */; };
 		CD18B2842C853BD400AC858B /* DataEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD18B2832C853BD400AC858B /* DataEntryViewController.swift */; };
 		CD18B2882C853C5800AC858B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD18B2872C853C5800AC858B /* FirebaseManager.swift */; };
 		CD18B28A2C853C8E00AC858B /* PartnerActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD18B2892C853C8E00AC858B /* PartnerActivityViewController.swift */; };
@@ -116,6 +116,7 @@
 		CDEC4A392C9901E600FE6BAB /* PieChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDEC4A382C9901E600FE6BAB /* PieChartViewController.xib */; };
 		CDEC4A3B2C9902CA00FE6BAB /* DemoBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEC4A3A2C9902CA00FE6BAB /* DemoBaseViewController.swift */; };
 		CDEC4A3D2C99688200FE6BAB /* CDCareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEC4A3C2C99687F00FE6BAB /* CDCareViewController.swift */; };
+		CDED45E92CAB5D2400EBB04A /* Relationship.json in Resources */ = {isa = PBXBuildFile; fileRef = CDED45E82CAB5D2400EBB04A /* Relationship.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,10 +162,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		28091D22DCAFBD37CBBFB79F /* Pods_CoupDate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoupDate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		736707C6E58A33D43DCA280C /* Pods-CoupDate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDate.debug.xcconfig"; path = "Target Support Files/Pods-CoupDate/Pods-CoupDate.debug.xcconfig"; sourceTree = "<group>"; };
-		B91B94DD7E5E5AEE74AE4B0F /* Pods-CoupDateWatch Watch App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDateWatch Watch App.debug.xcconfig"; path = "Target Support Files/Pods-CoupDateWatch Watch App/Pods-CoupDateWatch Watch App.debug.xcconfig"; sourceTree = "<group>"; };
-		CC133F64F3A1373853817A8E /* libPods-CoupDateWatch Watch App.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CoupDateWatch Watch App.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		37E976BD22E9F6DB7A761598 /* Pods-CoupDateWatch Watch App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDateWatch Watch App.release.xcconfig"; path = "Target Support Files/Pods-CoupDateWatch Watch App/Pods-CoupDateWatch Watch App.release.xcconfig"; sourceTree = "<group>"; };
+		430FC676CE78ACC7615645A3 /* Pods_CoupDate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoupDate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		58BC45B690FF44BC5364CE71 /* libPods-CoupDateWatch Watch App.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CoupDateWatch Watch App.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DD866E403078754901E2B78 /* Pods-CoupDateWatch Watch App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDateWatch Watch App.debug.xcconfig"; path = "Target Support Files/Pods-CoupDateWatch Watch App/Pods-CoupDateWatch Watch App.debug.xcconfig"; sourceTree = "<group>"; };
+		9563EF05F7662B8C818D58B5 /* Pods-CoupDate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDate.debug.xcconfig"; path = "Target Support Files/Pods-CoupDate/Pods-CoupDate.debug.xcconfig"; sourceTree = "<group>"; };
+		B1AF5D1E6D18B528CB70DF67 /* Pods-CoupDate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDate.release.xcconfig"; path = "Target Support Files/Pods-CoupDate/Pods-CoupDate.release.xcconfig"; sourceTree = "<group>"; };
 		CD18B2832C853BD400AC858B /* DataEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataEntryViewController.swift; sourceTree = "<group>"; };
 		CD18B2872C853C5800AC858B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		CD18B2892C853C8E00AC858B /* PartnerActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerActivityViewController.swift; sourceTree = "<group>"; };
@@ -272,8 +275,7 @@
 		CDEC4A382C9901E600FE6BAB /* PieChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PieChartViewController.xib; sourceTree = "<group>"; };
 		CDEC4A3A2C9902CA00FE6BAB /* DemoBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoBaseViewController.swift; sourceTree = "<group>"; };
 		CDEC4A3C2C99687F00FE6BAB /* CDCareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCareViewController.swift; sourceTree = "<group>"; };
-		D9988D54073533D8B824BD6D /* Pods-CoupDate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDate.release.xcconfig"; path = "Target Support Files/Pods-CoupDate/Pods-CoupDate.release.xcconfig"; sourceTree = "<group>"; };
-		EA538A54604B3DE4A8F91513 /* Pods-CoupDateWatch Watch App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoupDateWatch Watch App.release.xcconfig"; path = "Target Support Files/Pods-CoupDateWatch Watch App/Pods-CoupDateWatch Watch App.release.xcconfig"; sourceTree = "<group>"; };
+		CDED45E82CAB5D2400EBB04A /* Relationship.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Relationship.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,7 +283,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A2766FA7C7A2BDFD8A16961 /* Pods_CoupDate.framework in Frameworks */,
+				39B4B2EE5DBF0C1E1EE610A6 /* Pods_CoupDate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,8 +291,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0471400347D95D7D7D105097 /* libPods-CoupDateWatch Watch App.a in Frameworks */,
 				CDAD7D2D2CA37EC900AA0A8C /* SDWebImageLottieCoder in Frameworks */,
+				4A7AFF1FB90C860895D72BA6 /* libPods-CoupDateWatch Watch App.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,11 +306,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4D0A580A8FCB74FF9BD919DF /* Frameworks */ = {
+		1D7256E9316F49116ADBE88C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				28091D22DCAFBD37CBBFB79F /* Pods_CoupDate.framework */,
-				CC133F64F3A1373853817A8E /* libPods-CoupDateWatch Watch App.a */,
+				430FC676CE78ACC7615645A3 /* Pods_CoupDate.framework */,
+				58BC45B690FF44BC5364CE71 /* libPods-CoupDateWatch Watch App.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -316,10 +318,10 @@
 		AD0F1F6FCA23AF07B6EF0FE7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				736707C6E58A33D43DCA280C /* Pods-CoupDate.debug.xcconfig */,
-				D9988D54073533D8B824BD6D /* Pods-CoupDate.release.xcconfig */,
-				B91B94DD7E5E5AEE74AE4B0F /* Pods-CoupDateWatch Watch App.debug.xcconfig */,
-				EA538A54604B3DE4A8F91513 /* Pods-CoupDateWatch Watch App.release.xcconfig */,
+				9563EF05F7662B8C818D58B5 /* Pods-CoupDate.debug.xcconfig */,
+				B1AF5D1E6D18B528CB70DF67 /* Pods-CoupDate.release.xcconfig */,
+				8DD866E403078754901E2B78 /* Pods-CoupDateWatch Watch App.debug.xcconfig */,
+				37E976BD22E9F6DB7A761598 /* Pods-CoupDateWatch Watch App.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -356,8 +358,8 @@
 				CDDA3E5A2CA37A070040D0DF /* CoupDateExtension */,
 				CDAD7D262CA37CEB00AA0A8C /* CoupDateWatch Watch App */,
 				CD261CBF2C850CD800E4D5F2 /* Products */,
-				4D0A580A8FCB74FF9BD919DF /* Frameworks */,
 				AD0F1F6FCA23AF07B6EF0FE7 /* Pods */,
+				1D7256E9316F49116ADBE88C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -539,6 +541,7 @@
 				CD3F830D2C9104A900126D8D /* Woman.json */,
 				CD3F830B2C91049900126D8D /* Man.json */,
 				CDDC3EC82C92362800B2CB4A /* Streak.json */,
+				CDED45E82CAB5D2400EBB04A /* Relationship.json */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -558,13 +561,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD261CD22C850CD900E4D5F2 /* Build configuration list for PBXNativeTarget "CoupDate" */;
 			buildPhases = (
-				A5B5820A200B5780CFE404A6 /* [CP] Check Pods Manifest.lock */,
+				279230A96979B2F50B14AF6A /* [CP] Check Pods Manifest.lock */,
 				CD261CBA2C850CD800E4D5F2 /* Sources */,
 				CD261CBB2C850CD800E4D5F2 /* Frameworks */,
 				CD261CBC2C850CD800E4D5F2 /* Resources */,
-				8CF57BF46E185D75CECA68AD /* [CP] Embed Pods Frameworks */,
 				CD18B29E2C85A69E00AC858B /* Embed Foundation Extensions */,
 				CDAD7D1D2CA37CC200AA0A8C /* Embed Watch Content */,
+				6592D2CD6159BAEE15C5A7BB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -581,7 +584,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CDAD7D202CA37CC200AA0A8C /* Build configuration list for PBXNativeTarget "CoupDateWatch Watch App" */;
 			buildPhases = (
-				437FA0E06E85025ED96E84CF /* [CP] Check Pods Manifest.lock */,
+				6D03729F4688A079299BE324 /* [CP] Check Pods Manifest.lock */,
 				CDAD7D0B2CA37CC100AA0A8C /* Sources */,
 				CDAD7D0C2CA37CC100AA0A8C /* Frameworks */,
 				CDAD7D0D2CA37CC100AA0A8C /* Resources */,
@@ -716,6 +719,7 @@
 				CDD99F072C9CED7A00AA3020 /* Balanced.json in Resources */,
 				CDD99F092C9CEE2600AA3020 /* Meh.json in Resources */,
 				CD3F830C2C91049900126D8D /* Man.json in Resources */,
+				CDED45E92CAB5D2400EBB04A /* Relationship.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,7 +744,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		437FA0E06E85025ED96E84CF /* [CP] Check Pods Manifest.lock */ = {
+		279230A96979B2F50B14AF6A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -755,14 +759,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CoupDateWatch Watch App-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CoupDate-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8CF57BF46E185D75CECA68AD /* [CP] Embed Pods Frameworks */ = {
+		6592D2CD6159BAEE15C5A7BB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -779,7 +783,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CoupDate/Pods-CoupDate-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A5B5820A200B5780CFE404A6 /* [CP] Check Pods Manifest.lock */ = {
+		6D03729F4688A079299BE324 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -794,7 +798,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CoupDate-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CoupDateWatch Watch App-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1026,14 +1030,14 @@
 		};
 		CD261CD32C850CD900E4D5F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 736707C6E58A33D43DCA280C /* Pods-CoupDate.debug.xcconfig */;
+			baseConfigurationReference = 9563EF05F7662B8C818D58B5 /* Pods-CoupDate.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1062,13 +1066,13 @@
 		};
 		CD261CD42C850CD900E4D5F2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D9988D54073533D8B824BD6D /* Pods-CoupDate.release.xcconfig */;
+			baseConfigurationReference = B1AF5D1E6D18B528CB70DF67 /* Pods-CoupDate.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1096,7 +1100,7 @@
 		};
 		CDAD7D1E2CA37CC200AA0A8C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B91B94DD7E5E5AEE74AE4B0F /* Pods-CoupDateWatch Watch App.debug.xcconfig */;
+			baseConfigurationReference = 8DD866E403078754901E2B78 /* Pods-CoupDateWatch Watch App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1128,7 +1132,7 @@
 		};
 		CDAD7D1F2CA37CC200AA0A8C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA538A54604B3DE4A8F91513 /* Pods-CoupDateWatch Watch App.release.xcconfig */;
+			baseConfigurationReference = 37E976BD22E9F6DB7A761598 /* Pods-CoupDateWatch Watch App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseMessaging
 import GoogleSignIn
+import Lottie
 
 
 @main
@@ -20,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,MessagingDelegate {
         // Override point for customization after application launch.
         
         Haptic.doSomethinStupid(status: false)
+        LottieConfiguration.shared.renderingEngine = .automatic
         CDTracker.initializeTrackers()
         FirebaseApp.configure()
         Messaging.messaging().delegate = self

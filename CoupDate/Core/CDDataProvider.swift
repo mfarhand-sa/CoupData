@@ -24,7 +24,6 @@ class CDDataProvider {
     var streak : Int?
     var startDate : Date?
     var endDate : Date?
-    var insights: String?
     var smart_Insight: [String: String]?
 
     
@@ -119,14 +118,15 @@ class CDDataProvider {
                 userHasData = true
                 self.name = data["firstName"] as? String
                 self.gender = data["gender"] as? String
+                // Check if user profile is incomplete
+                userNeedMoreData = data["firstName"] == nil || data["birthday"] == nil || data["gender"] == nil
+
                 
                 if let partnerID = data["partnerUserId"] as? String {
                     self.partnerID = partnerID
                     UserManager.shared.partnerUserID = partnerID
+
                     
-                    if let insight = data["insight"] as? String {
-                        CDDataProvider.shared.insights = insight
-                    }
                     
                     if let smartInsight = data["Smart_Insight"] as? [String: String] {
                         // Return the insights (My_Insight, Partner_Insight, Relationship_Insight)
@@ -142,6 +142,7 @@ class CDDataProvider {
                             self.partnerData = partnerData
                             self.updatePartnerData()
                             partnerHasData = true
+                            completion(true,userNeedMoreData,userHasData,partnerHasData,nil)
                             break
                             
                         case .failure(let error):
@@ -150,13 +151,12 @@ class CDDataProvider {
                         }
                     }
                     
+                } else {
+                    completion(true,userNeedMoreData,userHasData,partnerHasData,nil)
                 }
                 
                 
-                // Check if user profile is incomplete
-                userNeedMoreData = data["firstName"] == nil || data["birthday"] == nil || data["gender"] == nil
                 
-                completion(true,userNeedMoreData,userHasData,partnerHasData,nil)
                 
                 break
                 

@@ -423,7 +423,7 @@ class StreakViewController: UIViewController {
     
     // Method to load user and partner streaks
     
-    func loadUserAndPartnerData(userID: String, partnerID: String, daysToCheck: Int = 30, completion: @escaping (Int?, Date?, Date?, [Date: (userMoods: [String], partnerMoods: [String])], Error?) -> Void) {
+    func loadUserAndPartnerData(userID: String, partnerID: String, daysToCheck: Int = 120, completion: @escaping (Int?, Date?, Date?, [Date: (userMoods: [String], partnerMoods: [String])], Error?) -> Void) {
         let endDate = Date() // Fixed typo
         let startDate = Calendar.current.date(byAdding: .day, value: -daysToCheck, to: endDate)!
 

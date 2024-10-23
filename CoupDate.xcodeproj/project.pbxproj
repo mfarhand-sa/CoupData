@@ -86,6 +86,9 @@
 		CDAD7D382CA38A5800AA0A8C /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAD7D362CA3851C00AA0A8C /* WatchSessionManager.swift */; };
 		CDB2E8DD2C967540000FE1D5 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2E8DC2C967540000FE1D5 /* ListViewController.swift */; };
 		CDB2E8E12C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2E8E02C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift */; };
+		CDD38F702CC8FC1A00F50A87 /* Thoughts.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD38F6F2CC8FC1A00F50A87 /* Thoughts.json */; };
+		CDD38F722CC8FDD400F50A87 /* CDThoughtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD38F712CC8FDD400F50A87 /* CDThoughtViewController.swift */; };
+		CDD38F742CC90B9200F50A87 /* CDOpenAIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD38F732CC90B9100F50A87 /* CDOpenAIManager.swift */; };
 		CDD99F012C9CEB7300AA3020 /* Horny.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F002C9CEB7300AA3020 /* Horny.json */; };
 		CDD99F032C9CEC1600AA3020 /* Grateful.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F022C9CEC1600AA3020 /* Grateful.json */; };
 		CDD99F052C9CECE600AA3020 /* Vulnerable.json in Resources */ = {isa = PBXBuildFile; fileRef = CDD99F042C9CECE600AA3020 /* Vulnerable.json */; };
@@ -245,6 +248,9 @@
 		CDAD7D362CA3851C00AA0A8C /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		CDB2E8DC2C967540000FE1D5 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		CDB2E8E02C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPhoneRegistrationViewController.swift; sourceTree = "<group>"; };
+		CDD38F6F2CC8FC1A00F50A87 /* Thoughts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Thoughts.json; sourceTree = "<group>"; };
+		CDD38F712CC8FDD400F50A87 /* CDThoughtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDThoughtViewController.swift; sourceTree = "<group>"; };
+		CDD38F732CC90B9100F50A87 /* CDOpenAIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDOpenAIManager.swift; sourceTree = "<group>"; };
 		CDD99F002C9CEB7300AA3020 /* Horny.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Horny.json; sourceTree = "<group>"; };
 		CDD99F022C9CEC1600AA3020 /* Grateful.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Grateful.json; sourceTree = "<group>"; };
 		CDD99F042C9CECE600AA3020 /* Vulnerable.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Vulnerable.json; sourceTree = "<group>"; };
@@ -505,6 +511,7 @@
 				CD18B2872C853C5800AC858B /* FirebaseManager.swift */,
 				CD3F83132C915CA800126D8D /* CDNotificationManager.swift */,
 				CDAD7D362CA3851C00AA0A8C /* WatchSessionManager.swift */,
+				CDD38F732CC90B9100F50A87 /* CDOpenAIManager.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -527,6 +534,7 @@
 				CDEC4A3A2C9902CA00FE6BAB /* DemoBaseViewController.swift */,
 				CDEC4A362C9901B700FE6BAB /* PieChartViewController.swift */,
 				CDEC4A382C9901E600FE6BAB /* PieChartViewController.xib */,
+				CDD38F712CC8FDD400F50A87 /* CDThoughtViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -542,6 +550,7 @@
 				CD3F830B2C91049900126D8D /* Man.json */,
 				CDDC3EC82C92362800B2CB4A /* Streak.json */,
 				CDED45E82CAB5D2400EBB04A /* Relationship.json */,
+				CDD38F6F2CC8FC1A00F50A87 /* Thoughts.json */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -667,6 +676,7 @@
 				CDD99F052C9CECE600AA3020 /* Vulnerable.json in Resources */,
 				CD787D792C8D312600B419D1 /* Excited.json in Resources */,
 				CD6E71172C86F07000AE02ED /* Poop.json in Resources */,
+				CDD38F702CC8FC1A00F50A87 /* Thoughts.json in Resources */,
 				CD6E71192C86F1DD00AE02ED /* Sleeping.json in Resources */,
 				CD18B2A12C85A72900AC858B /* sound1.caf in Resources */,
 				CD787D7F2C8D3E7500B419D1 /* Mood.json in Resources */,
@@ -826,6 +836,7 @@
 				CD1AB3122C903108008A46FA /* CDPartnerCodeViewController.swift in Sources */,
 				CD261CC22C850CD800E4D5F2 /* AppDelegate.swift in Sources */,
 				CD240D812C88DE2E00DA034C /* MoodSelectionViewController.swift in Sources */,
+				CDD38F742CC90B9200F50A87 /* CDOpenAIManager.swift in Sources */,
 				CD18B2882C853C5800AC858B /* FirebaseManager.swift in Sources */,
 				CDDC3EF52C939D0D00B2CB4A /* UIView+.swift in Sources */,
 				CD787D6C2C8D241F00B419D1 /* DynamicOptionsViewController.swift in Sources */,
@@ -841,6 +852,7 @@
 				CDB2E8E12C9764D8000FE1D5 /* CDPhoneRegistrationViewController.swift in Sources */,
 				CD240D832C89084F00DA034C /* CoupleLoginViewController.swift in Sources */,
 				CD18B28A2C853C8E00AC858B /* PartnerActivityViewController.swift in Sources */,
+				CDD38F722CC8FDD400F50A87 /* CDThoughtViewController.swift in Sources */,
 				CDEC4A372C9901B700FE6BAB /* PieChartViewController.swift in Sources */,
 				CD1AB3102C902DD7008A46FA /* PinCodeTextField.swift in Sources */,
 				CD240D7F2C88DDF900DA034C /* MoodSlider.swift in Sources */,
@@ -1037,7 +1049,7 @@
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1072,7 +1084,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CoupDate/CoupDateDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = 887FRY5FJ3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;

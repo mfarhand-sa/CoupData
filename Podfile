@@ -22,6 +22,7 @@ target 'CoupDate' do
   pod 'FittedSheets'
   pod 'CountryPickerView'
   pod 'DGCharts'
+  pod "KRProgressHUD"
 
 
 end

@@ -16,7 +16,9 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
         ("Number Two News", "Poop", .cdInsightBackground1),
         ("Sleep Tracker", "Sleeping",.cdInsightBackground2),
         ("Vibe Check", "Mood",.cdInsightBackground4),
-        ("Energy Meter", "Energy",.cdInsightBackground3)
+        ("Energy Meter", "Energy",.cdInsightBackground3),
+        ("My Thoughts", "Thoughts",.cdInsightBackground1)
+
     ]
     
     override func viewDidLoad() {
@@ -160,6 +162,16 @@ class DataEntryViewController: UIViewController, UICollectionViewDelegate, UICol
             vibeCheckVC.descriptionText = "How's your energy level today?"
             vibeCheckVC.options = ["Drained 🪫", "Tired 😓", "Fine 😌", "Energized 💥", "Hyper 🔥"]
             vibeCheckVC.category = "energy"
+            break
+            
+        case 4:
+            
+            
+            let vc  = ThoughtViewController()
+            vc.modalPresentationStyle = .fullScreen            
+            self.present(vc, animated: true, completion: nil)
+
+            return
             break
             
             
